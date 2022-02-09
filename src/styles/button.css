@@ -1,7 +1,7 @@
 .button {
   box-sizing: border-box;
   display: block;
-  width: 250px;
+  width: 100%;
   padding: 10px;
   border: 1px solid #225457;
   background-color: transparent;
@@ -27,4 +27,9 @@
   border-right: 0;
   border-radius: 0;
   width: auto;
+}
+
+.button--transparent {
+  border: none;
+  padding: 0;
 }

@@ -17,15 +17,44 @@
 
 .signup-page__content {
   display: grid;
-  gap: 60px;
+  /* gap: 60px; */
   justify-items: center;
+  height: 100%;
+  width: 430px;
+  background-color: #e0fffd;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.signup-page__title-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.signup-page__title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #0f484b;
+  width: 100%;
+  text-align: center;
+}
+
+.signup-page__go-back {
+  width: 24px;
 }
 
 .signup-form {
   display: grid;
-  gap: 20px;
-  padding: 90px;
-  background-color: #e0fffd;
-  align-items: center;
-  justify-items: center;
+  gap: 5px;
+  width: 300px;
+  align-content: center;
+}
+
+.signup-page__submit {
+  margin-top: 16px;
 }

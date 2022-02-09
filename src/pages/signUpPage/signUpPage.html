@@ -9,6 +9,26 @@
   <body>
     <main class="signup-page">
       <section class="signup-page__content">
+        <div class="signup-page__title-wrapper">
+          <a
+            href="/static/index.html"
+            class="signup-page__go-back button button--transparent"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.77 3.77L16 2L6 12L16 22L17.77 20.23L9.54 12L17.77 3.77Z"
+                fill="#0F484B"
+              />
+            </svg>
+          </a>
+          <h1 class="signup-page__title">Регистрация</h1>
+        </div>
         <form class="signup-form">
           <label for="name" class="input">
             <p class="input__label">Имя</p>
@@ -22,6 +42,10 @@
               id="surname"
               class="input__control"
             />
+          </label>
+          <label for="login" class="input">
+            <p class="input__label">Логин</p>
+            <input type="text" name="login" id="login" class="input__control" />
           </label>
           <label for="email" class="input">
             <p class="input__label">Почта</p>
@@ -49,7 +73,7 @@
               class="input__control"
             />
           </label>
-          <a href="" class="button button--solid">Войти</a>
+          <a href="" class="signup-page__submit button button--solid">Войти</a>
         </form>
       </section>
     </main>
