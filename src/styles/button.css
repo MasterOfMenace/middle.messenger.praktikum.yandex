@@ -1,0 +1,30 @@
+.button {
+  box-sizing: border-box;
+  display: block;
+  width: 250px;
+  padding: 10px;
+  border: 1px solid #225457;
+  background-color: transparent;
+  text-decoration: none;
+  border-radius: 20px;
+  text-align: center;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 1px;
+  color: #225457;
+}
+
+.button--solid {
+  background-color: #225457;
+  color: #a8cdc1;
+}
+
+.button--underline {
+  padding: 0;
+  padding-bottom: 5px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  width: auto;
+}
