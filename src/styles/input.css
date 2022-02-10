@@ -1,6 +1,7 @@
 .input {
   width: 100%;
   box-sizing: border-box;
+  display: block;
 }
 
 .input__label {
@@ -20,4 +21,22 @@
   font-size: 16px;
   line-height: 20px;
   color: #000000;
+}
+
+.input--oneline {
+  display: flex;
+  flex-direction: row-reverse;
+  border-bottom: 1px solid #225457;
+  align-items: center;
+}
+
+.input--oneline .input__control {
+  border: none;
+  border-radius: 0;
+  width: auto;
+  flex-grow: 1;
+}
+
+.input--oneline .input__label {
+  margin: 0;
 }

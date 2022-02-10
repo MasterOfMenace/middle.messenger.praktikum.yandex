@@ -33,3 +33,17 @@
   border: none;
   padding: 0;
 }
+
+.button--round {
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  padding: 0;
+  display: flex;
+  background-color: #225457;
+}
+
+.button--round svg {
+  margin: auto;
+  fill: #ffffff;
+}
