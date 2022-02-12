@@ -12,9 +12,10 @@
     "parcel": "2.2.1"
   },
   "scripts": {
-    "clean": "rm -rf dist/",
+    "clean": "rm -rf dist/ && rm -rf .parcel-cache",
+    "build": "parcel build static/*.html --no-cache",
     "dev": "parcel static/index.html",
-    "start": "parcel build static/*.html --no-cache && node server/server.js",
+    "start": "npm run clean && npm run build && node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
