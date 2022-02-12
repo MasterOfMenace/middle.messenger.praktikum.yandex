@@ -1,5 +1,5 @@
 import { Templator } from "../../utils";
-import signUpPageTmpl from "./signUpPage.templ";
+import signUpPageTmpl from "./signUpPage.tmpl";
 
 const template = new Templator(signUpPageTmpl);
 

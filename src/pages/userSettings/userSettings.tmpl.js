@@ -92,7 +92,7 @@ const template = `
               >Редактировать</a
             >
             <a
-              href="/src/pages/changePassword/changePassword.html"
+              href="./changePassword.html"
               class="user-settings-page__change-password button button--underline"
               >Изменить пароль</a
             >

@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./changePassword.css" />
-    <title>Change Password Page</title>
-  </head>
-  <body>
-    <main class="user-settings-page">
+const template = `
+<main class="user-settings-page">
       <section class="user-settings-page__left">
-        <a href="" class="button button--round">
+        <a href="/" class="button button--round">
           <svg
             width="24"
             height="24"
@@ -28,7 +20,7 @@
             <div class="user-settings-page__short-info">
               <div class="user-settings-page__avatar-wrapper">
                 <img
-                  src="/static/images/avatar.jpg"
+                  src={{avatarSrc}}
                   alt="Аватар"
                   class="user-settings-page__avatar"
                 />
@@ -76,5 +68,6 @@
         </div>
       </section>
     </main>
-  </body>
-</html>
+`;
+
+export default template;
