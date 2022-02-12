@@ -2,14 +2,15 @@
   "name": "messenger",
   "version": "1.0.0",
   "description": "---",
-  "main": "index.js",
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "10.4.2",
+    "express": "4.17.2",
     "parcel": "2.2.1"
   },
   "scripts": {
     "dev": "parcel static/index.html",
+    "start": "parcel build ./static/index.html && node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
