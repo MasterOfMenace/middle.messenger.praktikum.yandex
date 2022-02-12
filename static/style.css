@@ -1,5 +1,10 @@
 @import url("/src/styles/global.css");
 @import url("/src/styles/button.css");
+@import url("/src/styles/input.css");
+@import url("/src/styles/error.css");
+@import url("/src/pages/loginPage/loginPage.css");
+@import url("/src/pages/placeholderPage/placeholderPage.css");
+@import url("/src/pages/signUpPage/signUpPage.css");
 
 .main-page {
   width: 100%;

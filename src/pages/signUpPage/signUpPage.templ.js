@@ -3,7 +3,7 @@ const template = `
       <section class="signup-page__content">
         <div class="signup-page__title-wrapper">
           <a
-            href="/static/index.html"
+            href="/"
             class="signup-page__go-back button button--transparent"
           >
             <svg

@@ -16,13 +16,13 @@ const template = `
             />
           </label>
           <a
-            href="/src/pages/error500/error500.html"
+            href="./placeholderPage.html"
             class="button button--solid"
             >Войти</a
           >
         </form>
         <a
-          href="/src/pages/signUpPage/signUpPage.html"
+          href="./signUpPage.html"
           class="button button--underline"
           >У меня нет аккаунта</a
         >
