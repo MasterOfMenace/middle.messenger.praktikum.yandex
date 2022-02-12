@@ -9,7 +9,8 @@
   "devDependencies": {
     "autoprefixer": "10.4.2",
     "express": "4.17.2",
-    "parcel": "2.2.1"
+    "parcel": "2.2.1",
+    "postcss": "8.4.6"
   },
   "scripts": {
     "clean": "rm -rf dist/ && rm -rf .parcel-cache",
