@@ -5,7 +5,7 @@ const template = `
     <p class="error__code">{{error.code}}</p>
     <p class="error__description">{{error.description}}</p>
   </div>
-  <a href="/" class="button button--underline">Назад к чатам</a>
+  <a href="/" class="button button--underline">{{buttonText}}</a>
 </section>
 </main>
 `;
