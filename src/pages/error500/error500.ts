@@ -15,4 +15,8 @@ const template = new Templator(errorTemplate);
 
 const compiled = template.compile(context);
 
-document.getElementById("root").innerHTML = compiled;
+const rootDiv = document.getElementById("root");
+
+if (rootDiv) {
+  rootDiv.innerHTML = compiled;
+}

@@ -15,4 +15,8 @@ const template = new Templator(userSettingsTemplate);
 
 const compiledTemplate = template.compile(context);
 
-document.getElementById("root").innerHTML = compiledTemplate;
+const rootDiv = document.getElementById("root");
+
+if (rootDiv) {
+  rootDiv.innerHTML = compiledTemplate;
+}

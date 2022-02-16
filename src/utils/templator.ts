@@ -2,12 +2,13 @@ import { getValueByPath } from "./utils";
 
 class Templator {
   REGEXP = /\{\{(.*?)\}\}/gi;
+  _template: string;
 
-  constructor(template) {
+  constructor(template: string) {
     this._template = template;
   }
 
-  _compileTemplate(context) {
+  _compileTemplate(context?: object) {
     let template = this._template;
     let key = null;
 
@@ -30,7 +31,7 @@ class Templator {
     return template;
   }
 
-  compile(context) {
+  compile(context?: object) {
     return this._compileTemplate(context);
   }
 }
