@@ -1,0 +1,18 @@
+.error {
+  color: #225457;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.error__code {
+  font-size: 40px;
+  line-height: 40px;
+  margin: 0;
+  margin-bottom: 23px;
+}
+
+.error__description {
+  font-size: 24px;
+  line-height: 28px;
+  margin: 0;
+}

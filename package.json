@@ -1,0 +1,33 @@
+{
+  "name": "messenger",
+  "version": "1.0.0",
+  "description": "---",
+  "engines": {
+    "node": "14.17.3"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "10.4.2",
+    "express": "4.17.2",
+    "parcel": "2.2.1",
+    "postcss": "8.4.6"
+  },
+  "scripts": {
+    "clean": "rm -rf dist/ && rm -rf .parcel-cache",
+    "build": "parcel build static/*.html --no-cache",
+    "dev": "parcel static/index.html",
+    "start": "npm run clean && npm run build && node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex/issues"
+  },
+  "homepage": "https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex#readme"
+}
