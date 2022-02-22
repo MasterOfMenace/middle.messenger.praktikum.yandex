@@ -1,7 +1,8 @@
-import { getValueByPath } from "./utils";
+import { getValueByPath } from './utils';
 
 class Templator {
   REGEXP = /\{\{(.*?)\}\}/gi;
+
   _template: string;
 
   constructor(template: string) {
@@ -19,15 +20,15 @@ class Templator {
         if (context) {
           const data = getValueByPath(context, templValue);
 
-          if (typeof data === "function") {
+          if (typeof data === 'function') {
             window[templValue] = data;
             template = template.replace(
-              new RegExp(key[0], "gi"),
-              `window.${key[1].trim()}()`
+              new RegExp(key[0], 'gi'),
+              `window.${key[1].trim()}()`,
             );
           }
 
-          template = template.replace(new RegExp(key[0], "gi"), data);
+          template = template.replace(new RegExp(key[0], 'gi'), data);
         }
       }
     }

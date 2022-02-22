@@ -12,12 +12,13 @@
     "autoprefixer": "10.4.2",
     "eslint": "^8.9.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-import": "2.25.4",
     "express": "4.17.2",
     "parcel": "2.2.1",
     "postcss": "8.4.6",
     "rimraf": "3.0.2",
     "stylelint": "14.5.1",
+    "stylelint-config-recommended": "7.0.0",
     "typescript": "4.5.5"
   },
   "scripts": {
@@ -25,6 +26,8 @@
     "build": "parcel build static/*.html --no-cache",
     "dev": "parcel static/index.html",
     "start": "npm run clean && npm run build && node server/server.js",
+    "eslint": "eslint --ext .js --ext .ts src/",
+    "eslint-fix": "eslint --ext .js --ext .ts src/ --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
