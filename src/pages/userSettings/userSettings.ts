@@ -1,4 +1,4 @@
-import { Templator } from '../../utils';
+import {Templator} from '../../utils';
 import userSettingsTemplate from './userSettings.tmpl';
 
 import avatarSrc from '../../../static/images/avatar.jpg';

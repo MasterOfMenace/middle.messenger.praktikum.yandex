@@ -1,4 +1,4 @@
-import { Templator } from '../../utils';
+import {Templator} from '../../utils';
 import changePasswordTemplate from './changePassword.tmpl';
 import avatarSrc from '../../../static/images/avatar.jpg';
 
