@@ -70,7 +70,8 @@ const template = `
               class="input__control"
             />
           </label>
-          <a href="" class="signup-page__submit button button--solid">Войти</a>
+          <!--<a href="" class="signup-page__submit button button--solid">Войти</a>-->
+          <input type="submit" class="signup-page__submit button button--solid" value="Войти" />
         </form>
       </section>
     </main>

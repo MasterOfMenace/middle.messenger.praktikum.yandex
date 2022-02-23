@@ -86,11 +86,16 @@ const template = `
                 class="input__control"
               />
             </label>
-            <a
+            <!--<a
               href=""
               class="user-settings-page__edit-settings-button button button--underline"
               >Редактировать</a
-            >
+            >-->
+            <input
+              type="submit"
+              value="Редактировать"
+              class="user-settings-page__edit-settings-button button button--underline"
+              />
             <a
               href="./changePassword.html"
               class="user-settings-page__change-password button button--underline"

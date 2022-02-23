@@ -15,11 +15,16 @@ const template = `
               class="input__control"
             />
           </label>
-          <a
+          <!--<a
             href="./placeholderPage.html"
             class="button button--solid"
             >Войти</a
-          >
+          >-->
+          <input
+            type="submit"
+            value="Войти"
+            class="button button--solid"
+            />
         </form>
         <a
           href="./signUpPage.html"

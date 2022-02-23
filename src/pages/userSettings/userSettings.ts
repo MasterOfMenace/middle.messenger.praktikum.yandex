@@ -1,4 +1,4 @@
-import {Templator} from '../../utils';
+import {formSubmitHandler, Templator} from '../../utils';
 import userSettingsTemplate from './userSettings.tmpl';
 
 import avatarSrc from '../../../static/images/avatar.jpg';
@@ -20,3 +20,7 @@ const rootDiv = document.getElementById('root');
 if (rootDiv) {
   rootDiv.innerHTML = compiledTemplate;
 }
+
+const form = rootDiv?.querySelector('.user-settings-page__form') as HTMLFormElement;
+
+form?.addEventListener('submit', formSubmitHandler);
