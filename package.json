@@ -30,6 +30,7 @@
     "start": "npm run clean && npm run build && node server/server.js",
     "eslint": "eslint --ext .js --ext .ts src/",
     "eslint-fix": "eslint --ext .js --ext .ts src/ --fix",
+    "stylelint": "stylelint **/*.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
