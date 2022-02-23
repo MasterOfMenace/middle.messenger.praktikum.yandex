@@ -11,10 +11,9 @@ class Templator {
 
   _compileTemplate<T>(context?: T) {
     let template = this._template;
-    let key: RegExpExecArray | null = null;
+    let key: RegExpExecArray | null = this.REGEXP.exec(template);
 
     while (key) {
-      key = this.REGEXP.exec(template);
       if (key && key[1]) {
         const templValue = key[1].trim();
 
@@ -27,6 +26,7 @@ class Templator {
           }
 
           template = template.replace(new RegExp(key[0], 'gi'), data);
+          key = this.REGEXP.exec(template);
         }
       }
     }
