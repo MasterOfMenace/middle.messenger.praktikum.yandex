@@ -1,12 +1,12 @@
-@import url("/src/styles/global.css");
-@import url("/src/styles/button.css");
-@import url("/src/styles/input.css");
-@import url("/src/styles/error.css");
-@import url("/src/pages/loginPage/loginPage.css");
-@import url("/src/pages/placeholderPage/placeholderPage.css");
-@import url("/src/pages/signUpPage/signUpPage.css");
-@import url("/src/pages/userSettings/userSettings.css");
-@import url("/src/pages/changePassword/changePassword.css");
+@import url('/src/styles/global.css');
+@import url('/src/styles/button.css');
+@import url('/src/styles/input.css');
+@import url('/src/components/error/error.css');
+@import url('/src/pages/loginPage/loginPage.css');
+@import url('/src/pages/placeholderPage/placeholderPage.css');
+@import url('/src/pages/signUpPage/signUpPage.css');
+@import url('/src/pages/userSettings/userSettings.css');
+@import url('/src/pages/changePassword/changePassword.css');
 
 .main-page {
   width: 100%;
@@ -15,7 +15,7 @@
   display: grid;
   align-items: center;
   justify-items: center;
-  background-image: url("/static/images/background-image.jpg");
+  background-image: url('/static/images/background-image.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top left;

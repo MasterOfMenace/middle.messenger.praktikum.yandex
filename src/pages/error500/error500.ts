@@ -1,5 +1,5 @@
-import {Templator} from '../../utils';
-import errorTemplate from '../../components/error/error.tmpl';
+import {Error} from '../../components/error';
+import {renderDOM} from '../../utils';
 
 const context = {
   mainClassName: 'error-page',
@@ -11,12 +11,8 @@ const context = {
   },
 };
 
-const template = new Templator(errorTemplate);
-
-const compiled = template.compile(context);
+const error = new Error(context);
 
 const rootDiv = document.getElementById('root');
 
-if (rootDiv) {
-  rootDiv.innerHTML = compiled;
-}
+renderDOM(rootDiv, error);
