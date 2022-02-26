@@ -4,7 +4,11 @@
     "es2021": true,
     "node": true
   },
-  "extends": ["airbnb-base", "plugin:prettier/recommended"],
+  "extends": [
+    "airbnb-base",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -26,7 +30,10 @@
     "quotes": ["error", "single"],
     "no-underscore-dangle": "off",
     "no-restricted-syntax": [2, "WithStatement"],
-    "object-curly-spacing": "off"
+    "object-curly-spacing": "off",
+    "class-methods-use-this": "off",
+    "no-param-reassign": ["error", {"props": false}],
+    "@typescript-eslint/no-empty-function": ["error", {"allow": ["methods"]}]
   },
   "settings": {
     "import/resolver": {
