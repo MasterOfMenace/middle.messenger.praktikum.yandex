@@ -1,2 +1,1 @@
-export {default as Input} from './Input';
-export {InputProps} from './Input';
+export {default as Input, InputProps} from './Input';
