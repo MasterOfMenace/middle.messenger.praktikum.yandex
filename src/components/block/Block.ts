@@ -1,3 +1,4 @@
+import {v4 as makeId} from 'uuid';
 import EventBus from '../eventBus/EventBus';
 
 export type Props = {
@@ -22,6 +23,8 @@ class Block {
 
   _meta: Meta;
 
+  _id: string | null;
+
   props: Props;
 
   eventBus: () => EventBus;
@@ -35,8 +38,10 @@ class Block {
 
     this._element = null;
 
+    this._id = makeId();
+
     this.eventBus = () => eventBus;
-    this.props = this._makePropsProxy(props);
+    this.props = this._makePropsProxy({...props, _id: this._id});
 
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
@@ -137,8 +142,9 @@ class Block {
 
   _createDocumentElement(tagName: string) {
     // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-
-    return document.createElement(tagName);
+    const element = document.createElement(tagName);
+    element.setAttribute('data-id', this._id ?? '');
+    return element;
   }
 
   show() {
