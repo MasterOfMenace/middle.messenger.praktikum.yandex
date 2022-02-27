@@ -1,8 +1,14 @@
 import {v4 as makeId} from 'uuid';
+import {Templator} from '../../utils';
 import EventBus from '../eventBus/EventBus';
+
+type Children = {
+  [key: string]: Block;
+};
 
 export type Props = {
   events?: Record<string, (evt: Event) => void>;
+  children?: Children;
   [key: string]: unknown;
 };
 
@@ -25,6 +31,8 @@ class Block {
 
   _id: string | null;
 
+  _children: Children | null;
+
   props: Props;
 
   eventBus: () => EventBus;
@@ -40,11 +48,27 @@ class Block {
 
     this._id = makeId();
 
+    this._children = null;
+
     this.eventBus = () => eventBus;
     this.props = this._makePropsProxy({...props, _id: this._id});
 
+    if (props.children) {
+      this._children = this._getChildren(props.children);
+    }
+
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
+  }
+
+  _getChildren(children: Children) {
+    const newChildren: Children = {};
+    Object.entries(children).forEach(([k, v]) => {
+      if (v instanceof Block) {
+        newChildren[k] = v;
+      }
+    });
+    return newChildren;
   }
 
   _registerEvents(eventBus: EventBus) {
@@ -103,7 +127,8 @@ class Block {
     const block = this.render();
 
     if (this._element && block) {
-      this._element.innerHTML = block;
+      this._element.innerHTML = '';
+      this._element.appendChild(block);
 
       this._addEvents();
     }
@@ -118,6 +143,36 @@ class Block {
 
   getContent() {
     return this._element;
+  }
+
+  compile(template: string, props: Omit<Props, 'children'>, children?: Children) {
+    const propsWithStubs: Props = {...props};
+
+    if (children) {
+      const newChildren: {
+        [key: string]: string;
+      } = {};
+
+      Object.entries(children).forEach(([key, child]) => {
+        newChildren[key] = `<div data-id='${child._id}'></div>`;
+      });
+      propsWithStubs.children = newChildren;
+    }
+    // console.log('propsWithStubs', propsWithStubs);
+
+    const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
+
+    fragment.innerHTML = new Templator(template).compile(propsWithStubs);
+
+    if (children) {
+      Object.values(children).forEach((child) => {
+        const stub = fragment.content.querySelector(`[data-id=${child._id}]`);
+        stub?.replaceWith(child.getContent() as Node);
+      });
+    }
+
+    return fragment.content;
+    // return new Templator(template).compile(propsWithStubs);
   }
 
   _makePropsProxy(props: Props) {
