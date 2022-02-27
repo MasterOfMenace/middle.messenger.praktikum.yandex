@@ -43,5 +43,8 @@
   "bugs": {
     "url": "https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex/issues"
   },
-  "homepage": "https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex#readme"
+  "homepage": "https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex#readme",
+  "dependencies": {
+    "uuid": "8.3.2"
+  }
 }
