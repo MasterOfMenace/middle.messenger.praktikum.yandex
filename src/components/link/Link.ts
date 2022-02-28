@@ -1,11 +1,10 @@
-import {Templator} from '../../utils';
 import Block from '../block/Block';
 import template from './link.tmpl';
 
 type LinkProps = {
   to?: string;
   text: string;
-  className: string;
+  className?: string;
 };
 
 export default class Link extends Block {
@@ -14,7 +13,6 @@ export default class Link extends Block {
   }
 
   render() {
-    const templator = new Templator(template);
-    return templator.compile(this.props);
+    return this.compile(template, this.props);
   }
 }

@@ -1,14 +1,12 @@
-import {Templator} from '../../utils';
-import Block, {Props} from '../block/Block';
+import Block, {PropsWithChildren} from '../block/Block';
 import template from './error.tmpl';
 
 export default class Error extends Block {
-  constructor(props: Props) {
+  constructor(props: PropsWithChildren) {
     super('div', props);
   }
 
   render() {
-    const templator = new Templator(template);
-    return templator.compile(this.props);
+    return this.compile(template, this.props);
   }
 }
