@@ -2,14 +2,17 @@ import {v4 as makeId} from 'uuid';
 import {Templator} from '../../utils';
 import EventBus from '../eventBus/EventBus';
 
-type Children = {
+export type Children = {
   [key: string]: Block;
 };
 
 export type Props = {
   events?: Record<string, (evt: Event) => void>;
-  children?: Children;
   [key: string]: unknown;
+};
+
+export type PropsWithChildren = Props & {
+  children?: Children;
 };
 
 type Meta = {
@@ -37,7 +40,7 @@ class Block {
 
   eventBus: () => EventBus;
 
-  constructor(tagName = 'div', props: Props = {}) {
+  constructor(tagName = 'div', props: PropsWithChildren = {}) {
     const eventBus = new EventBus();
     this._meta = {
       tagName,
@@ -54,21 +57,11 @@ class Block {
     this.props = this._makePropsProxy({...props, _id: this._id});
 
     if (props.children) {
-      this._children = this._getChildren(props.children);
+      this._children = props.children;
     }
 
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
-  }
-
-  _getChildren(children: Children) {
-    const newChildren: Children = {};
-    Object.entries(children).forEach(([k, v]) => {
-      if (v instanceof Block) {
-        newChildren[k] = v;
-      }
-    });
-    return newChildren;
   }
 
   _registerEvents(eventBus: EventBus) {
@@ -90,6 +83,12 @@ class Block {
 
   _componentDidMount() {
     this.componentDidMount();
+
+    if (this._children) {
+      Object.values(this._children).forEach((child) => {
+        child.dispatchComponentDidMount();
+      });
+    }
   }
 
   // Может переопределять пользователь, необязательно трогать
@@ -106,6 +105,7 @@ class Block {
 
   // Может переопределять пользователь, необязательно трогать
   componentDidUpdate(oldProps: Props, newProps: Props) {
+    // добавить сравнение пропсов
     return true;
   }
 
@@ -145,34 +145,32 @@ class Block {
     return this._element;
   }
 
-  compile(template: string, props: Omit<Props, 'children'>, children?: Children) {
+  compile(template: string, props: Props) {
     const propsWithStubs: Props = {...props};
 
-    if (children) {
+    if (this._children) {
       const newChildren: {
         [key: string]: string;
       } = {};
 
-      Object.entries(children).forEach(([key, child]) => {
-        newChildren[key] = `<div data-id='${child._id}'></div>`;
+      Object.entries(this._children).forEach(([key, child]) => {
+        newChildren[key] = `<div data-id="${child._id}"></div>`;
       });
       propsWithStubs.children = newChildren;
     }
-    // console.log('propsWithStubs', propsWithStubs);
 
     const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
 
     fragment.innerHTML = new Templator(template).compile(propsWithStubs);
 
-    if (children) {
-      Object.values(children).forEach((child) => {
-        const stub = fragment.content.querySelector(`[data-id=${child._id}]`);
+    if (this._children) {
+      Object.values(this._children).forEach((child) => {
+        const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
         stub?.replaceWith(child.getContent() as Node);
       });
     }
 
     return fragment.content;
-    // return new Templator(template).compile(propsWithStubs);
   }
 
   _makePropsProxy(props: Props) {
@@ -184,9 +182,9 @@ class Block {
 
     return new Proxy(props, {
       set(target, prop: string, value) {
+        // this здесь указывает на объект handler
         if (prop in target) {
           target[prop] = value;
-          // console.log(this); //this здесь указывает на объект handler
           eventBus().emit(Block.EVENTS.FLOW_CDU);
           return true;
         }
