@@ -3,6 +3,8 @@ import {getValueByPath} from './utils';
 class Templator {
   REGEXP = /\{\{(.*?)\}\}/gi;
 
+  UNDEFINED_REGEXP = /\S+undefined[\S]?\s?/gi;
+
   _template: string;
 
   constructor(template: string) {
@@ -37,7 +39,23 @@ class Templator {
         }
       }
     }
-    return template;
+    return this.skipUndefinedFields(template);
+  }
+
+  skipUndefinedFields(template: string) {
+    let newTemplate = template;
+    let key: RegExpExecArray | null = this.UNDEFINED_REGEXP.exec(template);
+
+    while (key) {
+      if (key) {
+        newTemplate = newTemplate.replace(new RegExp(key[0], 'gi'), '');
+        // здесь ставим индекс начала поиска следующего сопоставления на начало найденного сопоставления,
+        // чтобы не потерять следующие свойства при длинном имени текущего найденного сопоставления
+        this.UNDEFINED_REGEXP.lastIndex = key.index;
+        key = this.UNDEFINED_REGEXP.exec(newTemplate);
+      }
+    }
+    return newTemplate;
   }
 
   compile<T>(context?: T) {

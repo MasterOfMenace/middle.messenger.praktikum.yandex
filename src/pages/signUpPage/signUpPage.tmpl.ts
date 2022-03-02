@@ -19,66 +19,9 @@ const template = `
               />
             </svg>
           </a>
-          <h1 class="signup-page__title">Регистрация</h1>
+          <h1 class="signup-page__title">{{title}}</h1>
         </div>
-        <form class="signup-form">
-          <label for="first_name" class="input">
-            <p class="input__label">Имя</p>
-            <input
-              type="text"
-              name="first_name"
-              id="first_name"
-              class="input__control"
-            />
-          </label>
-          <label for="second_name" class="input">
-            <p class="input__label">Фамилия</p>
-            <input
-              type="text"
-              name="second_name"
-              id="second_name"
-              class="input__control"
-            />
-          </label>
-          <label for="login" class="input">
-            <p class="input__label">Логин</p>
-            <input type="text" name="login" id="login" minlength="3" maxlength="20" required class="input__control" />
-          </label>
-          <label for="email" class="input">
-            <p class="input__label">Почта</p>
-            <input type="text" name="email" id="email" class="input__control" />
-          </label>
-          <label for="phone" class="input">
-            <p class="input__label">Телефон</p>
-            <input type="text" name="phone" id="phone" class="input__control" />
-          </label>
-          <label for="password" class="input">
-            <p class="input__label">Пароль</p>
-            <input
-              type="text"
-              name="password"
-              id="password"
-              minlength="8"
-              maxlength="40"
-              required
-              class="input__control"
-            />
-          </label>
-          <label for="repeatPassword" class="input">
-            <p class="input__label">Повторите пароль</p>
-            <input
-              type="text"
-              name="repeatPassword"
-              id="repeatPassword"
-              minlength="8"
-              maxlength="40"
-              required
-              class="input__control"
-            />
-          </label>
-          <!--<a href="" class="signup-page__submit button button--solid">Войти</a>-->
-          <input type="submit" class="signup-page__submit button button--solid" value="Войти" />
-        </form>
+        {{form}}
       </section>
     </main>
 `;
