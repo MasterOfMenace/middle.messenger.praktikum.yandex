@@ -1,5 +1,3 @@
-import Block, {Children} from '../components/block/Block';
-
 export function getValueByPath<T extends Record<string, any>>(
   object: T,
   path: string,
@@ -19,7 +17,6 @@ export function getValueByPath<T extends Record<string, any>>(
 }
 
 export function formSubmitHandler(evt: Event) {
-  console.log(evt);
   evt.preventDefault();
   const {elements} = evt.target as HTMLFormElement;
   const formData: Record<string, string> = {};
@@ -33,23 +30,16 @@ export function formSubmitHandler(evt: Event) {
   console.log(formData);
 }
 
-export function isBlockArray(children: Children): children is Block[] {
-  if (Array.isArray(children)) {
-    return children.every((child) => child instanceof Block);
-  }
-  return false;
-}
-
 function isObject(obj: unknown): obj is Record<string, unknown> {
   return typeof obj === 'object' && Boolean(obj);
 }
 
 export function getDeepCopy<T>(object: T): T {
   if (!object) {
-    return;
+    throw new Error('object not passed into function');
   }
+
   const copy = <{[key: string]: any}>{};
-  console.log(object);
 
   Object.entries(object).forEach(([k, v]) => {
     if (isObject(v)) {

@@ -3,8 +3,23 @@ import {Button} from '../../components/button';
 import Form from '../../components/form/Form';
 import {Input} from '../../components/input';
 import {Link} from '../../components/link';
-import {renderDOM} from '../../utils';
+import {formSubmitHandler, renderDOM} from '../../utils';
 import loginPageTemplate from './loginPage.tmpl';
+
+type LoginPageProps = {
+  link: Link;
+  form: Form;
+};
+
+class LoginPage extends Block {
+  constructor(props: LoginPageProps) {
+    super('div', props);
+  }
+
+  render() {
+    return this.compile(loginPageTemplate, this.props);
+  }
+}
 
 const login = new Input({
   name: 'login',
@@ -41,6 +56,9 @@ const submitBtn = new Button({
 const form = new Form({
   className: '"login-form"',
   children: [login, password, submitBtn],
+  events: {
+    submit: (evt) => formSubmitHandler(evt),
+  },
 });
 
 const link = new Link({
@@ -50,39 +68,12 @@ const link = new Link({
 });
 
 const userProps = {
-  children: {
-    form,
-    link,
-  },
+  form,
+  link,
 };
 
-type UserProfileProps = {
-  children: {
-    form: Form;
-    link: Link;
-  };
-};
-
-class UserProfile extends Block {
-  constructor(props: UserProfileProps) {
-    super('div', props);
-  }
-
-  render() {
-    return this.compile(loginPageTemplate, this.props);
-  }
-}
-
-const page = new UserProfile(userProps);
+const page = new LoginPage(userProps);
 
 const rootDiv = document.getElementById('root');
 
 renderDOM(rootDiv, page);
-
-// if (rootDiv) {
-//   rootDiv.innerHTML = compiled;
-// }
-
-// const form = rootDiv?.querySelector('.login-form') as HTMLFormElement;
-
-// form?.addEventListener('submit', formSubmitHandler);
