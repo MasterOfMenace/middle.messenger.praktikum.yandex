@@ -1,10 +1,12 @@
 import {v4 as makeId} from 'uuid';
-import {Templator} from '../../utils';
+import {getDeepCopy, isBlockArray, Templator} from '../../utils';
 import EventBus from '../eventBus/EventBus';
 
-export type Children = {
-  [key: string]: Block;
-};
+export type Children =
+  | {
+      [key: string]: Block;
+    }
+  | Block[];
 
 export type Props = {
   events?: Record<string, (evt: Event) => void>;
@@ -97,6 +99,7 @@ class Block {
   dispatchComponentDidMount() {}
 
   _componentDidUpdate(oldProps: Props, newProps: Props) {
+    // console.log(oldProps, newProps);
     const response = this.componentDidUpdate(oldProps, newProps);
     if (response) {
       this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
@@ -105,7 +108,10 @@ class Block {
 
   // Может переопределять пользователь, необязательно трогать
   componentDidUpdate(oldProps: Props, newProps: Props) {
+    // console.log('here', props);
+
     // добавить сравнение пропсов
+    // console.log(oldProps, newProps);
     return true;
   }
 
@@ -117,6 +123,7 @@ class Block {
     this._removeEvents();
 
     Object.assign(this.props, nextProps);
+    // this.eventBus().emit(Block.EVENTS.FLOW_CDU);
   };
 
   get element() {
@@ -125,6 +132,7 @@ class Block {
 
   _render() {
     const block = this.render();
+    // console.log(block, this._element);
 
     if (this._element && block) {
       this._element.innerHTML = '';
@@ -149,14 +157,20 @@ class Block {
     const propsWithStubs: Props = {...props};
 
     if (this._children) {
-      const newChildren: {
-        [key: string]: string;
-      } = {};
-
-      Object.entries(this._children).forEach(([key, child]) => {
-        newChildren[key] = `<div data-id="${child._id}"></div>`;
-      });
-      propsWithStubs.children = newChildren;
+      if (isBlockArray(this._children)) {
+        const newChildren = this._children.map((child) => {
+          return `<div data-id="${child._id}"></div>`;
+        });
+        propsWithStubs.children = newChildren;
+      } else {
+        const newChildren: {
+          [key: string]: string;
+        } = {};
+        Object.entries(this._children).forEach(([key, child]) => {
+          newChildren[key] = `<div data-id="${child._id}"></div>`;
+        });
+        propsWithStubs.children = newChildren;
+      }
     }
 
     const fragment = this._createDocumentElement('template') as HTMLTemplateElement;
@@ -166,6 +180,7 @@ class Block {
     if (this._children) {
       Object.values(this._children).forEach((child) => {
         const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
+        console.log('replace', fragment.content);
         stub?.replaceWith(child.getContent() as Node);
       });
     }
@@ -178,14 +193,18 @@ class Block {
     // Такой способ больше не применяется с приходом ES6+
     // const self = this;
     // const componentDidUpdate = this.componentDidUpdate.bind(this);
+    // const oldProps = getDeepCopy(this.props);
+    // console.log(this.props, this._meta);
+
     const eventBus = this.eventBus.bind(this);
 
     return new Proxy(props, {
       set(target, prop: string, value) {
         // this здесь указывает на объект handler
+        const _target = getDeepCopy(props);
         if (prop in target) {
           target[prop] = value;
-          eventBus().emit(Block.EVENTS.FLOW_CDU);
+          eventBus().emit(Block.EVENTS.FLOW_CDU, _target, props);
           return true;
         }
         return false;
@@ -219,6 +238,7 @@ class Block {
 
     if (events) {
       Object.keys(events).forEach((eventName) => {
+        // console.log(eventName, events[eventName], this._element);
         this._element?.addEventListener(eventName, events[eventName]);
       });
     }

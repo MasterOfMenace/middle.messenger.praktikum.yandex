@@ -42,7 +42,7 @@ const template = `
           </label>
           <label for="login" class="input">
             <p class="input__label">Логин</p>
-            <input type="text" name="login" id="login" class="input__control" />
+            <input type="text" name="login" id="login" minlength="3" maxlength="20" required class="input__control" />
           </label>
           <label for="email" class="input">
             <p class="input__label">Почта</p>
@@ -58,6 +58,9 @@ const template = `
               type="text"
               name="password"
               id="password"
+              minlength="8"
+              maxlength="40"
+              required
               class="input__control"
             />
           </label>
@@ -67,6 +70,9 @@ const template = `
               type="text"
               name="repeatPassword"
               id="repeatPassword"
+              minlength="8"
+              maxlength="40"
+              required
               class="input__control"
             />
           </label>

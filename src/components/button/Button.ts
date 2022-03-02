@@ -1,6 +1,5 @@
 import Block from '../block/Block';
 import template from './button.tmpl';
-import {Templator} from '../../utils';
 
 export type ButtonProps = {
   type: 'button' | 'submit';
@@ -14,7 +13,6 @@ export default class Button extends Block {
   }
 
   render() {
-    const templator = new Templator(template);
-    return templator.compile(this.props);
+    return this.compile(template, this.props);
   }
 }

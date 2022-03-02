@@ -35,10 +35,13 @@ const template = `
             <label for="login" class="input input--oneline">
               <p class="input__label">Логин</p>
               <input
+                class="input__control"
                 type="text"
                 name="login"
                 id="login"
-                class="input__control"
+                minlength="3"
+                maxlength="20"
+                required
               />
             </label>
             <label for="display-name" class="input input--oneline">
@@ -83,6 +86,8 @@ const template = `
                 type="text"
                 name="phone"
                 id="phone"
+                minlength="10"
+                maxlength="15"
                 class="input__control"
               />
             </label>

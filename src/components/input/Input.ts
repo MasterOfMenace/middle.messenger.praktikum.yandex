@@ -35,8 +35,9 @@ export default class Input extends Block {
   }
 
   render() {
-    const template = new Templator(inputTemplate);
+    // const template = new Templator(inputTemplate);
 
-    return template.compile(this.props);
+    // return template.compile(this.props);
+    return this.compile(inputTemplate, this.props);
   }
 }

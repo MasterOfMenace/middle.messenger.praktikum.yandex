@@ -19,12 +19,17 @@ class Templator {
 
         if (context) {
           const data = getValueByPath(context, templValue);
+
+          if (Array.isArray(data)) {
+            template = template.replace(new RegExp(key[0], 'gi'), data.join(' '));
+          }
+
           if (typeof data === 'function') {
             window[templValue] = data;
             template = template.replace(new RegExp(key[0], 'gi'), `window.${key[1].trim()}()`);
           }
 
-          template = template.replace(new RegExp(key[0], 'gi'), data);
+          template = template.replace(new RegExp(key[0], 'gi'), data as string);
           // здесь ставим индекс начала поиска следующего сопоставления на начало найденного сопоставления,
           // чтобы не потерять следующие свойства при длинном имени текущего найденного сопоставления
           this.REGEXP.lastIndex = key.index;
