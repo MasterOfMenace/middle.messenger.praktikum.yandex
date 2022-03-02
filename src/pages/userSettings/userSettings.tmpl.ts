@@ -17,96 +17,9 @@ const template = `
       <section class="user-settings-page__content">
         <div class="user-settings-page__user-settings">
           <div class="user-settings-page__top">
-            <div class="user-settings-page__short-info">
-              <div class="user-settings-page__avatar-wrapper">
-                <img
-                  src={{user.avatarSrc}}
-                  alt="Аватар"
-                  class="user-settings-page__avatar"
-                />
-              </div>
-              <div class="user-settings-page__user-info">
-                <p class="user-name">{{user.name}}</p>
-                <p class="user-phone">{{user.phone}}</p>
-              </div>
-            </div>
+            {{userInfo}}
           </div>
-          <form class="user-settings-page__form">
-            <label for="login" class="input input--oneline">
-              <p class="input__label">Логин</p>
-              <input
-                class="input__control"
-                type="text"
-                name="login"
-                id="login"
-                minlength="3"
-                maxlength="20"
-                required
-              />
-            </label>
-            <label for="display-name" class="input input--oneline">
-              <p class="input__label">Имя в чате</p>
-              <input
-                type="text"
-                name="display-name"
-                id="display-name"
-                class="input__control"
-              />
-            </label>
-            <label for="email" class="input input--oneline">
-              <p class="input__label">Почта</p>
-              <input
-                type="text"
-                name="email"
-                id="email"
-                class="input__control"
-              />
-            </label>
-            <label for="first_name" class="input input--oneline">
-              <p class="input__label">Имя</p>
-              <input
-                type="text"
-                name="first_name"
-                id="first_name"
-                class="input__control"
-              />
-            </label>
-            <label for="second_name" class="input input--oneline">
-              <p class="input__label">Фамилия</p>
-              <input
-                type="text"
-                name="second_name"
-                id="second_name"
-                class="input__control"
-              />
-            </label>
-            <label for="phone" class="input input--oneline">
-              <p class="input__label">Телефон</p>
-              <input
-                type="text"
-                name="phone"
-                id="phone"
-                minlength="10"
-                maxlength="15"
-                class="input__control"
-              />
-            </label>
-            <!--<a
-              href=""
-              class="user-settings-page__edit-settings-button button button--underline"
-              >Редактировать</a
-            >-->
-            <input
-              type="submit"
-              value="Редактировать"
-              class="user-settings-page__edit-settings-button button button--underline"
-              />
-            <a
-              href="./changePassword.html"
-              class="user-settings-page__change-password button button--underline"
-              >Изменить пароль</a
-            >
-          </form>
+          {{form}}
         </div>
       </section>
     </main>
