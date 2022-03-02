@@ -17,54 +17,9 @@ const template = `
       <section class="user-settings-page__content">
         <div class="user-settings-page__user-settings">
           <div class="user-settings-page__top">
-            <div class="user-settings-page__short-info">
-              <div class="user-settings-page__avatar-wrapper">
-                <img
-                  src={{avatarSrc}}
-                  alt="Аватар"
-                  class="user-settings-page__avatar"
-                />
-              </div>
-              <div class="user-settings-page__user-info">
-                <p class="user-name">Snoop Dogg</p>
-                <p class="user-phone">+7 (985) 123 - 45 -44</p>
-              </div>
-            </div>
+            {{userInfo}}
           </div>
-          <form class="user-settings-page__form">
-            <label for="oldPassword" class="input input--oneline">
-              <p class="input__label">Старый пароль</p>
-              <input
-                type="text"
-                name="oldPassword"
-                id="oldPassword"
-                class="input__control"
-              />
-            </label>
-            <label for="newPassword" class="input input--oneline">
-              <p class="input__label">Новый пароль</p>
-              <input
-                type="text"
-                name="newPassword"
-                id="newPassword"
-                class="input__control"
-              />
-            </label>
-            <label for="repeatNewPassword" class="input input--oneline">
-              <p class="input__label">Повторите новый пароль</p>
-              <input
-                type="text"
-                name="repeatNewPassword"
-                id="repeatNewPassword"
-                class="input__control"
-              />
-            </label>
-            <a
-              href=""
-              class="change-password-page__edit-settings-button button button--solid"
-              >Сохранить</a
-            >
-          </form>
+          {{form}}
         </div>
       </section>
     </main>
