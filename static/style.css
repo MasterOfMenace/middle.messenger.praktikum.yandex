@@ -7,6 +7,13 @@
 @import url('/src/pages/signUpPage/signUpPage.css');
 @import url('/src/pages/userSettings/userSettings.css');
 @import url('/src/pages/changePassword/changePassword.css');
+@import url('/src/styles/avatar.css');
+@import url('/src/styles/user-short-info.css');
+@import url('/src/styles/chat-list.css');
+@import url('/src/styles/short-message.css');
+@import url('/src/styles/messages-list.css');
+@import url('/src/styles/message.css');
+@import url('/src/styles/new-message.css');
 
 .main-page {
   width: 100%;
@@ -37,4 +44,56 @@
   margin: 24px 0;
   color: rgba(34, 84, 87, 0, 3);
   text-align: center;
+}
+
+.chat-page {
+  padding-top: 30px;
+  display: grid;
+  grid-template-columns: 420px auto;
+}
+
+.chat {
+  padding-right: 130px;
+  padding-left: 45px;
+  border-left: 1px solid rgba(33, 144, 152, 0.5);
+  display: grid;
+  grid-template-rows: 91px 450px 130px;
+}
+
+.chat__user-info {
+  box-sizing: border-box;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(33, 144, 152, 0.5);
+}
+
+.left-menu {
+  padding-left: 90px;
+  padding-right: 50px;
+  box-sizing: border-box;
+  display: grid;
+  gap: 10px;
+}
+
+.left-menu__current-user-info {
+  border-bottom: 1px solid rgba(33, 144, 152, 0.5);
+  padding-bottom: 5px;
+}
+
+.messages-by-date {
+  display: grid;
+  gap: 10px;
+}
+
+.messages-date {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  color: #0f484b;
+}
+
+.messages {
+  overflow: auto;
+  border-bottom: 1px solid rgba(33, 144, 152, 0.5);
+  display: grid;
+  gap: 10px;
 }

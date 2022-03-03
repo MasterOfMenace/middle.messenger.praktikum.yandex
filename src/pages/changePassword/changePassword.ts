@@ -24,16 +24,16 @@ class ChangePasswordPage extends Block {
 }
 
 const userInfo = new UserInfo({
-  className: '"user-settings-page__short-info"',
+  className: '"user-short-info"',
   avatar: new Avatar({
     avatarSrc,
-    wrapperClassName: '"user-settings-page__avatar-wrapper"',
-    imageClassName: '"user-settings-page__avatar"',
+    wrapperClassName: '"avatar"',
+    imageClassName: '"avatar__image"',
   }),
   shortInfo: new UserShortInfo({
-    className: '"user-settings-page__user-info"',
-    userNameClass: '"user-name"',
-    userPhoneClass: '"user-phone"',
+    className: '"user-short-info__user-info"',
+    userNameClass: '"user-short-info__user-name"',
+    userPhoneClass: '"user-short-info__user-phone"',
     userName: 'Snoop Dogg',
     userPhone: '+7 (985) 123 - 45 - 44',
   }),

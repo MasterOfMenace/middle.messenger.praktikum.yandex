@@ -27,7 +27,7 @@
   "scripts": {
     "clean": "rimraf dist/ && rimraf .parcel-cache",
     "build": "parcel build static/*.html --no-cache",
-    "dev": "parcel static/*.html --no-cache",
+    "dev": "npm run clean && parcel static/*.html",
     "start": "npm run clean && npm run build && node server/server.js",
     "eslint": "eslint --ext .js --ext .ts src/",
     "eslint-fix": "eslint --ext .js --ext .ts src/ --fix",

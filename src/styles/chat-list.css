@@ -1,0 +1,19 @@
+.chat-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.chat-list__item {
+  padding: 15px 10px;
+  box-sizing: border-box;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 50px auto;
+  background-color: rgba(148, 216, 220, 0.1);
+  border-radius: 8px;
+  align-items: center;
+  gap: 5px;
+}
