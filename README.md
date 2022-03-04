@@ -1,3 +1,4 @@
+[ССыдка на пулл-реквест 2 спринта](<https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex/pull/2>)
 ## Описание
 
 Учебный проект "Мессенджер" курса "Мидл-фронтенд разработчик" от Яндекс.Практикум
