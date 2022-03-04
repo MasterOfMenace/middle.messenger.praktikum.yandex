@@ -35,7 +35,8 @@
     "no-param-reassign": ["error", {"props": false}],
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
-    "@typescript-eslint/no-empty-function": ["error", {"allow": ["methods"]}]
+    "@typescript-eslint/no-empty-function": ["error", {"allow": ["methods"]}],
+    "@typescript-eslint/no-explicit-any": "off"
   },
   "settings": {
     "import/resolver": {
