@@ -57,7 +57,20 @@ const form = new Form({
   className: '"login-form"',
   children: [login, password, submitBtn],
   events: {
-    submit: (evt) => formSubmitHandler(evt),
+    submit: {
+      event: (evt) => formSubmitHandler(evt),
+    },
+    focus: {
+      event: (evt) => {
+        const target = evt.target as HTMLInputElement;
+        const isValid = target.checkValidity();
+
+        if (!isValid) {
+          target.reportValidity();
+        }
+      },
+      useCapture: true,
+    },
   },
 });
 

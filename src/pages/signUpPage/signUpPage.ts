@@ -135,7 +135,20 @@ const form = new Form({
     submitBtn,
   ],
   events: {
-    submit: (evt) => formSubmitHandler(evt),
+    submit: {
+      event: (evt) => formSubmitHandler(evt),
+    },
+    focus: {
+      event: (evt) => {
+        const target = evt.target as HTMLInputElement;
+        const isValid = target.checkValidity();
+
+        if (!isValid) {
+          target.reportValidity();
+        }
+      },
+      useCapture: true,
+    },
   },
 });
 

@@ -1,10 +1,10 @@
-import Block from '../block/Block';
+import Block, {EventType} from '../block/Block';
 import template from './form.tmpl';
 
 export type FormProps = {
   className: string;
   children: Block[];
-  events?: Record<string, (evt: Event) => void>;
+  events?: Record<string, EventType>;
 };
 
 export default class Form extends Block {

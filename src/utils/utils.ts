@@ -22,7 +22,11 @@ export function formSubmitHandler(evt: Event) {
   const formData: Record<string, string> = {};
 
   for (const input of elements) {
-    if (input instanceof HTMLInputElement && input.type !== 'submit') {
+    if (
+      (input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) &&
+      input.type !== 'submit'
+    ) {
+      input.checkValidity();
       formData[input.name] = input.value;
     }
   }

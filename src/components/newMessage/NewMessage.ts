@@ -1,7 +1,9 @@
-import Block from '../block/Block';
+import Block, {EventType} from '../block/Block';
 import template from './newMessage.tmpl';
 
-type Props = Record<string, never>;
+type Props = {
+  events?: Record<string, EventType>;
+};
 export default class NewMessage extends Block {
   constructor(props: Props) {
     super('div', props);

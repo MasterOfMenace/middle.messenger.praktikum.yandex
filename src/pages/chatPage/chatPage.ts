@@ -2,7 +2,7 @@ import Block from '../../components/block/Block';
 import {UserShortInfo} from '../../components/userShortInfo';
 import {UserInfo} from '../../components/userInfo';
 import {Avatar} from '../../components/avatar';
-import {renderDOM} from '../../utils';
+import {formSubmitHandler, renderDOM} from '../../utils';
 import {ChatListItem} from '../../components/chatListItem';
 import {List} from '../../components/list';
 import {Message} from '../../components/message';
@@ -126,7 +126,24 @@ const messagesGroup = new List({
   }),
 });
 
-const newMessage = new NewMessage({});
+const newMessage = new NewMessage({
+  events: {
+    submit: {
+      event: (evt) => formSubmitHandler(evt),
+    },
+    focus: {
+      event: (evt) => {
+        const target = evt.target as HTMLInputElement;
+        const isValid = target.checkValidity();
+
+        if (!isValid) {
+          target.reportValidity();
+        }
+      },
+      useCapture: true,
+    },
+  },
+});
 
 const props = {
   currentUser,

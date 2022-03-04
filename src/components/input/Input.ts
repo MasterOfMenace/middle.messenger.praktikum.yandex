@@ -1,4 +1,4 @@
-import Block from '../block/Block';
+import Block, {EventType} from '../block/Block';
 import inputTemplate from './input.tmpl';
 
 export type InputProps = {
@@ -16,6 +16,7 @@ export type InputProps = {
     maxLength?: number;
     required?: boolean;
   };
+  events?: Record<string, EventType>;
 };
 
 export default class Input extends Block {

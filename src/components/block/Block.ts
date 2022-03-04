@@ -6,8 +6,13 @@ export type Children = {
   [key: string]: Block | Block[];
 };
 
+export type EventType = {
+  event: (evt: Event) => void;
+  useCapture?: boolean;
+};
+
 export type Props = {
-  events?: Record<string, (evt: Event) => void>;
+  events?: Record<string, EventType>;
   [key: string]: unknown;
 };
 
@@ -253,7 +258,11 @@ class Block {
 
     if (events) {
       Object.keys(events).forEach((eventName) => {
-        this._element?.addEventListener(eventName, events[eventName]);
+        this._element?.addEventListener(
+          eventName,
+          events[eventName].event,
+          events[eventName].useCapture ?? false,
+        );
       });
     }
   }
@@ -261,7 +270,7 @@ class Block {
   _removeEvents() {
     const events = {...this.props.events};
     Object.keys(events).forEach((event) => {
-      this._element?.removeEventListener(event, events[event]);
+      this._element?.removeEventListener(event, events[event].event);
     });
   }
 }
