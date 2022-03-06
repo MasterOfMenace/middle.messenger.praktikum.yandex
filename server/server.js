@@ -1,9 +1,10 @@
 const express = require("express");
-const path = require("path");
 
+const PORT = 3000;
 const app = express();
-const port = 3000;
+
+process.env.PORT = PORT;
 
 app.use(express.static("./dist"));
 
-app.listen(port);
+app.listen(PORT);

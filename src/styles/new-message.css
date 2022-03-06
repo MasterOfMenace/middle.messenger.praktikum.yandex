@@ -1,0 +1,36 @@
+.new-message {
+  align-self: center;
+}
+
+.new-message-input {
+  display: flex;
+  border-radius: 20px;
+  overflow: hidden;
+  align-items: center;
+  padding: 10px;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background-color: rgba(226, 233, 233, 0.5);
+}
+
+.new-message-input__control {
+  width: 100%;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+  outline: none;
+  resize: none;
+  background-color: transparent;
+}
+
+.new-message-input__send-button {
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 0;
+  border: none;
+  display: flex;
+}
+
+.new-message-input__send-button svg path {
+  fill: #219098;
+}

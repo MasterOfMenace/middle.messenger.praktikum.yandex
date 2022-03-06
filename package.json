@@ -2,21 +2,33 @@
   "name": "messenger",
   "version": "1.0.0",
   "description": "---",
-  "engines": {
-    "node": "14.17.3"
-  },
-  "dependencies": {},
   "devDependencies": {
+    "@types/uuid": "8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
     "autoprefixer": "10.4.2",
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "8.4.0",
+    "eslint-plugin-import": "2.25.4",
+    "eslint-plugin-prettier": "4.0.0",
     "express": "4.17.2",
     "parcel": "2.2.1",
-    "postcss": "8.4.6"
+    "postcss": "8.4.6",
+    "prettier": "2.5.1",
+    "rimraf": "3.0.2",
+    "stylelint": "14.5.1",
+    "stylelint-config-recommended": "7.0.0",
+    "typescript": "4.5.5"
   },
   "scripts": {
-    "clean": "rm -rf dist/ && rm -rf .parcel-cache",
+    "clean": "rimraf dist/ && rimraf .parcel-cache",
     "build": "parcel build static/*.html --no-cache",
-    "dev": "parcel static/index.html",
+    "dev": "npm run clean && parcel static/*.html",
     "start": "npm run clean && npm run build && node server/server.js",
+    "eslint": "eslint --ext .js --ext .ts src/",
+    "eslint-fix": "eslint --ext .js --ext .ts src/ --fix",
+    "stylelint": "stylelint **/*.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,5 +41,8 @@
   "bugs": {
     "url": "https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex/issues"
   },
-  "homepage": "https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex#readme"
+  "homepage": "https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex#readme",
+  "dependencies": {
+    "uuid": "8.3.2"
+  }
 }

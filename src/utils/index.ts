@@ -1,0 +1,3 @@
+export * from './utils';
+export {default as Templator} from './templator';
+export {renderDOM} from './renderDOM';

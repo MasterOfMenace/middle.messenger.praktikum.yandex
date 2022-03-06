@@ -1,0 +1,20 @@
+.short-message__user {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.short-message__user-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.short-message__time {
+  font-size: 12px;
+  color: #858589;
+}
+
+.short-message__message {
+  font-size: 12px;
+  color: #858589;
+}

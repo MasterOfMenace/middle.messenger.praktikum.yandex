@@ -1,0 +1,31 @@
+.user-short-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.user-short-info__user-info {
+  padding-top: 5px;
+}
+
+.user-short-info__user-name {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  color: #0f484b;
+}
+
+.user-short-info__user-phone {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.user-short-info--companion .user-short-info__user-name {
+  color: #000000;
+}
+
+.user-short-info--companion .user-short-info__user-phone {
+  color: #858589;
+}

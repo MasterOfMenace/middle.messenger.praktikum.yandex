@@ -40,3 +40,10 @@
 .input--oneline .input__label {
   margin: 0;
 }
+
+.input--search {
+  border-radius: 12px;
+  font-size: 14px;
+  padding: 5px 20px;
+  border: 1px solid #e2e9e9;
+}

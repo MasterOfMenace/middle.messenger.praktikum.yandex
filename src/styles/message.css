@@ -1,0 +1,35 @@
+.message {
+  display: grid;
+  grid-template-columns: min-content auto;
+  align-items: end;
+  gap: 15px;
+  grid-template-areas: 'avatar message';
+}
+
+.message--current-user {
+  grid-template-columns: auto min-content;
+  grid-template-areas: 'message avatar';
+  justify-content: end;
+}
+
+.message__avatar {
+  grid-area: avatar;
+}
+
+.message__message {
+  grid-area: message;
+  width: 435px;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: rgba(148, 216, 220, 0.1);
+  border-radius: 8px;
+  padding-bottom: 30px;
+}
+
+.message__text {
+  margin: 0;
+}
+
+.message__time {
+  margin: 0;
+}
