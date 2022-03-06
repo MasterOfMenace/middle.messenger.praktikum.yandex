@@ -3,7 +3,7 @@
   display: block;
   width: 100%;
   padding: 10px;
-  border: 1px solid #225457;
+  border: 1px solid var(--dark-green-color);
   background-color: transparent;
   text-decoration: none;
   border-radius: 20px;
@@ -11,12 +11,12 @@
   font-size: 24px;
   line-height: 28px;
   letter-spacing: 1px;
-  color: #225457;
+  color: var(--dark-green-color);
 }
 
 .button--solid {
-  background-color: #225457;
-  color: #a8cdc1;
+  background-color: var(--dark-green-color);
+  color: var(--light-blue-green-color);
 }
 
 .button--underline {
@@ -40,10 +40,10 @@
   height: 55px;
   padding: 0;
   display: flex;
-  background-color: #225457;
+  background-color: var(--dark-green-color);
 }
 
 .button--round svg {
   margin: auto;
-  fill: #ffffff;
+  fill: var(--white-color);
 }
