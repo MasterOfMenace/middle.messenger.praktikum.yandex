@@ -5,7 +5,6 @@ const template = `
     <p class="error__description">{{error.description}}</p>
   </div>
   {{children.link}}
-</section>
-`;
+</section>`;
 
 export default template;
