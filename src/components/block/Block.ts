@@ -21,7 +21,7 @@ type Meta = {
   props: Props;
 };
 
-class Block {
+class Block<T extends Props = Props> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -37,11 +37,11 @@ class Block {
 
   children: Children;
 
-  props: Props;
+  props: T;
 
   eventBus: () => EventBus;
 
-  constructor(tagName = 'div', propsWithChildren: Props = {}) {
+  constructor(tagName = 'div', propsWithChildren = <T>{}) {
     const eventBus = new EventBus();
 
     const {props, children} = this._getPropsAndChildrens(propsWithChildren);
@@ -66,7 +66,7 @@ class Block {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getPropsAndChildrens(propsWithChildren: Props) {
+  _getPropsAndChildrens(propsWithChildren: T) {
     const props = <Props>{};
     const children = <Children>{};
 
@@ -119,7 +119,7 @@ class Block {
 
   dispatchComponentDidMount() {}
 
-  _componentDidUpdate(oldProps: Props, newProps: Props) {
+  _componentDidUpdate(oldProps: T, newProps: T) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (response) {
       this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
@@ -127,7 +127,7 @@ class Block {
   }
 
   // Может переопределять пользователь, необязательно трогать
-  componentDidUpdate(oldProps: Props, newProps: Props) {
+  componentDidUpdate(oldProps: T, newProps: T) {
     // добавить сравнение пропсов
     if (oldProps && newProps) {
       return true;
@@ -179,16 +179,16 @@ class Block {
     return this._element;
   }
 
-  compile(template: string, props: Props) {
-    const propsWithStubs: Props = {...props};
+  compile(template: string, props: T) {
+    const propsWithStubs: T = {...props};
 
-    Object.entries(this.children).forEach(([key, child]) => {
+    Object.entries(this.children).forEach(([key, child]: [keyof T, Block | Block[]]) => {
       if (Array.isArray(child)) {
         propsWithStubs[key] = child
           .map((childItem) => `<div data-id="${childItem._id}"></div>`)
-          .join(' ');
+          .join(' ') as T[keyof T];
       } else {
-        propsWithStubs[key] = `<div data-id="${child._id}"></div>`;
+        propsWithStubs[key] = `<div data-id="${child._id}"></div>` as T[keyof T];
       }
     });
 
@@ -211,7 +211,7 @@ class Block {
     return fragment.content;
   }
 
-  _makePropsProxy(props: Props) {
+  _makePropsProxy(props: T): T {
     // Можно и так передать this
     // Такой способ больше не применяется с приходом ES6+
     // const self = this;
@@ -223,7 +223,7 @@ class Block {
         // this здесь указывает на объект handler
         const _target = getDeepCopy(props);
         if (prop in target) {
-          target[prop] = value;
+          target[prop as keyof T] = value;
           eventBus().emit(Block.EVENTS.FLOW_CDU, _target, props);
           return true;
         }
