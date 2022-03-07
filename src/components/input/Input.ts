@@ -31,7 +31,7 @@ export default class Input extends Block<InputProps> {
       type: 'text',
       validationProps: {},
     };
-    super('div', Object.assign(defaultProps, props));
+    super('div', {...defaultProps, ...props});
   }
 
   render() {
