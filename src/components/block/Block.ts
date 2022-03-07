@@ -39,10 +39,10 @@ class Block<T extends Props = Props> {
 
   props: T;
 
-  eventBus: () => EventBus;
+  eventBus: EventBus;
 
   constructor(tagName = 'div', propsWithChildren = <T>{}) {
-    const eventBus = new EventBus();
+    // const eventBus = new EventBus();
 
     const {props, children} = this._getPropsAndChildrens(propsWithChildren);
 
@@ -57,13 +57,13 @@ class Block<T extends Props = Props> {
 
     this.children = children;
 
-    this.eventBus = () => eventBus;
+    this.eventBus = new EventBus();
 
     this.props = this._makePropsProxy({...propsWithChildren, _id: this._id});
 
-    this._registerEvents(eventBus);
+    this._registerEvents(this.eventBus);
 
-    eventBus.emit(Block.EVENTS.INIT);
+    this.eventBus.emit(Block.EVENTS.INIT);
   }
 
   _getPropsAndChildrens(propsWithChildren: T) {
@@ -97,7 +97,7 @@ class Block<T extends Props = Props> {
 
   init() {
     this._createResources();
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
   _componentDidMount() {
@@ -122,7 +122,7 @@ class Block<T extends Props = Props> {
   _componentDidUpdate(oldProps: T, newProps: T) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (response) {
-      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+      this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
   }
 
@@ -143,7 +143,6 @@ class Block<T extends Props = Props> {
     this._removeEvents();
 
     Object.assign(this.props, nextProps);
-    this.eventBus().emit(Block.EVENTS.FLOW_CDU);
   };
 
   get element() {
@@ -151,6 +150,7 @@ class Block<T extends Props = Props> {
   }
 
   _render() {
+    this._removeEvents();
     const block = this.render();
 
     const newElement = block.firstElementChild as HTMLElement;
@@ -158,8 +158,6 @@ class Block<T extends Props = Props> {
     if (this._element && newElement) {
       this._element.innerHTML = '';
       this._element.replaceWith(newElement);
-
-      this._addEvents();
     }
 
     this._element = newElement;
@@ -216,15 +214,13 @@ class Block<T extends Props = Props> {
     // Такой способ больше не применяется с приходом ES6+
     // const self = this;
 
-    const eventBus = this.eventBus.bind(this);
-
     return new Proxy(props, {
-      set(target, prop: string, value) {
+      set: (target, prop: string, value) => {
         // this здесь указывает на объект handler
         const _target = getDeepCopy(props);
         if (prop in target) {
           target[prop as keyof T] = value;
-          eventBus().emit(Block.EVENTS.FLOW_CDU, _target, props);
+          this.eventBus.emit(Block.EVENTS.FLOW_CDU, _target, props);
           return true;
         }
         return false;
@@ -268,10 +264,12 @@ class Block<T extends Props = Props> {
   }
 
   _removeEvents() {
-    const events = {...this.props.events};
-    Object.keys(events).forEach((event) => {
-      this._element?.removeEventListener(event, events[event].event);
-    });
+    const {events} = this.props;
+    if (events) {
+      Object.keys(events).forEach((event) => {
+        this._element?.removeEventListener(event, events[event].event);
+      });
+    }
   }
 }
 
