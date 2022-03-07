@@ -7,7 +7,7 @@ type LinkProps = {
   className?: string;
 };
 
-export default class Link extends Block {
+export default class Link extends Block<LinkProps> {
   constructor(props: LinkProps) {
     super('a', props);
   }

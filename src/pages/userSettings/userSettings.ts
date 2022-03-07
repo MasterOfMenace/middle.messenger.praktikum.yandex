@@ -14,7 +14,7 @@ type UserSettingsProps = {
   userInfo: UserInfo;
   form: Form;
 };
-class UserSettings extends Block {
+class UserSettings extends Block<UserSettingsProps> {
   constructor(props: UserSettingsProps) {
     super('div', props);
   }

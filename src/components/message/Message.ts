@@ -11,7 +11,7 @@ type Props = {
   };
 };
 
-export default class Message extends Block {
+export default class Message extends Block<Props> {
   constructor(props: Props) {
     super('div', props);
   }

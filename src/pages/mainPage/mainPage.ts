@@ -10,7 +10,7 @@ type MainPageProps = {
   signUpLink: Link;
 };
 
-class MainPage extends Block {
+class MainPage extends Block<MainPageProps> {
   constructor(props: MainPageProps) {
     super('div', props);
   }

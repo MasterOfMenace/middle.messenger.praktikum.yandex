@@ -20,7 +20,7 @@ type Props = {
   newMessage: NewMessage;
 };
 
-class ChatPage extends Block {
+class ChatPage extends Block<Props> {
   constructor(props: Props) {
     super('div', props);
   }

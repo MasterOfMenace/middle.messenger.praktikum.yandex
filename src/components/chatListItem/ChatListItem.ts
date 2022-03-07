@@ -9,7 +9,7 @@ type Props = {
   message: string;
 };
 
-export default class ChatListItem extends Block {
+export default class ChatListItem extends Block<Props> {
   constructor(props: Props) {
     super('li', props);
   }

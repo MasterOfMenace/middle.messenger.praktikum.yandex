@@ -11,7 +11,7 @@ type LoginPageProps = {
   form: Form;
 };
 
-class LoginPage extends Block {
+class LoginPage extends Block<LoginPageProps> {
   constructor(props: LoginPageProps) {
     super('div', props);
   }

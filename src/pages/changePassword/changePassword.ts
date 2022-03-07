@@ -13,7 +13,7 @@ type Props = {
   userInfo: UserInfo;
   form: Form;
 };
-class ChangePasswordPage extends Block {
+class ChangePasswordPage extends Block<Props> {
   constructor(props: Props) {
     super('div', props);
   }

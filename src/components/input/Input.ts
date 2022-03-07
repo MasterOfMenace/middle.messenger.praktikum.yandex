@@ -19,7 +19,7 @@ export type InputProps = {
   events?: Record<string, EventType>;
 };
 
-export default class Input extends Block {
+export default class Input extends Block<InputProps> {
   constructor(props: InputProps) {
     const defaultProps: Partial<InputProps> = {
       className: 'input',

@@ -6,7 +6,7 @@ type Props = {
   items: unknown[];
 };
 
-export default class List extends Block {
+export default class List extends Block<Props> {
   constructor(props: Props) {
     super('ul', props);
   }

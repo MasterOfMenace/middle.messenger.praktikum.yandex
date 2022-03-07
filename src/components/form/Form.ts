@@ -7,7 +7,7 @@ export type FormProps = {
   events?: Record<string, EventType>;
 };
 
-export default class Form extends Block {
+export default class Form extends Block<FormProps> {
   constructor(props: FormProps) {
     super('form', props);
   }

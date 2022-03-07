@@ -6,7 +6,7 @@ type MainProps = {
   children: Children;
 };
 
-export default class Main extends Block {
+export default class Main extends Block<MainProps> {
   constructor(props: MainProps) {
     super('main', props);
   }

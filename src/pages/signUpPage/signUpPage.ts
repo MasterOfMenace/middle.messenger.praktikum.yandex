@@ -10,7 +10,7 @@ type SignupPageProps = {
   form: Form;
 };
 
-class SignupPage extends Block {
+class SignupPage extends Block<SignupPageProps> {
   constructor(props: SignupPageProps) {
     super('div', props);
   }

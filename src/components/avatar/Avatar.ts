@@ -7,7 +7,7 @@ type AvatarProps = {
   imageClassName: string;
 };
 
-export default class Avatar extends Block {
+export default class Avatar extends Block<AvatarProps> {
   constructor(props: AvatarProps) {
     super('div', props);
   }
