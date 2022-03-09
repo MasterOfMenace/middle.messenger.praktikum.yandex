@@ -54,3 +54,7 @@ export function getDeepCopy<T>(object: T): T {
   });
   return copy as T;
 }
+
+export function isEqual<T>(lhs: T, rhs: T): boolean {
+  return lhs === rhs;
+}
