@@ -1,4 +1,4 @@
-import Block from '../../components/block/Block';
+import Block, {Props} from '../../components/block/Block';
 import Route from '../route/Route';
 
 export default class Router {
@@ -12,25 +12,34 @@ export default class Router {
 
   _rootQuery: string;
 
-  constructor(rootQuery: string) {
-    if (Router.instance) {
-      Router.getInstance();
-    }
+  private constructor(rootQuery: string) {
+    // if (Router.instance) {
+    //   console.log('instance exists');
+
+    //   Router.getInstance();
+    // }
 
     this.routes = [];
     this.history = window.history;
     this._currentRoute = null;
     this._rootQuery = rootQuery;
 
-    Router.instance = this;
+    // Router.instance = this;
   }
 
-  public static getInstance() {
+  public static getInstance(rootQuery: string) {
+    if (!Router.instance) {
+      Router.instance = new Router(rootQuery);
+    }
     return Router.instance;
   }
 
-  use<T extends Block>(pathname: string, block: new () => T) {
-    const route = new Route(pathname, block, {rootQuery: this._rootQuery});
+  use<T extends Block, P extends Props>(
+    pathname: string,
+    block: new (props?: any) => T,
+    props?: P,
+  ) {
+    const route = new Route(pathname, block, {...props, rootQuery: this._rootQuery});
     this.routes.push(route);
     return this;
   }
@@ -38,10 +47,15 @@ export default class Router {
   start() {
     window.onpopstate = (event) => this._onRoute((event.currentTarget as Window).location.pathname);
     this._onRoute(window.location.pathname);
+    // console.log(this.routes);
   }
 
   _onRoute(pathname: string) {
     const route = this.getRoute(pathname);
+
+    if (!route) {
+      return;
+    }
 
     if (this._currentRoute && !this._currentRoute.match(pathname)) {
       this._currentRoute.leave();
@@ -55,6 +69,9 @@ export default class Router {
 
   go(pathname: string) {
     this.history.pushState({}, '', pathname);
+    // console.log('router go');
+    // console.log('router go', this.routes);
+
     this._onRoute(pathname);
   }
 

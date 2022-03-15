@@ -2,24 +2,14 @@ import Block from '../../components/block/Block';
 import {Button} from '../../components/button';
 import Form from '../../components/form/Form';
 import {Input} from '../../components/input';
-import {Link} from '../../components/link';
-import {formSubmitHandler, renderDOM} from '../../utils';
+import {LinkWithRouter} from '../../components/link';
+import {formSubmitHandler} from '../../utils';
 import loginPageTemplate from './loginPage.tmpl';
 
 type LoginPageProps = {
-  link: Link;
+  link: Block;
   form: Form;
 };
-
-class LoginPage extends Block<LoginPageProps> {
-  constructor(props: LoginPageProps) {
-    super('div', props);
-  }
-
-  render() {
-    return this.compile(loginPageTemplate, this.props);
-  }
-}
 
 const login = new Input({
   name: 'login',
@@ -74,8 +64,8 @@ const form = new Form({
   },
 });
 
-const link = new Link({
-  to: './signUpPage.html',
+const link = new LinkWithRouter({
+  to: '/signup',
   className: '"button button--underline"',
   text: 'У меня нет аккаунта',
 });
@@ -85,8 +75,12 @@ const userProps = {
   link,
 };
 
-const page = new LoginPage(userProps);
+export class LoginPage extends Block<LoginPageProps> {
+  constructor() {
+    super('div', userProps);
+  }
 
-const rootDiv = document.getElementById('root');
-
-renderDOM(rootDiv, page);
+  render() {
+    return this.compile(loginPageTemplate, this.props);
+  }
+}

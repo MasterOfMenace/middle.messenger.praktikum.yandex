@@ -10,16 +10,6 @@ type SignupPageProps = {
   form: Form;
 };
 
-class SignupPage extends Block<SignupPageProps> {
-  constructor(props: SignupPageProps) {
-    super('div', props);
-  }
-
-  render() {
-    return this.compile(signUpPageTmpl, this.props);
-  }
-}
-
 const firstNameInput = new Input({
   name: 'first_name',
   id: 'first_name',
@@ -152,11 +142,24 @@ const form = new Form({
   },
 });
 
-const page = new SignupPage({
-  title: 'Регистрация',
-  form,
-});
+export class SignupPage extends Block<SignupPageProps> {
+  constructor() {
+    super('div', {
+      title: 'Регистрация',
+      form,
+    });
+  }
 
-const rootDiv = document.getElementById('root');
+  render() {
+    return this.compile(signUpPageTmpl, this.props);
+  }
+}
 
-renderDOM(rootDiv, page);
+// const page = new SignupPage({
+//   title: 'Регистрация',
+//   form,
+// });
+
+// const rootDiv = document.getElementById('root');
+
+// renderDOM(rootDiv, page);

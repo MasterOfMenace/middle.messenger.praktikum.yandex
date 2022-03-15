@@ -11,15 +11,30 @@ export type EventType = {
   useCapture?: boolean;
 };
 
-export type Props = {
+export interface Props {
   events?: Record<string, EventType>;
   [key: string]: unknown;
-};
+}
 
 type Meta = {
   tagName: string;
   props: Props;
 };
+
+export interface IBlock<T extends Props = Props> {
+  new (): Block;
+  _element: HTMLElement | null;
+
+  _meta: Meta;
+
+  _id: string | null;
+
+  children: Children;
+
+  props: T;
+
+  eventBus: EventBus;
+}
 
 class Block<T extends Props = Props> {
   static EVENTS = {
@@ -43,6 +58,8 @@ class Block<T extends Props = Props> {
 
   constructor(tagName = 'div', propsWithChildren = <T>{}) {
     // const eventBus = new EventBus();
+
+    console.log('propsWithChildren', propsWithChildren);
 
     const {props, children} = this._getPropsAndChildrens(propsWithChildren);
 
@@ -92,6 +109,8 @@ class Block<T extends Props = Props> {
 
   _createResources() {
     const {tagName} = this._meta;
+    console.log(tagName);
+
     this._element = this._createDocumentElement(tagName);
   }
 
