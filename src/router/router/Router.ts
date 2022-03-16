@@ -13,18 +13,10 @@ export default class Router {
   _rootQuery: string;
 
   private constructor(rootQuery: string) {
-    // if (Router.instance) {
-    //   console.log('instance exists');
-
-    //   Router.getInstance();
-    // }
-
     this.routes = [];
     this.history = window.history;
     this._currentRoute = null;
     this._rootQuery = rootQuery;
-
-    // Router.instance = this;
   }
 
   public static getInstance(rootQuery: string) {
@@ -47,7 +39,6 @@ export default class Router {
   start() {
     window.onpopstate = (event) => this._onRoute((event.currentTarget as Window).location.pathname);
     this._onRoute(window.location.pathname);
-    // console.log(this.routes);
   }
 
   _onRoute(pathname: string) {
@@ -67,12 +58,19 @@ export default class Router {
     }
   }
 
-  go(pathname: string) {
-    this.history.pushState({}, '', pathname);
-    // console.log('router go');
-    // console.log('router go', this.routes);
-
-    this._onRoute(pathname);
+  go(pathname: string | number) {
+    if (typeof pathname === 'number') {
+      if (pathname === -1) {
+        this.back();
+      } else if (pathname === 1) {
+        this.forward();
+      } else {
+        this.history.go(pathname);
+      }
+    } else {
+      this.history.pushState({}, '', pathname);
+      this._onRoute(pathname);
+    }
   }
 
   back() {

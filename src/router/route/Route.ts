@@ -34,8 +34,6 @@ export default class Route<T extends Block = Block> {
   }
 
   render() {
-    console.log('render', this._blockClass.name);
-
     if (!this._block) {
       const View = this._blockClass;
       this._block = new View();

@@ -1,7 +1,6 @@
 import {Error} from '../../components/error';
-import {Link} from '../../components/link';
+import {LinkWithRouter} from '../../components/link';
 import {Main} from '../../components/main';
-import {renderDOM} from '../../utils';
 
 const context = {
   sectionClassName: 'error-page__content',
@@ -10,23 +9,24 @@ const context = {
     code: '500',
     description: 'Мы уже фиксим',
   },
-  children: {
-    link: new Link({
-      text: 'Назад к чатам',
-      className: '"button button--underline"',
-    }),
-  },
+  children: new LinkWithRouter({
+    to: -1,
+    text: 'Назад к чатам',
+    className: '"button button--underline"',
+  }),
 };
 
 const error = new Error(context);
 
-const main = new Main({
-  className: 'error-page',
-  children: {
-    content: error,
-  },
-});
+export class Error500 extends Main {
+  constructor() {
+    super({
+      className: 'error-page',
+      children: error,
+    });
+  }
 
-const rootDiv = document.getElementById('root');
-
-renderDOM(rootDiv, main);
+  render() {
+    return super.render();
+  }
+}

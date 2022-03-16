@@ -57,10 +57,6 @@ class Block<T extends Props = Props> {
   eventBus: EventBus;
 
   constructor(tagName = 'div', propsWithChildren = <T>{}) {
-    // const eventBus = new EventBus();
-
-    console.log('propsWithChildren', propsWithChildren);
-
     const {props, children} = this._getPropsAndChildrens(propsWithChildren);
 
     this._meta = {
@@ -109,8 +105,6 @@ class Block<T extends Props = Props> {
 
   _createResources() {
     const {tagName} = this._meta;
-    console.log(tagName);
-
     this._element = this._createDocumentElement(tagName);
   }
 
@@ -158,7 +152,6 @@ class Block<T extends Props = Props> {
     if (!nextProps) {
       return;
     }
-
     this._removeEvents();
 
     Object.assign(this.props, nextProps);
@@ -236,7 +229,7 @@ class Block<T extends Props = Props> {
     return new Proxy(props, {
       set: (target, prop: string, value) => {
         // this здесь указывает на объект handler
-        const _target = getDeepCopy(props);
+        const _target = getDeepCopy(props); // при setProps при использовании getDeepCopy происходит переполнение стека вызовов, разобраться с апдейтом компонентов
         if (prop in target) {
           target[prop as keyof T] = value;
           this.eventBus.emit(Block.EVENTS.FLOW_CDU, _target, props);
@@ -256,15 +249,15 @@ class Block<T extends Props = Props> {
 
   show() {
     const content = this.getContent();
-    if (content) {
-      content.style.display = 'block';
+    if (!content) {
+      this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
   }
 
   hide() {
     const content = this.getContent();
     if (content) {
-      content.style.display = 'none';
+      content.remove();
     }
   }
 

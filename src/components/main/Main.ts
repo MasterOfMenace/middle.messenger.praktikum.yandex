@@ -1,9 +1,9 @@
-import Block, {Children} from '../block/Block';
+import Block from '../block/Block';
 import template from './main.tmpl';
 
 type MainProps = {
   className: string;
-  children: Children;
+  children: Block;
 };
 
 export default class Main extends Block<MainProps> {

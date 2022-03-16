@@ -2,13 +2,20 @@ import Block from '../../components/block/Block';
 import {Button} from '../../components/button';
 import Form from '../../components/form/Form';
 import {Input} from '../../components/input';
-import {formSubmitHandler, renderDOM} from '../../utils';
+import {formSubmitHandler} from '../../utils';
 import signUpPageTmpl from './signUpPage.tmpl';
 
 type SignupPageProps = {
+  // linkBack: Block;
   title: string;
   form: Form;
 };
+
+// const linkBack = new LinkWithRouter({  //lдоработать чтобы ссылка могла рисовать внутри себя свг
+//   to: -1,
+//   className: '"user-settings-page__change-password button button--underline"',
+//   text: 'Назад',
+// });
 
 const firstNameInput = new Input({
   name: 'first_name',
@@ -154,12 +161,3 @@ export class SignupPage extends Block<SignupPageProps> {
     return this.compile(signUpPageTmpl, this.props);
   }
 }
-
-// const page = new SignupPage({
-//   title: 'Регистрация',
-//   form,
-// });
-
-// const rootDiv = document.getElementById('root');
-
-// renderDOM(rootDiv, page);

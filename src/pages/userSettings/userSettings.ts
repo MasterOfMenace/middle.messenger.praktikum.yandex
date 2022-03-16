@@ -2,8 +2,8 @@ import Block from '../../components/block/Block';
 import Form from '../../components/form/Form';
 import {Input} from '../../components/input';
 import {Button} from '../../components/button';
-import {Link} from '../../components/link';
-import {formSubmitHandler, renderDOM} from '../../utils';
+import {LinkWithRouter} from '../../components/link';
+import {formSubmitHandler} from '../../utils';
 import userSettingsTemplate from './userSettings.tmpl';
 import avatarSrc from '../../../static/images/avatar.jpg';
 import {UserInfo} from '../../components/userInfo';
@@ -14,15 +14,6 @@ type UserSettingsProps = {
   userInfo: UserInfo;
   form: Form;
 };
-class UserSettings extends Block<UserSettingsProps> {
-  constructor(props: UserSettingsProps) {
-    super('div', props);
-  }
-
-  render() {
-    return this.compile(userSettingsTemplate, this.props);
-  }
-}
 
 const loginInput = new Input({
   name: 'login',
@@ -118,8 +109,8 @@ const submitBtn = new Button({
   text: 'Редактировать',
 });
 
-const linkToPasswordChange = new Link({
-  to: './changePassword.html',
+const linkToPasswordChange = new LinkWithRouter({
+  to: '/change-password',
   className: '"user-settings-page__change-password button button--underline"',
   text: 'Изменить пароль',
 });
@@ -169,12 +160,15 @@ const userInfo = new UserInfo({
     userPhone: '+7 (985) 123 - 45 - 44',
   }),
 });
+export class UserSettings extends Block<UserSettingsProps> {
+  constructor() {
+    super('div', {
+      userInfo,
+      form,
+    });
+  }
 
-const page = new UserSettings({
-  userInfo,
-  form,
-});
-
-const rootDiv = document.getElementById('root');
-
-renderDOM(rootDiv, page);
+  render() {
+    return this.compile(userSettingsTemplate, this.props);
+  }
+}

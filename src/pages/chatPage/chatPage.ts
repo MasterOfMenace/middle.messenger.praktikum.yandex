@@ -2,7 +2,7 @@ import Block from '../../components/block/Block';
 import {UserShortInfo} from '../../components/userShortInfo';
 import {UserInfo} from '../../components/userInfo';
 import {Avatar} from '../../components/avatar';
-import {formSubmitHandler, renderDOM} from '../../utils';
+import {formSubmitHandler} from '../../utils';
 import {ChatListItem} from '../../components/chatListItem';
 import {List} from '../../components/list';
 import {Message} from '../../components/message';
@@ -19,16 +19,6 @@ type Props = {
   messagesGroup: List;
   newMessage: NewMessage;
 };
-
-class ChatPage extends Block<Props> {
-  constructor(props: Props) {
-    super('div', props);
-  }
-
-  render() {
-    return this.compile(template, this.props);
-  }
-}
 
 const currentUser = new UserInfo({
   className: '"user-short-info"',
@@ -145,7 +135,7 @@ const newMessage = new NewMessage({
   },
 });
 
-const props = {
+const pageProps = {
   currentUser,
   chats,
   companion,
@@ -153,8 +143,12 @@ const props = {
   newMessage,
 };
 
-const page = new ChatPage(props);
+export class ChatPage extends Block<Props> {
+  constructor() {
+    super('div', pageProps);
+  }
 
-const rootDiv = document.getElementById('root');
-
-renderDOM(rootDiv, page);
+  render() {
+    return this.compile(template, this.props);
+  }
+}

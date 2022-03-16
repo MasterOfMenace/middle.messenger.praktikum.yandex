@@ -3,7 +3,7 @@ import Block, {EventType} from '../block/Block';
 import template from './link.tmpl';
 
 export type LinkProps = WithRouterProps & {
-  to: string;
+  to: string | number;
   text: string;
   className?: string;
   events?: Record<string, EventType>;

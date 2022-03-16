@@ -1,4 +1,4 @@
-import {formSubmitHandler, renderDOM} from '../../utils';
+import {formSubmitHandler} from '../../utils';
 import changePasswordTemplate from './changePassword.tmpl';
 import avatarSrc from '../../../static/images/avatar.jpg';
 import Block from '../../components/block/Block';
@@ -13,15 +13,6 @@ type Props = {
   userInfo: UserInfo;
   form: Form;
 };
-class ChangePasswordPage extends Block<Props> {
-  constructor(props: Props) {
-    super('div', props);
-  }
-
-  render() {
-    return this.compile(changePasswordTemplate, this.props);
-  }
-}
 
 const userInfo = new UserInfo({
   className: '"user-short-info"',
@@ -111,11 +102,15 @@ const form = new Form({
   },
 });
 
-const page = new ChangePasswordPage({
-  userInfo,
-  form,
-});
+export class ChangePasswordPage extends Block<Props> {
+  constructor() {
+    super('div', {
+      userInfo,
+      form,
+    });
+  }
 
-const rootDiv = document.getElementById('root');
-
-renderDOM(rootDiv, page);
+  render() {
+    return this.compile(changePasswordTemplate, this.props);
+  }
+}

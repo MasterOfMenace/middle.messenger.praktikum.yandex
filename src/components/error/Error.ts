@@ -1,5 +1,4 @@
 import Block from '../block/Block';
-import {Link} from '../link';
 import template from './error.tmpl';
 
 type ErrorProps = {
@@ -9,9 +8,7 @@ type ErrorProps = {
     code: string;
     description: string;
   };
-  children: {
-    link: Link;
-  };
+  children: Block;
 };
 
 export default class Error extends Block<ErrorProps> {
