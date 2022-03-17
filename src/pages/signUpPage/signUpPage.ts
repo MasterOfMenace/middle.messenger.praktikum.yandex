@@ -3,6 +3,7 @@ import {Button} from '../../components/button';
 import Form from '../../components/form/Form';
 import {Input} from '../../components/input';
 import {formSubmitHandler} from '../../utils';
+import {SignupPageController} from './signUpPage.controller';
 import signUpPageTmpl from './signUpPage.tmpl';
 
 type SignupPageProps = {
@@ -20,6 +21,9 @@ type SignupPageProps = {
 const firstNameInput = new Input({
   name: 'first_name',
   id: 'first_name',
+  dataSet: {
+    name: 'first-name',
+  },
   label: {
     text: 'Имя',
     className: 'input__label',
@@ -71,8 +75,8 @@ const emailInput = new Input({
 });
 
 const phoneInput = new Input({
-  name: 'email',
-  id: 'email',
+  name: 'phone',
+  id: 'phone',
   type: 'phone',
   label: {
     text: 'Телефон',
@@ -133,7 +137,20 @@ const form = new Form({
   ],
   events: {
     submit: {
-      event: (evt) => formSubmitHandler(evt),
+      event: (evt) => {
+        const formData = formSubmitHandler(evt);
+
+        if (formData) {
+          SignupPageController.signUp({
+            first_name: formData.first_name,
+            second_name: formData.second_name,
+            login: formData.login,
+            password: formData.password,
+            email: formData.email,
+            phone: formData.phone,
+          });
+        }
+      },
     },
     focus: {
       event: (evt) => {

@@ -5,7 +5,7 @@ export const STORE_EVENTS = {
   UPDATED: 'updated',
 };
 
-export class Store extends EventBus {
+class Store extends EventBus {
   private state: Indexed = {};
 
   public getState() {
@@ -17,3 +17,5 @@ export class Store extends EventBus {
     this.emit(STORE_EVENTS.UPDATED);
   }
 }
+
+export default new Store();

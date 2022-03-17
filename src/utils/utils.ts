@@ -7,7 +7,11 @@ export function getValueByPath<T extends Record<string, any>>(
   let result = object;
 
   for (const key of keys) {
-    result = result[key];
+    if (key in result) {
+      result = result[key];
+    } else {
+      return defaultValue;
+    }
 
     if (result === undefined && defaultValue) {
       return defaultValue;
@@ -30,13 +34,8 @@ export function formSubmitHandler(evt: Event) {
       formData[input.name] = input.value;
     }
   }
-  // eslint-disable-next-line no-console
-  console.log(formData);
+  return formData;
 }
-
-// function isObject(obj: unknown): obj is Record<string, unknown> {
-//   return typeof obj === 'object' && Boolean(obj);
-// }
 
 export function isObject(value: unknown): value is Indexed {
   return typeof value === 'object' && !Array.isArray(value) && value !== null;

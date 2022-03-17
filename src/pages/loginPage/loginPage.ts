@@ -5,6 +5,7 @@ import {Input} from '../../components/input';
 import {LinkWithRouter} from '../../components/link';
 import {formSubmitHandler} from '../../utils';
 import loginPageTemplate from './loginPage.tmpl';
+import {LoginPageController} from './loginPage.controller';
 
 type LoginPageProps = {
   link: Block;
@@ -48,7 +49,15 @@ const form = new Form({
   children: [login, password, submitBtn],
   events: {
     submit: {
-      event: (evt) => formSubmitHandler(evt),
+      event: (evt) => {
+        const formData = formSubmitHandler(evt);
+        if (formData) {
+          LoginPageController.login({
+            login: formData.login,
+            password: formData.password,
+          });
+        }
+      },
     },
     focus: {
       event: (evt) => {
