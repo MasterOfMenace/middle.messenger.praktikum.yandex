@@ -34,8 +34,12 @@ export function formSubmitHandler(evt: Event) {
   console.log(formData);
 }
 
-function isObject(obj: unknown): obj is Record<string, unknown> {
-  return typeof obj === 'object' && Boolean(obj);
+// function isObject(obj: unknown): obj is Record<string, unknown> {
+//   return typeof obj === 'object' && Boolean(obj);
+// }
+
+export function isObject(value: unknown): value is Indexed {
+  return typeof value === 'object' && !Array.isArray(value) && value !== null;
 }
 
 export function getDeepCopy<T>(object: T): T {
@@ -57,4 +61,47 @@ export function getDeepCopy<T>(object: T): T {
 
 export function isEqual<T>(lhs: T, rhs: T): boolean {
   return lhs === rhs;
+}
+
+export type Indexed<T = unknown> = {
+  [key in string]: T;
+};
+
+export function merge(lhs: Indexed, rhs: Indexed) {
+  if (!rhs) {
+    return lhs;
+  }
+
+  if (isObject(lhs) && isObject(rhs)) {
+    for (const key in rhs) {
+      if (isObject(rhs[key])) {
+        if (!lhs[key]) {
+          Object.assign(lhs, {[key]: {}});
+        }
+        merge(lhs[key] as Indexed, rhs[key] as Indexed);
+      } else {
+        Object.assign(lhs, {[key]: rhs[key]});
+      }
+    }
+  }
+
+  return lhs;
+}
+
+export function set(object: Indexed, path: string, value: unknown): Indexed {
+  if (!isObject(object)) {
+    return object;
+  }
+
+  if (typeof path !== 'string') {
+    throw new Error('path must be string');
+  }
+
+  const pathArr = path.split('.');
+  const assignable = pathArr.reduceRight<Indexed>((prev, curr) => {
+    return {
+      [curr]: prev,
+    };
+  }, value as any);
+  return merge(object, assignable);
 }
