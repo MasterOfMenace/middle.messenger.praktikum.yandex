@@ -1,4 +1,3 @@
-import store from '../../../store/Store';
 import HTTPTransport from '../../../utils/httpTransport';
 import {BaseApi} from '../BaseApi';
 
@@ -24,9 +23,6 @@ export class AuthApi extends BaseApi {
           'Content-Type': 'application/json',
         },
       })
-      .then(() => {
-        store.set('user.isLoggedIn', true);
-      })
       .catch((error) => {
         throw new Error(error);
       });
@@ -41,7 +37,15 @@ export class AuthApi extends BaseApi {
         },
       })
       .then((response) => {
-        store.set('user.id', response);
+        return JSON.parse(response as string);
       });
+  }
+
+  logout() {
+    return authHttpTransport.post('/auth/logout');
+  }
+
+  getUserData() {
+    return authHttpTransport.get('/auth/user').then((response) => JSON.parse(response as string));
   }
 }

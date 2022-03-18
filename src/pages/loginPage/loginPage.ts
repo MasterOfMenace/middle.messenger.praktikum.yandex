@@ -6,6 +6,7 @@ import {LinkWithRouter} from '../../components/link';
 import {formSubmitHandler} from '../../utils';
 import loginPageTemplate from './loginPage.tmpl';
 import {LoginPageController} from './loginPage.controller';
+import {AuthApi} from '../../api/baseApi/authApi/AuthApi';
 
 type LoginPageProps = {
   link: Block;
@@ -42,6 +43,21 @@ const submitBtn = new Button({
   type: 'submit',
   className: '"button button--solid"',
   text: 'Войти',
+});
+
+const authApi = new AuthApi();
+
+const logout = new Button({
+  type: 'button',
+  className: '"button button--solid"',
+  text: 'Выйти',
+  events: {
+    click: {
+      event: () => {
+        authApi.logout();
+      },
+    },
+  },
 });
 
 const form = new Form({
@@ -82,6 +98,7 @@ const link = new LinkWithRouter({
 const userProps = {
   form,
   link,
+  logout,
 };
 
 export class LoginPage extends Block<LoginPageProps> {

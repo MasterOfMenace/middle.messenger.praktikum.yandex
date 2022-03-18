@@ -47,19 +47,19 @@ export default class HTTPTransport {
     return `${this.baseUrl}${url}`;
   }
 
-  get = (url: string, options: Options) => {
+  get = (url: string, options?: Options) => {
     return this.request(this.getUrl(url), {...options, method: METHODS.GET}, options?.timeout);
   };
 
-  post = (url: string, options: Options) => {
+  post = (url: string, options?: Options) => {
     return this.request(this.getUrl(url), {...options, method: METHODS.POST}, options?.timeout);
   };
 
-  put = (url: string, options: Options) => {
+  put = (url: string, options?: Options) => {
     return this.request(this.getUrl(url), {...options, method: METHODS.PUT}, options?.timeout);
   };
 
-  delete = (url: string, options: Options) => {
+  delete = (url: string, options?: Options) => {
     return this.request(this.getUrl(url), {...options, method: METHODS.PUT}, options?.timeout);
   };
 
@@ -76,7 +76,9 @@ export default class HTTPTransport {
       const xhr = new XMLHttpRequest();
       xhr.open(method, url + params);
 
+      xhr.withCredentials = true;
       xhr.timeout = timeout;
+
       xhr.onload = () => {
         if (xhr.status === 200) {
           resolve(xhr.response);

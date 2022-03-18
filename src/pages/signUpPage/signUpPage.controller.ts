@@ -4,6 +4,6 @@ const authApi = new AuthApi();
 
 export class SignupPageController {
   public static signUp(data: UserDataSignUp) {
-    authApi.signUp(data);
+    authApi.signUp(data).then(() => authApi.getUserData());
   }
 }

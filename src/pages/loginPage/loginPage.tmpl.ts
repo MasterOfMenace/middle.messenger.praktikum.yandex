@@ -3,6 +3,7 @@ const template = `
     <section class="login-page__content">
       {{form}}
       {{link}}
+      {{logout}}
     </section>
   </main>
 `;
