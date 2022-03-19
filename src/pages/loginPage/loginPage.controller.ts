@@ -11,12 +11,10 @@ export class LoginPageController {
       .login(data)
       .then(() => authApi.getUserData())
       .then((response) => {
-        console.log(response);
         store.set('user', {
           ...response,
           isLoggedIn: true,
         });
-        console.log(store.getState());
         router.go('/user-settings');
       });
   }

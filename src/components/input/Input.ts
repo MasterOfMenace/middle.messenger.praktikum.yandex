@@ -4,6 +4,7 @@ import inputTemplate from './input.tmpl';
 export type InputProps = {
   className?: string;
   type?: 'text' | 'password' | 'email' | 'phone';
+  value?: string;
   name?: string;
   id?: string;
   controlClassName?: string;

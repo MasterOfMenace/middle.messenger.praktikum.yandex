@@ -1,6 +1,6 @@
 import {v4 as makeId} from 'uuid';
 import EventBus from '../eventBus/EventBus';
-import {getDeepCopy, Templator} from '../../utils';
+import {Templator} from '../../utils';
 
 export type Children = {
   [key: string]: Block | Block[];
@@ -229,7 +229,7 @@ class Block<T extends Props = Props> {
     return new Proxy(props, {
       set: (target, prop: string, value) => {
         // this здесь указывает на объект handler
-        const _target = getDeepCopy(props); // при setProps при использовании getDeepCopy происходит переполнение стека вызовов, разобраться с апдейтом компонентов
+        const _target = {...props};
         if (prop in target) {
           target[prop as keyof T] = value;
           this.eventBus.emit(Block.EVENTS.FLOW_CDU, _target, props);

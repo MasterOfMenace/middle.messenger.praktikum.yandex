@@ -9,7 +9,7 @@
   display: grid;
   align-items: center;
   justify-items: center;
-  background-color: #--light-gray-color;
+  background-color: var(--light-gray-color);
 }
 
 .user-settings-page__content {
@@ -45,4 +45,9 @@
   line-height: 18px;
   text-align: left;
   padding: 10px;
+}
+
+.user-settings-page__profile-wrapper {
+  display: grid;
+  gap: 20px;
 }

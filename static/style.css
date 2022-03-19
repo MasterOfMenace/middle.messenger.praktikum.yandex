@@ -14,6 +14,7 @@
 @import url('/src/styles/messages-list.css');
 @import url('/src/styles/message.css');
 @import url('/src/styles/new-message.css');
+@import url('/src/styles/user-profile.css');
 
 .main-page {
   width: 100%;

@@ -5,10 +5,11 @@ import {Button} from '../../components/button';
 import {LinkWithRouter} from '../../components/link';
 import {formSubmitHandler} from '../../utils';
 import userSettingsTemplate from './userSettings.tmpl';
-import avatarSrc from '../../../static/images/avatar.jpg';
 import {UserInfo} from '../../components/userInfo';
 import {Avatar} from '../../components/avatar';
 import {UserShortInfo} from '../../components/userShortInfo';
+import store, {STORE_EVENTS} from '../../store/Store';
+import {UserSettingsController} from './userSettings.controller';
 
 type UserSettingsProps = {
   userInfo: UserInfo;
@@ -16,6 +17,7 @@ type UserSettingsProps = {
 };
 
 const loginInput = new Input({
+  value: ' ',
   name: 'login',
   className: '"input input--oneline"',
   id: 'login',
@@ -31,11 +33,12 @@ const loginInput = new Input({
 });
 
 const displayNameInput = new Input({
+  value: ' ',
   name: 'display-name',
   className: '"input input--oneline"',
   id: 'display-name',
   label: {
-    text: 'Логин',
+    text: 'Имя в чате',
     className: 'input__label',
   },
   validationProps: {
@@ -46,6 +49,7 @@ const displayNameInput = new Input({
 });
 
 const emailInput = new Input({
+  value: ' ',
   name: 'email',
   id: 'email',
   className: '"input input--oneline"',
@@ -62,6 +66,7 @@ const emailInput = new Input({
 });
 
 const firstNameInput = new Input({
+  value: ' ',
   name: 'first_name',
   id: 'first_name',
   className: '"input input--oneline"',
@@ -75,6 +80,7 @@ const firstNameInput = new Input({
 });
 
 const secondNameInput = new Input({
+  value: ' ',
   name: 'second_name',
   id: 'second_name',
   className: '"input input--oneline"',
@@ -88,6 +94,7 @@ const secondNameInput = new Input({
 });
 
 const phoneInput = new Input({
+  value: ' ',
   name: 'email',
   id: 'email',
   className: '"input input--oneline"',
@@ -105,8 +112,8 @@ const phoneInput = new Input({
 
 const submitBtn = new Button({
   type: 'submit',
-  className: '"user-settings-page__edit-settings-button button button--underline"',
-  text: 'Редактировать',
+  className: '"button"',
+  text: 'Сохранить',
 });
 
 const linkToPasswordChange = new LinkWithRouter({
@@ -124,8 +131,8 @@ const form = new Form({
     firstNameInput,
     secondNameInput,
     phoneInput,
-    submitBtn,
     linkToPasswordChange,
+    submitBtn,
   ],
   events: {
     submit: {
@@ -148,7 +155,7 @@ const form = new Form({
 const userInfo = new UserInfo({
   className: '"user-short-info"',
   avatar: new Avatar({
-    avatarSrc,
+    avatarSrc: '',
     wrapperClassName: '"avatar"',
     imageClassName: '"avatar__image"',
   }),
@@ -160,12 +167,68 @@ const userInfo = new UserInfo({
     userPhone: '+7 (985) 123 - 45 - 44',
   }),
 });
+
+const getUserInfo = (state: any) => {
+  if ('user' in state) {
+    return {
+      name: state?.user?.first_name,
+      secondName: state?.user?.second_name,
+      displayName: state?.user?.display_name,
+      avatar: state?.user?.avatar,
+      login: state?.user?.login,
+      phone: state?.user?.phone,
+      email: state?.user?.email,
+    };
+  }
+  return undefined;
+};
 export class UserSettings extends Block<UserSettingsProps> {
   constructor() {
     super('div', {
       userInfo,
       form,
     });
+
+    store.subscribe(STORE_EVENTS.UPDATED, () => {
+      // вызываем обновление компонента, передав данные из хранилища
+      this.updateProps();
+    });
+
+    this.updateProps();
+  }
+
+  updateProps() {
+    const userData = getUserInfo(store.getState());
+
+    if (userData) {
+      this.props.userInfo.props.shortInfo.setProps({
+        userName: userData.name,
+        userPhone: userData.phone,
+      });
+      this.props.userInfo.props.avatar.setProps({
+        avatarSrc: userData.avatar,
+      });
+      loginInput.setProps({
+        value: userData.login,
+      });
+      displayNameInput.setProps({
+        value: userData.displayName,
+      });
+      emailInput.setProps({
+        value: userData.email,
+      });
+      firstNameInput.setProps({
+        value: userData.name,
+      });
+      secondNameInput.setProps({
+        value: userData.secondName,
+      });
+      phoneInput.setProps({
+        value: userData.phone,
+      });
+    } else {
+      UserSettingsController.getUserData();
+    }
   }
 
   render() {

@@ -1,0 +1,31 @@
+.user-profile {
+  list-style: none;
+  margin: 0;
+  width: 400px;
+  display: grid;
+  gap: 20px;
+  padding: 0;
+}
+
+.user-profile-item {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  border-bottom: 1px solid var(--dark-green-color);
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+}
+
+.user-profile-item__value {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+.user-profile-item__label {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  color: var(--label-color);
+}

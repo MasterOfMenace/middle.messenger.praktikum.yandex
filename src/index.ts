@@ -6,6 +6,7 @@ import {LoginPage} from './pages/loginPage/loginPage';
 import {MainPage} from './pages/mainPage/mainPage';
 import {SignupPage} from './pages/signUpPage/signUpPage';
 import {UserSettings} from './pages/userSettings/userSettings';
+import {UserSettingsShow} from './pages/userSettingsShow/userSettingsShow';
 import {Router} from './router';
 
 const router = Router.getInstance('#root');
@@ -14,7 +15,8 @@ router
   .use('/', MainPage)
   .use('/login', LoginPage)
   .use('/signup', SignupPage)
-  .use('/user-settings', UserSettings)
+  .use('/user-settings', UserSettingsShow)
+  .use('/user-settings/edit', UserSettings)
   .use('/change-password', ChangePasswordPage)
   .use('/chat', ChatPage)
   .use('/404', Error404)
