@@ -1,6 +1,6 @@
 const template = `
 <a href={{to}} class={{className}}>
-  {{text}}
+  {{children}}
 </a>`;
 
 export default template;

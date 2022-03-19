@@ -2,21 +2,16 @@ import Block from '../../components/block/Block';
 import {Button} from '../../components/button';
 import Form from '../../components/form/Form';
 import {Input} from '../../components/input';
+import {LinkWithRouter} from '../../components/link';
 import {formSubmitHandler} from '../../utils';
 import {SignupPageController} from './signUpPage.controller';
 import signUpPageTmpl from './signUpPage.tmpl';
 
 type SignupPageProps = {
-  // linkBack: Block;
+  linkBack: Block;
   title: string;
   form: Form;
 };
-
-// const linkBack = new LinkWithRouter({  //lдоработать чтобы ссылка могла рисовать внутри себя свг
-//   to: -1,
-//   className: '"user-settings-page__change-password button button--underline"',
-//   text: 'Назад',
-// });
 
 const firstNameInput = new Input({
   name: 'first_name',
@@ -123,6 +118,23 @@ const submitBtn = new Button({
   text: 'Войти',
 });
 
+const linkBack = new LinkWithRouter({
+  to: -1,
+  className: '"signup-page__go-back button button--transparent"',
+  children: `<svg
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M17.77 3.77L16 2L6 12L16 22L17.77 20.23L9.54 12L17.77 3.77Z"
+    fill="#0F484B"
+  />
+</svg>`,
+});
+
 const form = new Form({
   className: 'signup-form',
   children: [
@@ -171,6 +183,7 @@ export class SignupPage extends Block<SignupPageProps> {
     super('div', {
       title: 'Регистрация',
       form,
+      linkBack,
     });
   }
 

@@ -76,7 +76,7 @@ const form = new Form({
 const link = new LinkWithRouter({
   to: '/signup',
   className: '"button button--underline"',
-  text: 'У меня нет аккаунта',
+  children: 'У меня нет аккаунта',
 });
 
 const userProps = {

@@ -15,22 +15,22 @@ type UserSettingsProps = {
   linkToEdit: Block;
   linkToPassword: Block;
   logoutButton: Button;
+  linkBack: Block;
 };
 
 const linkToEditPage = new LinkWithRouter({
   to: '/user-settings/edit',
   className: '"user-settings-page__change-password button button--underline"',
-  text: 'Редактировать',
+  children: 'Редактировать',
 });
 
 const linkToPasswordChange = new LinkWithRouter({
   to: '/change-password',
   className: '"user-settings-page__change-password button button--underline"',
-  text: 'Изменить пароль',
+  children: 'Изменить пароль',
 });
 
 const logoutButton = new Button({
-  // to: '/change-password',
   type: 'button',
   className: '"user-settings-page__change-password button button--underline"',
   text: 'Выйти',
@@ -41,6 +41,21 @@ const logoutButton = new Button({
       },
     },
   },
+});
+
+const linkBack = new LinkWithRouter({
+  to: -1,
+  className: '"button button--round"',
+  children: `<svg
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M17.77 3.77L16 2L6 12L16 22L17.77 20.23L9.54 12L17.77 3.77Z"
+  />
+</svg>`,
 });
 
 const list = new UserProfile({
@@ -91,6 +106,7 @@ export class UserSettingsShow extends Block<UserSettingsProps> {
       linkToEdit: linkToEditPage,
       linkToPassword: linkToPasswordChange,
       logoutButton,
+      linkBack,
     });
 
     store.subscribe(STORE_EVENTS.UPDATED, () => {

@@ -4,7 +4,7 @@ import template from './link.tmpl';
 
 export type LinkProps = WithRouterProps & {
   to: string | number;
-  text: string;
+  children: string;
   className?: string;
   events?: Record<string, EventType>;
 };

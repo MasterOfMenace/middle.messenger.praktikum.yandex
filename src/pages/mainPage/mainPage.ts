@@ -15,12 +15,12 @@ const props: MainPageProps = {
   signInLink: new LinkWithRouter({
     to: '/login',
     className: 'button',
-    text: 'Войти',
+    children: 'Войти',
   }),
   signUpLink: new LinkWithRouter({
     to: '/signup',
     className: '"button button--underline"',
-    text: 'Зарегистрироваться',
+    children: 'Зарегистрироваться',
   }),
 };
 

@@ -11,7 +11,7 @@ const context = {
   },
   children: new LinkWithRouter({
     to: -1,
-    text: 'Назад к чатам',
+    children: 'Назад к чатам',
     className: '"button button--underline"',
   }),
 };
