@@ -1,20 +1,25 @@
-import {AuthApi} from '../../api/baseApi/authApi/AuthApi';
+import {AuthApi, UserDataSignUp} from '../../api/authApi/AuthApi';
+import {UserApi} from '../../api/userApi/UserApi';
 import store from '../../store/Store';
-import {Router} from '../../router';
 
 const authApi = new AuthApi();
-// const router = Router.getInstance('#root');
+const userApi = new UserApi();
 
 export class UserSettingsController {
   public static getUserData() {
     authApi.getUserData().then((response) => {
-      console.log(response);
       store.set('user', {
         ...response,
         isLoggedIn: true,
       });
-      console.log(store.getState());
-      // router.go('/user-settings');
+    });
+  }
+
+  public static updateUser(userData: UserDataSignUp) {
+    userApi.update(userData).then((response) => {
+      store.set('user', {
+        ...response,
+      });
     });
   }
 }

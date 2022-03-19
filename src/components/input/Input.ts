@@ -26,6 +26,7 @@ export type InputProps = {
 export default class Input extends Block<InputProps> {
   constructor(props: InputProps) {
     const defaultProps: Partial<InputProps> = {
+      value: '',
       className: 'input',
       label: {
         text: ' ',

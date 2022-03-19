@@ -71,13 +71,13 @@ const userInfo = new UserInfo({
 const getUserInfo = (state: any) => {
   if ('user' in state) {
     return {
-      name: state?.user?.first_name,
-      secondName: state?.user?.second_name,
-      displayName: state?.user?.display_name,
-      avatar: state?.user?.avatar,
-      login: state?.user?.login,
-      phone: state?.user?.phone,
-      email: state?.user?.email,
+      name: state?.user?.first_name ?? '',
+      secondName: state?.user?.second_name ?? '',
+      displayName: state?.user?.display_name ?? '',
+      avatar: state?.user?.avatar ?? '',
+      login: state?.user?.login ?? '',
+      phone: state?.user?.phone ?? '',
+      email: state?.user?.email ?? '',
     };
   }
   return undefined;

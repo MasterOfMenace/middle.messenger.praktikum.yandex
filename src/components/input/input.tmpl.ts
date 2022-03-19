@@ -1,8 +1,18 @@
 const template = `
   <label class={{className}}>
     <p class={{label.className}}>{{label.text}}</p>
-    <input class={{controlClassName}} type={{type}} name={{name}} id={{id}} data-name={{dataSet.name}} value={{value}} minLength={{validationProps.minLength}}
-      maxLength={{validationProps.maxLength}} required={{validationProps.required}} />
+    <input
+      value="{{value}}"
+      class={{controlClassName}}
+      type={{type}}
+      name={{name}}
+      id={{id}}
+      data-name={{dataSet.name}}
+      minLength={{validationProps.minLength}}
+      maxLength={{validationProps.maxLength}}
+      required={{validationProps.required}}
+      placeholder="Введите значение"
+    />
   </label>`;
 
 export default template;

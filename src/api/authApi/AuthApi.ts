@@ -1,5 +1,5 @@
-import HTTPTransport from '../../../utils/httpTransport';
-import {BaseApi} from '../BaseApi';
+import HTTPTransport from '../../utils/httpTransport';
+import {BaseApi} from '../baseApi/BaseApi';
 
 export type UserDataSignUp = {
   first_name: string;

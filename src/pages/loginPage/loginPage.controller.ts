@@ -1,6 +1,6 @@
-import {AuthApi} from '../../api/baseApi/authApi/AuthApi';
-import store from '../../store/Store';
+import {AuthApi} from '../../api/authApi/AuthApi';
 import {Router} from '../../router';
+import store from '../../store/Store';
 
 const authApi = new AuthApi();
 const router = Router.getInstance('#root');

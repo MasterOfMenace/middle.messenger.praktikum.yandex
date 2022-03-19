@@ -10,6 +10,7 @@ import {Avatar} from '../../components/avatar';
 import {UserShortInfo} from '../../components/userShortInfo';
 import store, {STORE_EVENTS} from '../../store/Store';
 import {UserSettingsController} from './userSettings.controller';
+import {UserDataSignUp} from '../../api/authApi/AuthApi';
 
 type UserSettingsProps = {
   userInfo: UserInfo;
@@ -17,7 +18,7 @@ type UserSettingsProps = {
 };
 
 const loginInput = new Input({
-  value: ' ',
+  value: '',
   name: 'login',
   className: '"input input--oneline"',
   id: 'login',
@@ -33,8 +34,8 @@ const loginInput = new Input({
 });
 
 const displayNameInput = new Input({
-  value: ' ',
-  name: 'display-name',
+  value: '',
+  name: 'display_name',
   className: '"input input--oneline"',
   id: 'display-name',
   label: {
@@ -49,7 +50,7 @@ const displayNameInput = new Input({
 });
 
 const emailInput = new Input({
-  value: ' ',
+  value: '',
   name: 'email',
   id: 'email',
   className: '"input input--oneline"',
@@ -66,7 +67,7 @@ const emailInput = new Input({
 });
 
 const firstNameInput = new Input({
-  value: ' ',
+  value: '',
   name: 'first_name',
   id: 'first_name',
   className: '"input input--oneline"',
@@ -80,7 +81,7 @@ const firstNameInput = new Input({
 });
 
 const secondNameInput = new Input({
-  value: ' ',
+  value: '',
   name: 'second_name',
   id: 'second_name',
   className: '"input input--oneline"',
@@ -94,9 +95,9 @@ const secondNameInput = new Input({
 });
 
 const phoneInput = new Input({
-  value: ' ',
-  name: 'email',
-  id: 'email',
+  value: '',
+  name: 'phone',
+  id: 'phone',
   className: '"input input--oneline"',
   type: 'phone',
   label: {
@@ -136,7 +137,10 @@ const form = new Form({
   ],
   events: {
     submit: {
-      event: (evt) => formSubmitHandler(evt),
+      event: (evt) => {
+        const formData = formSubmitHandler(evt);
+        UserSettingsController.updateUser(formData as UserDataSignUp);
+      },
     },
     focus: {
       event: (evt) => {
@@ -171,13 +175,13 @@ const userInfo = new UserInfo({
 const getUserInfo = (state: any) => {
   if ('user' in state) {
     return {
-      name: state?.user?.first_name,
-      secondName: state?.user?.second_name,
-      displayName: state?.user?.display_name,
-      avatar: state?.user?.avatar,
-      login: state?.user?.login,
-      phone: state?.user?.phone,
-      email: state?.user?.email,
+      name: state?.user?.first_name ?? '',
+      secondName: state?.user?.second_name ?? '',
+      displayName: state?.user?.display_name ?? '',
+      avatar: state?.user?.avatar ?? '',
+      login: state?.user?.login ?? '',
+      phone: state?.user?.phone ?? '',
+      email: state?.user?.email ?? '',
     };
   }
   return undefined;
@@ -190,7 +194,6 @@ export class UserSettings extends Block<UserSettingsProps> {
     });
 
     store.subscribe(STORE_EVENTS.UPDATED, () => {
-      // вызываем обновление компонента, передав данные из хранилища
       this.updateProps();
     });
 

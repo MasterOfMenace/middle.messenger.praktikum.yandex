@@ -1,4 +1,4 @@
-import {AuthApi, UserDataSignUp} from '../../api/baseApi/authApi/AuthApi';
+import {AuthApi, UserDataSignUp} from '../../api/authApi/AuthApi';
 
 const authApi = new AuthApi();
 
