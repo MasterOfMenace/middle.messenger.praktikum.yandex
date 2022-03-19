@@ -7,7 +7,7 @@ export type WithRouterProps = {
 
 export type ExcludeRouterProps<T extends Props> = Omit<T, 'router'>;
 
-type Constructor<T = object> = new (...args: any[]) => T; // https://www.typescriptlang.org/docs/handbook/mixins.htm
+export type Constructor<T = object> = new (...args: any[]) => T; // https://www.typescriptlang.org/docs/handbook/mixins.htm
 
 export function withRouter<P extends Props, T extends Constructor = Constructor>(Component: T) {
   // пришлось сменить в пропсах страниц где ожидалась ссылка тип на блок
