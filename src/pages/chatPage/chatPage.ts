@@ -2,7 +2,7 @@ import Block from '../../components/block/Block';
 import {UserShortInfo} from '../../components/userShortInfo';
 import {UserInfo} from '../../components/userInfo';
 import {Avatar} from '../../components/avatar';
-import {formSubmitHandler} from '../../utils';
+import {formSubmitHandler, isEqual} from '../../utils';
 import {List} from '../../components/list';
 import {Message} from '../../components/message';
 import {MessageGroup} from '../../components/messageGroup';
@@ -15,28 +15,22 @@ import store, {STORE_EVENTS} from '../../store/Store';
 import {ChatList} from '../../components/chatList/ChatList';
 
 type Props = {
-  currentUser: UserInfo;
+  currentUser: {
+    id: number;
+    first_name: string;
+    second_name: string;
+    display_name: string;
+    login: string;
+    avatar: string;
+    email: string;
+    phone: string;
+  };
   chats: any[];
+  currentChat: number | null;
   companion: UserInfo;
   messagesGroup: List;
   newMessage: NewMessage;
 };
-
-const currentUser = new UserInfo({
-  className: '"user-short-info"',
-  avatar: new Avatar({
-    avatarSrc,
-    wrapperClassName: '"avatar"',
-    imageClassName: '"avatar__image"',
-  }),
-  shortInfo: new UserShortInfo({
-    className: '"user-short-info__user-info"',
-    userNameClass: '"user-short-info__user-name"',
-    userPhoneClass: '"user-short-info__user-phone"',
-    userName: 'Snoop Dogg',
-    userPhone: '+7 (985) 123 - 45 - 44',
-  }),
-});
 
 const companion = new UserInfo({
   className: '"user-short-info user-short-info--companion"',
@@ -118,9 +112,19 @@ const newMessage = new NewMessage({
   },
 });
 
-const pageProps = {
-  currentUser,
+const pageProps: Props = {
+  currentUser: {
+    id: 380551,
+    first_name: 'Иван',
+    second_name: '',
+    avatar: avatarSrc,
+    display_name: '',
+    login: 'iivan',
+    email: 'ivan@post.ip',
+    phone: '89123456789',
+  },
   chats: [],
+  currentChat: null,
   companion,
   messagesGroup,
   newMessage,
@@ -133,15 +137,59 @@ export class ChatPage extends Block<Props> {
     store.subscribe(STORE_EVENTS.UPDATED, () => {
       this.setProps({
         chats: store.getState().chats ?? [],
+        currentChat: store.getState().currentChat,
+        currentUser: store.getState().user ?? {},
       });
     });
-    ChatPageController.getChats();
+    ChatPageController.initChatPage();
+  }
+
+  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+    if (!isEqual(oldProps.currentUser, newProps.currentUser)) {
+      this.setProps({
+        currentUser: newProps.currentUser,
+      });
+    }
+
+    if (!isEqual(oldProps.chats, newProps.chats)) {
+      this.setProps({
+        chats: newProps.chats,
+      });
+    }
+
+    if (oldProps.currentChat !== newProps.currentChat) {
+      this.setProps({
+        currentChat: newProps.currentChat,
+      });
+    }
+    return true;
   }
 
   render() {
     this.children.chats = new ChatList({
       chatsList: this.props.chats,
+      onChatSelect: (chatId) => {
+        ChatPageController.changeChat(chatId);
+      },
+      currentChat: this.props.currentChat,
     });
+
+    this.children.currentUser = new UserInfo({
+      className: '"user-short-info"',
+      avatar: new Avatar({
+        avatarSrc: this.props.currentUser.avatar,
+        wrapperClassName: '"avatar"',
+        imageClassName: '"avatar__image"',
+      }),
+      shortInfo: new UserShortInfo({
+        className: '"user-short-info__user-info"',
+        userNameClass: '"user-short-info__user-name"',
+        userPhoneClass: '"user-short-info__user-phone"',
+        userName: this.props.currentUser.first_name,
+        userPhone: this.props.currentUser.phone,
+      }),
+    });
+
     return this.compile(template, {
       ...this.props,
       chats: this.children.chats,

@@ -1,5 +1,5 @@
 const template = `
-  <li class="chat-list__item">
+  <li class="chat-list__item {{currentClass}}" data-chatid={{id}}>
     {{avatar}}
     <div class="short-message">
       <div class="short-message__user">

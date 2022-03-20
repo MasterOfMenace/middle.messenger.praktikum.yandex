@@ -44,7 +44,7 @@ const logoutButton = new Button({
 });
 
 const linkBack = new LinkWithRouter({
-  to: -1,
+  to: '/chat',
   className: '"button button--round"',
   children: `<svg
   width="24"

@@ -41,6 +41,8 @@ export type Chat = {
 
 type Props = {
   chatsList: Chat[];
+  currentChat: number | null;
+  onChatSelect: (chatId: number) => void;
 };
 
 export class ChatList extends Block<Props> {
@@ -53,6 +55,8 @@ export class ChatList extends Block<Props> {
       // разобраться как сделать так чтобы объявлять childrens в конструкторе
       (chat) =>
         new ChatListItem({
+          currentChat: this.props.currentChat,
+          id: chat.id,
           avatar: new Avatar({
             avatarSrc: chat.avatar,
             wrapperClassName: '"avatar avatar--message"',
@@ -60,6 +64,13 @@ export class ChatList extends Block<Props> {
           userName: chat.last_message.user.first_name,
           messageTime: chat.last_message.time,
           message: chat.last_message.content,
+          events: {
+            click: {
+              event: (id: number) => {
+                this.props.onChatSelect(id);
+              },
+            },
+          },
         }),
     );
 

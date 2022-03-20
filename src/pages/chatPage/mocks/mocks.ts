@@ -36,8 +36,8 @@ export const mockMessageData = [
   },
 ];
 
-export const mockChatsListData: Chat[] = new Array(20).fill(1).map(() => ({
-  id: 123,
+export const mockChatsListData: Chat[] = new Array(20).fill(1).map((_, index) => ({
+  id: 123 + index,
   title: 'my-chat',
   avatar: avatarSrc,
   unread_count: 15,
