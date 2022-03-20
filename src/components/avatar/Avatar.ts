@@ -3,13 +3,17 @@ import template from './avatar.tmpl';
 
 type AvatarProps = {
   avatarSrc: string;
-  wrapperClassName: string;
-  imageClassName: string;
+  wrapperClassName?: string;
+  imageClassName?: string;
 };
 
 export default class Avatar extends Block<AvatarProps> {
   constructor(props: AvatarProps) {
-    super('div', props);
+    const defaultProps: Partial<AvatarProps> = {
+      wrapperClassName: 'avatar',
+      imageClassName: '"avatar__image"',
+    };
+    super('div', {...defaultProps, ...props});
 
     if (!this.props.avatarSrc) {
       this.setProps({

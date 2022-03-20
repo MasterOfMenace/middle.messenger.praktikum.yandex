@@ -1,4 +1,5 @@
 import avatarSrc from '../../../../static/images/avatar.jpg';
+import {Chat} from '../../../components/chatList/ChatList';
 
 export const mockChatData = {
   wrapperClassName: '"avatar avatar--message"',
@@ -34,3 +35,22 @@ export const mockMessageData = [
     },
   },
 ];
+
+export const mockChatsListData: Chat[] = new Array(20).fill(1).map(() => ({
+  id: 123,
+  title: 'my-chat',
+  avatar: avatarSrc,
+  unread_count: 15,
+  last_message: {
+    user: {
+      first_name: mockChatData.userName,
+      second_name: 'Pupkin',
+      avatar: '/path/to/avatar.jpg',
+      email: 'my@email.com',
+      login: 'userLogin',
+      phone: '8(911)-222-33-22',
+    },
+    time: mockChatData.messageTime,
+    content: mockChatData.message,
+  },
+}));

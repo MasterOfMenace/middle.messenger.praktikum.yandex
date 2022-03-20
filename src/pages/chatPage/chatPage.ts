@@ -3,18 +3,20 @@ import {UserShortInfo} from '../../components/userShortInfo';
 import {UserInfo} from '../../components/userInfo';
 import {Avatar} from '../../components/avatar';
 import {formSubmitHandler} from '../../utils';
-import {ChatListItem} from '../../components/chatListItem';
 import {List} from '../../components/list';
 import {Message} from '../../components/message';
 import {MessageGroup} from '../../components/messageGroup';
 import {NewMessage} from '../../components/newMessage';
-import {mockChatData, mockMessageData} from './mocks/mocks';
+import {mockMessageData} from './mocks/mocks';
 import template from './chatPage.tmpl';
 import avatarSrc from '../../../static/images/avatar.jpg';
+import {ChatPageController} from './chatPage.controller';
+import store, {STORE_EVENTS} from '../../store/Store';
+import {ChatList} from '../../components/chatList/ChatList';
 
 type Props = {
   currentUser: UserInfo;
-  chats: List;
+  chats: any[];
   companion: UserInfo;
   messagesGroup: List;
   newMessage: NewMessage;
@@ -50,25 +52,6 @@ const companion = new UserInfo({
     userName: 'Алексей',
     userPhone: '+7 (985) 123 - 45 - 44',
   }),
-});
-
-const chatsData = new Array(6).fill(1).map(
-  () =>
-    new ChatListItem({
-      avatar: new Avatar({
-        avatarSrc,
-        wrapperClassName: mockChatData.wrapperClassName,
-        imageClassName: mockChatData.imageClassName,
-      }),
-      userName: mockChatData.userName,
-      messageTime: mockChatData.messageTime,
-      message: mockChatData.message,
-    }),
-);
-
-const chats = new List({
-  className: 'chat-list',
-  items: chatsData,
 });
 
 const messagesGroupData = [
@@ -137,7 +120,7 @@ const newMessage = new NewMessage({
 
 const pageProps = {
   currentUser,
-  chats,
+  chats: [],
   companion,
   messagesGroup,
   newMessage,
@@ -146,9 +129,22 @@ const pageProps = {
 export class ChatPage extends Block<Props> {
   constructor() {
     super('div', pageProps);
+
+    store.subscribe(STORE_EVENTS.UPDATED, () => {
+      this.setProps({
+        chats: store.getState().chats ?? [],
+      });
+    });
+    ChatPageController.getChats();
   }
 
   render() {
-    return this.compile(template, this.props);
+    this.children.chats = new ChatList({
+      chatsList: this.props.chats,
+    });
+    return this.compile(template, {
+      ...this.props,
+      chats: this.children.chats,
+    });
   }
 }

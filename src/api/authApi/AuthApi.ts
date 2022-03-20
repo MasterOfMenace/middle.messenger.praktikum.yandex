@@ -1,3 +1,4 @@
+import {BASE_URL} from '../../constants/constants';
 import HTTPTransport from '../../utils/httpTransport';
 import {BaseApi} from '../baseApi/BaseApi';
 
@@ -10,9 +11,7 @@ export type UserDataSignUp = {
   phone: string;
 };
 
-const baseUrl = 'https://ya-praktikum.tech/api/v2';
-
-const authHttpTransport = new HTTPTransport(baseUrl);
+const authHttpTransport = new HTTPTransport(BASE_URL);
 
 export class AuthApi extends BaseApi {
   login(data: {login: string; password: string}) {

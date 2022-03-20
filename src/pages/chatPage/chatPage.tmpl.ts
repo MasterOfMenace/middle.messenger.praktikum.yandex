@@ -6,9 +6,7 @@ const template = `
       </div>
       <!-- add-user-icon -->
       <input type="text" class="input input--search" placeholder="Поиск" />
-      <div class="recent-chats">
-        {{chats}}
-      </div>
+      {{chats}}
     </aside>
     <main class="chat">
       <!-- user-info  -->

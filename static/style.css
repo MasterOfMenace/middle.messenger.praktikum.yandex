@@ -15,6 +15,7 @@
 @import url('/src/styles/message.css');
 @import url('/src/styles/new-message.css');
 @import url('/src/styles/user-profile.css');
+@import url('/src/styles/chat-page.css');
 
 .main-page {
   width: 100%;
@@ -47,37 +48,10 @@
   text-align: center;
 }
 
-.chat-page {
-  padding-top: 30px;
-  display: grid;
-  grid-template-columns: 420px auto;
-}
-
-.chat {
-  padding-right: 130px;
-  padding-left: 45px;
-  border-left: 1px solid var(--chat-border-color);
-  display: grid;
-  grid-template-rows: 91px 450px 130px;
-}
-
 .chat__user-info {
   box-sizing: border-box;
   padding-bottom: 40px;
   border-bottom: 1px solid var(--chat-border-color);
-}
-
-.left-menu {
-  padding-left: 90px;
-  padding-right: 50px;
-  box-sizing: border-box;
-  display: grid;
-  gap: 10px;
-}
-
-.left-menu__current-user-info {
-  border-bottom: 1px solid var(--chat-border-color);
-  padding-bottom: 5px;
 }
 
 .messages-by-date {

@@ -189,16 +189,17 @@ class Block<T extends Props = Props> {
     return this._element;
   }
 
-  compile(template: string, props: T) {
-    const propsWithStubs: T = {...props};
+  compile(template: string, props: Record<string, any>) {
+    const propsWithStubs = {...props};
 
     Object.entries(this.children).forEach(([key, child]: [keyof T, Block | Block[]]) => {
       if (Array.isArray(child)) {
-        propsWithStubs[key] = child
+        propsWithStubs[key as keyof Record<string, any>] = child
           .map((childItem) => `<div data-id="${childItem._id}"></div>`)
           .join(' ') as T[keyof T];
       } else {
-        propsWithStubs[key] = `<div data-id="${child._id}"></div>` as T[keyof T];
+        propsWithStubs[key as keyof Record<string, any>] =
+          `<div data-id="${child._id}"></div>` as T[keyof T];
       }
     });
 

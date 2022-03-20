@@ -15,7 +15,7 @@ export class LoginPageController {
           ...response,
           isLoggedIn: true,
         });
-        router.go('/user-settings');
+        router.go('/chat');
       });
   }
 }
