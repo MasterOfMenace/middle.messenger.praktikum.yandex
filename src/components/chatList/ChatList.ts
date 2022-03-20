@@ -27,7 +27,7 @@ import template from './chatlist.tmpl';
 ]
 */
 
-export type Chat = {
+export type ChatShortInfo = {
   id: number;
   title: string;
   avatar: string;
@@ -40,7 +40,7 @@ export type Chat = {
 };
 
 type Props = {
-  chatsList: Chat[];
+  chatsList: ChatShortInfo[];
   currentChat: number | null;
   onChatSelect: (chatId: number) => void;
 };
@@ -61,9 +61,9 @@ export class ChatList extends Block<Props> {
             avatarSrc: chat.avatar,
             wrapperClassName: '"avatar avatar--message"',
           }),
-          userName: chat.last_message.user.first_name,
-          messageTime: chat.last_message.time,
-          message: chat.last_message.content,
+          userName: chat.last_message?.user?.first_name,
+          messageTime: chat.last_message?.time,
+          message: chat.last_message?.content,
           events: {
             click: {
               event: (id: number) => {

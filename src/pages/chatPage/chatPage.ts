@@ -2,17 +2,17 @@ import Block from '../../components/block/Block';
 import {UserShortInfo} from '../../components/userShortInfo';
 import {UserInfo} from '../../components/userInfo';
 import {Avatar} from '../../components/avatar';
-import {formSubmitHandler, isEqual} from '../../utils';
+import {isEqual} from '../../utils';
 import {List} from '../../components/list';
 import {Message} from '../../components/message';
-import {MessageGroup} from '../../components/messageGroup';
-import {NewMessage} from '../../components/newMessage';
 import {mockMessageData} from './mocks/mocks';
 import template from './chatPage.tmpl';
 import avatarSrc from '../../../static/images/avatar.jpg';
 import {ChatPageController} from './chatPage.controller';
 import store, {STORE_EVENTS} from '../../store/Store';
-import {ChatList} from '../../components/chatList/ChatList';
+import {ChatShortInfo, ChatList} from '../../components/chatList/ChatList';
+import {Chat} from '../../components/chat/Chat';
+import {EmptyChat} from '../../components/emptyChat/EmptyChat';
 
 type Props = {
   currentUser: {
@@ -25,28 +25,20 @@ type Props = {
     email: string;
     phone: string;
   };
-  chats: any[];
+  chats: ChatShortInfo[];
   currentChat: number | null;
-  companion: UserInfo;
-  messagesGroup: List;
-  newMessage: NewMessage;
+  companion: {
+    id: number;
+    first_name: string;
+    second_name: string;
+    display_name: string;
+    login: string;
+    avatar: string;
+    email: string;
+    phone: string;
+  };
+  messagesGroup: any[];
 };
-
-const companion = new UserInfo({
-  className: '"user-short-info user-short-info--companion"',
-  avatar: new Avatar({
-    avatarSrc,
-    wrapperClassName: '"avatar avatar--message"',
-    imageClassName: '"avatar__image"',
-  }),
-  shortInfo: new UserShortInfo({
-    className: '"user-short-info__user-info"',
-    userNameClass: '"user-short-info__user-name"',
-    userPhoneClass: '"user-short-info__user-phone"',
-    userName: 'Алексей',
-    userPhone: '+7 (985) 123 - 45 - 44',
-  }),
-});
 
 const messagesGroupData = [
   {
@@ -83,35 +75,6 @@ const messagesGroupData = [
   },
 ];
 
-const messagesGroup = new List({
-  className: 'messages',
-  items: messagesGroupData.map((item) => {
-    return new MessageGroup({
-      date: item.date,
-      messages: item.messages,
-    });
-  }),
-});
-
-const newMessage = new NewMessage({
-  events: {
-    submit: {
-      event: (evt) => formSubmitHandler(evt),
-    },
-    focus: {
-      event: (evt) => {
-        const target = evt.target as HTMLInputElement;
-        const isValid = target.checkValidity();
-
-        if (!isValid) {
-          target.reportValidity();
-        }
-      },
-      useCapture: true,
-    },
-  },
-});
-
 const pageProps: Props = {
   currentUser: {
     id: 380551,
@@ -125,9 +88,17 @@ const pageProps: Props = {
   },
   chats: [],
   currentChat: null,
-  companion,
-  messagesGroup,
-  newMessage,
+  companion: {
+    id: 380551,
+    first_name: 'Иван',
+    second_name: '',
+    avatar: avatarSrc,
+    display_name: '',
+    login: 'iivan',
+    email: 'ivan@post.ip',
+    phone: '89123456789',
+  },
+  messagesGroup: [],
 };
 
 export class ChatPage extends Block<Props> {
@@ -139,6 +110,7 @@ export class ChatPage extends Block<Props> {
         chats: store.getState().chats ?? [],
         currentChat: store.getState().currentChat,
         currentUser: store.getState().user ?? {},
+        messagesGroup: messagesGroupData,
       });
     });
     ChatPageController.initChatPage();
@@ -190,9 +162,21 @@ export class ChatPage extends Block<Props> {
       }),
     });
 
+    if (!this.props.currentChat) {
+      this.children.chat = new EmptyChat({
+        message: 'Чтобы начать общение выберите чат или создайте новый',
+      });
+    } else {
+      this.children.chat = new Chat({
+        messages: this.props.messagesGroup,
+        companionInfo: this.props.companion,
+      });
+    }
+
     return this.compile(template, {
       ...this.props,
       chats: this.children.chats,
+      chat: this.children.chat,
     });
   }
 }

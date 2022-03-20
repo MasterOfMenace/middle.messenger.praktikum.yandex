@@ -30,10 +30,17 @@
   overflow: auto;
 }
 
+.chat--empty {
+  grid-template-rows: unset;
+  align-items: center;
+  justify-content: center;
+}
+
 .recent-chats {
   margin: 0;
   padding: 0;
   display: grid;
   gap: 10px;
   overflow: auto;
+  grid-auto-rows: max-content;
 }

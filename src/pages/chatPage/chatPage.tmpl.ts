@@ -8,14 +8,7 @@ const template = `
       <input type="text" class="input input--search" placeholder="Поиск" />
       {{chats}}
     </aside>
-    <main class="chat">
-      <!-- user-info  -->
-      <div class="chat__user-info">
-        {{companion}}
-      </div>
-      {{messagesGroup}}
-      {{newMessage}}
-    </main>
+    {{chat}}
   </div>`;
 
 export default template;

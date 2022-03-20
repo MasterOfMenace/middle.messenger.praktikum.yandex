@@ -17,8 +17,8 @@ export class ChatPageController {
   }
 
   public static getChats(data?: {offset?: number; limit?: number; title?: string}) {
-    // chatsApi.getChats(data).then((response) => store.set('chats', response));
-    store.set('chats', mockChatsListData);
+    chatsApi.getChats(data).then((response) => store.set('chats', response));
+    // store.set('chats', mockChatsListData);
   }
 
   public static changeChat(chatId: number) {
