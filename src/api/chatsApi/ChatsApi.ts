@@ -18,4 +18,18 @@ export class ChatsApi extends BaseApi {
         throw new Error(error);
       });
   }
+
+  getChatToken(chatId: number) {
+    return chatHttpTransport.post(`/chats/token/${chatId}`).then((response) => {
+      console.log('chat token received response', response);
+      return JSON.parse(response as string).token;
+    });
+  }
+
+  getMessagesCount(chatId: number) {
+    return chatHttpTransport.get(`/chats/new/${chatId}`).then((response) => {
+      console.log('messages count received response', response);
+      return JSON.parse(response as string);
+    });
+  }
 }

@@ -2,6 +2,7 @@ import {formSubmitHandler} from '../../utils';
 import {Avatar} from '../avatar';
 import Block from '../block/Block';
 import {List} from '../list';
+import {Message} from '../message';
 import {MessageGroup} from '../messageGroup';
 import {NewMessage} from '../newMessage';
 import {UserInfo} from '../userInfo';
@@ -9,7 +10,8 @@ import {UserShortInfo} from '../userShortInfo';
 import template from './chat.tmpl';
 
 type ChatProps = {
-  messages: any[];
+  // messages: any[];
+  messages: ChatMessage[];
   companionInfo: {
     id: number;
     first_name: string;
@@ -20,7 +22,49 @@ type ChatProps = {
     email: string;
     phone: string;
   };
+  onSendMessage: (message: string) => void;
 };
+
+export type ChatMessage = {
+  id: number;
+  is_read: boolean;
+  chat_id: number;
+  time: string;
+  type: string;
+  user_id: string | number;
+  content: string;
+  file?: ChatFile | null;
+};
+
+type ChatFile = {
+  id: number;
+  user_id: number;
+  path: string;
+  filename: string;
+  content_type: string;
+  content_size: number;
+  upload_date: string;
+};
+
+/*
+    структура сообщения
+    {
+      chat_id: "number",
+      time: "string",
+      type: "string",
+      user_id: "string",
+      content: "string",
+      file?: {
+          id: "number",
+          user_id: "number",
+          path: "string",
+          filename: "string",
+          content_type: "string",
+          content_size: "number",
+          upload_date: "string",
+      }
+  },
+    */
 
 export class Chat extends Block<ChatProps> {
   constructor(props: ChatProps) {
@@ -31,28 +75,38 @@ export class Chat extends Block<ChatProps> {
     this.children.newMessage = new NewMessage({
       events: {
         submit: {
-          event: (evt) => formSubmitHandler(evt),
-        },
-        focus: {
           event: (evt) => {
-            const target = evt.target as HTMLInputElement;
-            const isValid = target.checkValidity();
-
-            if (!isValid) {
-              target.reportValidity();
-            }
+            const {message} = formSubmitHandler(evt);
+            this.props.onSendMessage(message);
           },
-          useCapture: true,
         },
       },
     });
 
+    // пробую сделать сначала просто вывод сообщений, потом группировку по дате
+
+    // this.children.messagesGroup = new List({
+    //   className: 'messages',
+    //   items: this.props.messages.map((item) => {
+    //     return new MessageGroup({
+    //       date: item.date,
+    //       messages: item.messages,
+    //     });
+    //   }),
+    // });
+
     this.children.messagesGroup = new List({
       className: 'messages',
       items: this.props.messages.map((item) => {
-        return new MessageGroup({
-          date: item.date,
-          messages: item.messages,
+        return new Message({
+          // avatar: new Avatar({
+          //   ...message.avatar,
+          // }),
+          message: {
+            text: item.content,
+            time: item.time,
+          },
+          // className: item.className,
         });
       }),
     });

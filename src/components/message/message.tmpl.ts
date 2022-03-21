@@ -1,5 +1,5 @@
 const template = `
-<li class={{className}}>
+<li class="messages-list__item message">
   {{avatar}}
   <div class="message__message">
     <p class="message__text">

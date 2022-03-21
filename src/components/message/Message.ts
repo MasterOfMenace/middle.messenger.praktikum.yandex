@@ -3,8 +3,8 @@ import Block from '../block/Block';
 import template from './message.tmpl';
 
 type Props = {
-  className: string;
-  avatar: Avatar;
+  // className?: string;
+  avatar?: Avatar;
   message: {
     text: string;
     time: string;

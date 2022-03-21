@@ -3,15 +3,15 @@ import {UserShortInfo} from '../../components/userShortInfo';
 import {UserInfo} from '../../components/userInfo';
 import {Avatar} from '../../components/avatar';
 import {isEqual} from '../../utils';
-import {List} from '../../components/list';
-import {Message} from '../../components/message';
-import {mockMessageData} from './mocks/mocks';
+// import {List} from '../../components/list';
+// import {Message} from '../../components/message';
+// import {mockMessageData} from './mocks/mocks';
 import template from './chatPage.tmpl';
 import avatarSrc from '../../../static/images/avatar.jpg';
 import {ChatPageController} from './chatPage.controller';
 import store, {STORE_EVENTS} from '../../store/Store';
 import {ChatShortInfo, ChatList} from '../../components/chatList/ChatList';
-import {Chat} from '../../components/chat/Chat';
+import {Chat, ChatMessage} from '../../components/chat/Chat';
 import {EmptyChat} from '../../components/emptyChat/EmptyChat';
 
 type Props = {
@@ -37,43 +37,43 @@ type Props = {
     email: string;
     phone: string;
   };
-  messagesGroup: any[];
+  messagesGroup: ChatMessage[];
 };
 
-const messagesGroupData = [
-  {
-    date: '04 января',
-    messages: new List({
-      className: 'messages-list',
-      items: mockMessageData.map(
-        (message) =>
-          new Message({
-            avatar: new Avatar({
-              ...message.avatar,
-            }),
-            message: message.message,
-            className: message.className,
-          }),
-      ),
-    }),
-  },
-  {
-    date: '05 января',
-    messages: new List({
-      className: 'messages-list',
-      items: mockMessageData.map(
-        (message) =>
-          new Message({
-            avatar: new Avatar({
-              ...message.avatar,
-            }),
-            message: message.message,
-            className: message.className,
-          }),
-      ),
-    }),
-  },
-];
+// const messagesGroupData = [
+//   {
+//     date: '04 января',
+//     messages: new List({
+//       className: 'messages-list',
+//       items: mockMessageData.map(
+//         (message) =>
+//           new Message({
+//             avatar: new Avatar({
+//               ...message.avatar,
+//             }),
+//             message: message.message,
+//             className: message.className,
+//           }),
+//       ),
+//     }),
+//   },
+//   {
+//     date: '05 января',
+//     messages: new List({
+//       className: 'messages-list',
+//       items: mockMessageData.map(
+//         (message) =>
+//           new Message({
+//             avatar: new Avatar({
+//               ...message.avatar,
+//             }),
+//             message: message.message,
+//             className: message.className,
+//           }),
+//       ),
+//     }),
+//   },
+// ];
 
 const pageProps: Props = {
   currentUser: {
@@ -106,11 +106,13 @@ export class ChatPage extends Block<Props> {
     super('div', pageProps);
 
     store.subscribe(STORE_EVENTS.UPDATED, () => {
+      console.log(store.getState().chat?.messages);
+
       this.setProps({
         chats: store.getState().chats ?? [],
         currentChat: store.getState().currentChat,
         currentUser: store.getState().user ?? {},
-        messagesGroup: messagesGroupData,
+        messagesGroup: store.getState().chat?.messages ?? [],
       });
     });
     ChatPageController.initChatPage();
@@ -170,6 +172,10 @@ export class ChatPage extends Block<Props> {
       this.children.chat = new Chat({
         messages: this.props.messagesGroup,
         companionInfo: this.props.companion,
+        onSendMessage: (message) => {
+          console.log(message);
+          ChatPageController.sendMessage(message);
+        },
       });
     }
 
