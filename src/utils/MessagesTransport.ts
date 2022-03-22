@@ -26,34 +26,19 @@ export class MessagesTransport {
 
     this.socket.addEventListener('open', () => {
       console.log('Соединение установлено');
-
-      // this.ping();
-
       this.getMessages();
     });
 
     this.socket.addEventListener('message', (event) => {
       const data = JSON.parse(event.data);
-      console.log(data.type);
-      console.log(data);
 
       if (isMessagesArrayData(data)) {
         store.set('chat.messages', data);
       }
 
       if (isMessageData(data)) {
-        console.log(data);
-
-        // const oldMessages: ChatMessage[] = store.getState().chat?.messages;
-        // const newMessages = [...oldMessages, {...data, chat_id: chatId}];
-        // console.log(oldMessages, newMessages);
-
-        // store.set('chat.messages', newMessages);
-        // console.log(store.getState());
         this.getMessages();
       }
-
-      // this.timerId = setTimeout(() => this.ping(), 3000);
     });
 
     this.socket.addEventListener('error', (event) => {

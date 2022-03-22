@@ -40,41 +40,6 @@ type Props = {
   messagesGroup: ChatMessage[];
 };
 
-// const messagesGroupData = [
-//   {
-//     date: '04 января',
-//     messages: new List({
-//       className: 'messages-list',
-//       items: mockMessageData.map(
-//         (message) =>
-//           new Message({
-//             avatar: new Avatar({
-//               ...message.avatar,
-//             }),
-//             message: message.message,
-//             className: message.className,
-//           }),
-//       ),
-//     }),
-//   },
-//   {
-//     date: '05 января',
-//     messages: new List({
-//       className: 'messages-list',
-//       items: mockMessageData.map(
-//         (message) =>
-//           new Message({
-//             avatar: new Avatar({
-//               ...message.avatar,
-//             }),
-//             message: message.message,
-//             className: message.className,
-//           }),
-//       ),
-//     }),
-//   },
-// ];
-
 const pageProps: Props = {
   currentUser: {
     id: 380551,
@@ -103,22 +68,51 @@ const pageProps: Props = {
 
 export class ChatPage extends Block<Props> {
   constructor() {
-    super('div', pageProps);
+    const chat = new EmptyChat({
+      message: 'Чтобы начать общение выберите чат или создайте новый',
+    });
+
+    const chats = new ChatList({
+      chatsList: pageProps.chats,
+      onChatSelect: (chatId) => {
+        ChatPageController.changeChat(chatId);
+      },
+      currentChat: pageProps.currentChat,
+    });
+
+    super('div', {
+      ...pageProps,
+      chat,
+      chats,
+    });
 
     store.subscribe(STORE_EVENTS.UPDATED, () => {
-      console.log(store.getState().chat?.messages);
-
       this.setProps({
         chats: store.getState().chats ?? [],
         currentChat: store.getState().currentChat,
         currentUser: store.getState().user ?? {},
-        messagesGroup: store.getState().chat?.messages ?? [],
+        messagesGroup:
+          (store.getState().chat as {messages: ChatMessage[]})?.messages.reverse() ?? [],
       });
     });
     ChatPageController.initChatPage();
   }
 
+  componentDidMount(): void {
+    console.log('chat page mounted');
+  }
+
   componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+    if (!oldProps.currentChat && !!newProps.currentChat) {
+      this.children.chat = new Chat({
+        messages: this.props.messagesGroup,
+        companionInfo: this.props.companion,
+        onSendMessage: (message) => {
+          ChatPageController.sendMessage(message);
+        },
+      });
+    }
+
     if (!isEqual(oldProps.currentUser, newProps.currentUser)) {
       this.setProps({
         currentUser: newProps.currentUser,
@@ -129,25 +123,34 @@ export class ChatPage extends Block<Props> {
       this.setProps({
         chats: newProps.chats,
       });
+
+      (this.children.chats as Block).setProps({
+        chatsList: newProps.chats,
+      });
     }
 
     if (oldProps.currentChat !== newProps.currentChat) {
       this.setProps({
         currentChat: newProps.currentChat,
       });
+
+      (this.children.chats as Block).setProps({
+        currentChat: newProps.currentChat,
+      });
+    }
+
+    if (!isEqual(oldProps.messagesGroup, newProps.messagesGroup)) {
+      this.setProps({
+        messagesGroup: newProps.messagesGroup,
+      });
+      (this.children.chat as Block).setProps({
+        messages: newProps.messagesGroup,
+      });
     }
     return true;
   }
 
   render() {
-    this.children.chats = new ChatList({
-      chatsList: this.props.chats,
-      onChatSelect: (chatId) => {
-        ChatPageController.changeChat(chatId);
-      },
-      currentChat: this.props.currentChat,
-    });
-
     this.children.currentUser = new UserInfo({
       className: '"user-short-info"',
       avatar: new Avatar({
@@ -164,25 +167,6 @@ export class ChatPage extends Block<Props> {
       }),
     });
 
-    if (!this.props.currentChat) {
-      this.children.chat = new EmptyChat({
-        message: 'Чтобы начать общение выберите чат или создайте новый',
-      });
-    } else {
-      this.children.chat = new Chat({
-        messages: this.props.messagesGroup,
-        companionInfo: this.props.companion,
-        onSendMessage: (message) => {
-          console.log(message);
-          ChatPageController.sendMessage(message);
-        },
-      });
-    }
-
-    return this.compile(template, {
-      ...this.props,
-      chats: this.children.chats,
-      chat: this.children.chat,
-    });
+    return this.compile(template, this.props);
   }
 }

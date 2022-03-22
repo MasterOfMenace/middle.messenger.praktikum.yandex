@@ -3,7 +3,7 @@ import {Avatar} from '../avatar';
 import Block from '../block/Block';
 import {List} from '../list';
 import {Message} from '../message';
-import {MessageGroup} from '../messageGroup';
+// import {MessageGroup} from '../messageGroup';
 import {NewMessage} from '../newMessage';
 import {UserInfo} from '../userInfo';
 import {UserShortInfo} from '../userShortInfo';
@@ -68,11 +68,7 @@ type ChatFile = {
 
 export class Chat extends Block<ChatProps> {
   constructor(props: ChatProps) {
-    super('main', props);
-  }
-
-  render() {
-    this.children.newMessage = new NewMessage({
+    const newMessage = new NewMessage({
       events: {
         submit: {
           event: (evt) => {
@@ -95,9 +91,9 @@ export class Chat extends Block<ChatProps> {
     //   }),
     // });
 
-    this.children.messagesGroup = new List({
+    const messagesGroup = new List({
       className: 'messages',
-      items: this.props.messages.map((item) => {
+      items: props.messages.map((item) => {
         return new Message({
           // avatar: new Avatar({
           //   ...message.avatar,
@@ -111,6 +107,43 @@ export class Chat extends Block<ChatProps> {
       }),
     });
 
+    super('main', {
+      ...props,
+      newMessage,
+      messagesGroup,
+    });
+  }
+
+  componentDidUpdate(_: ChatProps, newProps: ChatProps): boolean {
+    (this.children.messagesGroup as Block).setProps({
+      items: newProps.messages.map((item) => {
+        return new Message({
+          // avatar: new Avatar({
+          //   ...message.avatar,
+          // }),
+          message: {
+            text: item.content,
+            time: item.time,
+          },
+          // className: item.className,
+        });
+      }),
+    });
+
+    // скролл при добавлении новых сообщений подскакивает до самого верха, не придумал как это сделать иначе
+    const element = (this.children.messagesGroup as Block)?.getContent();
+
+    setTimeout(() => {
+      element?.scrollTo({
+        top: element.scrollHeight,
+        behavior: 'smooth',
+      });
+    }, 200);
+
+    return true;
+  }
+
+  render() {
     this.children.companion = new UserInfo({
       className: '"user-short-info user-short-info--companion"',
       avatar: new Avatar({
@@ -129,8 +162,6 @@ export class Chat extends Block<ChatProps> {
 
     return this.compile(template, {
       ...this.props,
-      messagesGroup: this.children.messagesGroup,
-      newMessage: this.children.newMessage,
       companion: this.children.companion,
     });
   }

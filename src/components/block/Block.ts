@@ -56,7 +56,7 @@ class Block<T extends Props = Props> {
 
   eventBus: EventBus;
 
-  constructor(tagName = 'div', propsWithChildren = <T>{}) {
+  constructor(tagName = 'div', propsWithChildren = <any>{}) {
     const {props, children} = this._getPropsAndChildrens(propsWithChildren);
 
     this._meta = {
@@ -86,7 +86,9 @@ class Block<T extends Props = Props> {
     Object.entries(propsWithChildren).forEach(([k, v]) => {
       if (v instanceof Block) {
         children[k] = v;
-      } else if (Array.isArray(v) && v.every((item) => item instanceof Block)) {
+      } else if (Array.isArray(v) && v.length && v.every((item) => item instanceof Block)) {
+        // console.log(k);
+
         children[k] = v as Block[];
       } else {
         props[k] = v;
@@ -110,7 +112,8 @@ class Block<T extends Props = Props> {
 
   init() {
     this._createResources();
-    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    // this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
   _componentDidMount() {
@@ -125,12 +128,17 @@ class Block<T extends Props = Props> {
         }
       });
     }
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
   // Может переопределять пользователь, необязательно трогать
   componentDidMount() {}
 
-  dispatchComponentDidMount() {}
+  dispatchComponentDidMount() {
+    // console.log('dispatch component did mont');
+
+    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
+  }
 
   _componentDidUpdate(oldProps: T, newProps: T) {
     const response = this.componentDidUpdate(oldProps, newProps);

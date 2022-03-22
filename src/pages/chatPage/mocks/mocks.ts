@@ -1,5 +1,8 @@
 import avatarSrc from '../../../../static/images/avatar.jpg';
+import {Avatar} from '../../../components/avatar';
 import {ChatShortInfo} from '../../../components/chatList/ChatList';
+import {List} from '../../../components/list';
+import {Message} from '../../../components/message';
 
 export const mockChatData = {
   wrapperClassName: '"avatar avatar--message"',
@@ -54,3 +57,38 @@ export const mockChatsListData: ChatShortInfo[] = new Array(20).fill(1).map((_, 
     content: mockChatData.message,
   },
 }));
+
+export const mockMessagesGroupData = [
+  {
+    date: '04 января',
+    messages: new List({
+      className: 'messages-list',
+      items: mockMessageData.map(
+        (message) =>
+          new Message({
+            avatar: new Avatar({
+              ...message.avatar,
+            }),
+            message: message.message,
+            className: message.className,
+          }),
+      ),
+    }),
+  },
+  {
+    date: '05 января',
+    messages: new List({
+      className: 'messages-list',
+      items: mockMessageData.map(
+        (message) =>
+          new Message({
+            avatar: new Avatar({
+              ...message.avatar,
+            }),
+            message: message.message,
+            className: message.className,
+          }),
+      ),
+    }),
+  },
+];
