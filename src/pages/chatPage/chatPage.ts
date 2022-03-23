@@ -25,6 +25,16 @@ type Props = {
   chats: ChatShortInfo[];
   currentChat: ChatShortInfo | null;
   messagesGroup: ChatMessage[];
+  chatUsers: {
+    id: number;
+    first_name: string;
+    second_name: string;
+    display_name: string;
+    login: string;
+    avatar: string;
+    email: string;
+    phone: string;
+  }[];
 };
 
 const pageProps: Props = {
@@ -41,6 +51,7 @@ const pageProps: Props = {
   chats: [],
   currentChat: null,
   messagesGroup: [],
+  chatUsers: [],
 };
 
 export class ChatPage extends Block<Props> {
@@ -68,8 +79,23 @@ export class ChatPage extends Block<Props> {
         chats: store.getState().chats ?? [],
         currentChat: store.getState().currentChat,
         currentUser: store.getState().user ?? {},
+        chatUsers:
+          (
+            store.getState().chat as {
+              chatUsers: {
+                id: number;
+                first_name: string;
+                second_name: string;
+                display_name: string;
+                login: string;
+                avatar: string;
+                email: string;
+                phone: string;
+              }[];
+            }
+          )?.chatUsers ?? [],
         messagesGroup:
-          (store.getState().chat as {messages: ChatMessage[]})?.messages.reverse() ?? [],
+          (store.getState().chat as {messages: ChatMessage[]})?.messages?.reverse() ?? [],
       });
     });
     ChatPageController.initChatPage();
@@ -80,6 +106,7 @@ export class ChatPage extends Block<Props> {
       this.children.chat = new Chat({
         messages: this.props.messagesGroup,
         currentChat: this.props.currentChat,
+        chatUsers: this.props.chatUsers,
         onSendMessage: (message) => {
           ChatPageController.sendMessage(message);
         },

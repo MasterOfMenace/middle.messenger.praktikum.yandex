@@ -32,4 +32,11 @@ export class ChatsApi extends BaseApi {
       return JSON.parse(response as string);
     });
   }
+
+  getChatUsers(chatId: number) {
+    return chatHttpTransport.get(`/chats/${chatId}/users`).then((response) => {
+      console.log('chat users received', response);
+      return JSON.parse(response as string);
+    });
+  }
 }

@@ -14,6 +14,16 @@ import imagePlaceholder from '../../../static/images/image-placeholder.jpg';
 type ChatProps = {
   messages: ChatMessage[];
   currentChat: ChatShortInfo | null;
+  chatUsers: {
+    id: number;
+    first_name: string;
+    second_name: string;
+    display_name: string;
+    login: string;
+    avatar: string;
+    email: string;
+    phone: string;
+  }[];
   onSendMessage: (message: string) => void;
 };
 
@@ -67,9 +77,9 @@ export class Chat extends Block<ChatProps> {
       className: 'messages',
       items: props.messages.map((item) => {
         return new Message({
-          // avatar: new Avatar({
-          //   ...message.avatar,
-          // }),
+          avatar: new Avatar({
+            avatarSrc: this.props.chatUsers.find((user) => user.id === item.user_id)?.avatar ?? '',
+          }),
           message: {
             text: item.content,
             time: item.time,
@@ -90,9 +100,10 @@ export class Chat extends Block<ChatProps> {
     (this.children.messagesGroup as Block).setProps({
       items: newProps.messages.map((item) => {
         return new Message({
-          // avatar: new Avatar({
-          //   ...message.avatar,
-          // }),
+          avatar: new Avatar({
+            avatarSrc: this.props.chatUsers.find((user) => user.id === item.user_id)?.avatar ?? '',
+            wrapperClassName: 'avatar avatar--message',
+          }),
           message: {
             text: item.content,
             time: item.time,

@@ -19,7 +19,6 @@ export default class Avatar extends Block<AvatarProps> {
     if (!this.props.avatarSrc) {
       this.setProps({
         avatarSrc: imagePlaceholder,
-        imageClassName: '"avatar__image avatar__image--no-avatar"',
       });
     }
   }

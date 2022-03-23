@@ -66,11 +66,17 @@ export class ChatPageController {
 
     this.messagesCount = await this.getMessagesCount(selectedChat.id);
 
+    this.getChatUsers(selectedChat.id);
+
     this.initMessageTransport(this.userId, selectedChat.id, token);
   }
 
   static async getChatToken(chatId: number) {
     return chatsApi.getChatToken(chatId);
+  }
+
+  static async getChatUsers(chatId: number) {
+    chatsApi.getChatUsers(chatId).then((response) => store.set('chat.users', response));
   }
 
   public static async initMessageTransport(userId: number, chatId: number, token: string) {
