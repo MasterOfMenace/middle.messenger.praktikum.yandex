@@ -1,16 +1,14 @@
 import {AuthApi} from '../../api/authApi/AuthApi';
 import {ChatsApi} from '../../api/chatsApi/ChatsApi';
+import {ChatShortInfo} from '../../components/chatList/ChatList';
 import store from '../../store/Store';
 import {MessagesTransport} from '../../utils/MessagesTransport';
-import {mockChatsListData} from './mocks/mocks';
 
 const chatsApi = new ChatsApi();
 const authApi = new AuthApi();
 
 export class ChatPageController {
   static messageTransport: MessagesTransport | null;
-
-  // static token: string;
 
   static userId: number;
 
@@ -22,33 +20,53 @@ export class ChatPageController {
     if (!('user' in storeData)) {
       authApi.getUserData().then((response) => {
         store.set('user', response);
-        this.userId = store.getState()?.user?.id;
+        this.userId = (
+          store.getState()?.user as {
+            // вынести тип
+            id: number;
+            first_name: string;
+            second_name: string;
+            display_name: string;
+            login: string;
+            avatar: string;
+            email: string;
+            phone: string;
+          }
+        )?.id;
       });
     } else {
-      this.userId = storeData?.user?.id;
+      this.userId = (
+        storeData?.user as {
+          id: number;
+          first_name: string;
+          second_name: string;
+          display_name: string;
+          login: string;
+          avatar: string;
+          email: string;
+          phone: string;
+        }
+      )?.id;
     }
     this.getChats();
   }
 
   public static getChats(data?: {offset?: number; limit?: number; title?: string}) {
     chatsApi.getChats(data).then((response) => store.set('chats', response));
-    // store.set('chats', mockChatsListData);
   }
 
-  public static async changeChat(chatId: number) {
-    store.set('currentChat', chatId);
+  public static async changeChat(selectedChat: ChatShortInfo) {
+    store.set('currentChat', selectedChat);
 
     if (this.messageTransport) {
       this.messageTransport = null;
     }
 
-    const token = await this.getChatToken(chatId);
+    const token = await this.getChatToken(selectedChat.id);
 
-    this.messagesCount = await this.getMessagesCount(chatId);
+    this.messagesCount = await this.getMessagesCount(selectedChat.id);
 
-    console.log(token);
-
-    this.initMessageTransport(this.userId, chatId, token);
+    this.initMessageTransport(this.userId, selectedChat.id, token);
   }
 
   static async getChatToken(chatId: number) {
@@ -56,11 +74,7 @@ export class ChatPageController {
   }
 
   public static async initMessageTransport(userId: number, chatId: number, token: string) {
-    console.log('message transport init', userId, chatId, token);
-
     this.messageTransport = new MessagesTransport(userId, chatId, token);
-
-    // this.getMessages();
   }
 
   public static getMessagesCount(chatId: number) {

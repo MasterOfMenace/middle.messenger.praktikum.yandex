@@ -3,9 +3,6 @@ import {UserShortInfo} from '../../components/userShortInfo';
 import {UserInfo} from '../../components/userInfo';
 import {Avatar} from '../../components/avatar';
 import {isEqual} from '../../utils';
-// import {List} from '../../components/list';
-// import {Message} from '../../components/message';
-// import {mockMessageData} from './mocks/mocks';
 import template from './chatPage.tmpl';
 import avatarSrc from '../../../static/images/avatar.jpg';
 import {ChatPageController} from './chatPage.controller';
@@ -26,7 +23,7 @@ type Props = {
     phone: string;
   };
   chats: ChatShortInfo[];
-  currentChat: number | null;
+  currentChat: ChatShortInfo | null;
   companion: {
     id: number;
     first_name: string;
@@ -74,8 +71,8 @@ export class ChatPage extends Block<Props> {
 
     const chats = new ChatList({
       chatsList: pageProps.chats,
-      onChatSelect: (chatId) => {
-        ChatPageController.changeChat(chatId);
+      onChatSelect: (selectedChat) => {
+        ChatPageController.changeChat(selectedChat);
       },
       currentChat: pageProps.currentChat,
     });
@@ -96,10 +93,6 @@ export class ChatPage extends Block<Props> {
       });
     });
     ChatPageController.initChatPage();
-  }
-
-  componentDidMount(): void {
-    console.log('chat page mounted');
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props): boolean {

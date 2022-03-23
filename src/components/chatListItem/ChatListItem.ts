@@ -1,15 +1,15 @@
-import {Avatar} from '../avatar';
 import Block from '../block/Block';
+import {ChatShortInfo} from '../chatList/ChatList';
 import template from './chatListItem.tmpl';
+import placeholder from '../../../static/images/image-placeholder.jpg';
 
 type Props = {
-  currentChat?: number | null;
-  avatar: Avatar;
+  currentChat?: ChatShortInfo | null;
   userName: string;
   messageTime: string;
   message: string;
-  id: number;
   events?: any;
+  chat: ChatShortInfo;
 };
 
 export default class ChatListItem extends Block<Props> {
@@ -19,7 +19,7 @@ export default class ChatListItem extends Block<Props> {
       events: {
         click: {
           event: () => {
-            props.events?.click?.event(this.props.id);
+            props.events?.click?.event(this.props.chat);
           },
         },
       },
@@ -29,7 +29,9 @@ export default class ChatListItem extends Block<Props> {
   render() {
     return this.compile(template, {
       ...this.props,
-      currentClass: this.props.currentChat === this.props.id ? 'chat-list__item--active' : '',
+      avatarSrc: this.props.chat.avatar ?? placeholder,
+      currentClass:
+        this.props.currentChat?.id === this.props.chat.id ? 'chat-list__item--active' : '',
     });
   }
 }

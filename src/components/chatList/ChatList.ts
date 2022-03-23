@@ -1,5 +1,4 @@
 import {UserDataSignUp} from '../../api/authApi/AuthApi';
-import {Avatar} from '../avatar';
 import Block from '../block/Block';
 import {ChatListItem} from '../chatListItem';
 import template from './chatlist.tmpl';
@@ -41,8 +40,8 @@ export type ChatShortInfo = {
 
 type Props = {
   chatsList: ChatShortInfo[];
-  currentChat: number | null;
-  onChatSelect: (chatId: number) => void;
+  currentChat: ChatShortInfo | null;
+  onChatSelect: (chatId: ChatShortInfo) => void;
 };
 
 export class ChatList extends Block<Props> {
@@ -53,21 +52,17 @@ export class ChatList extends Block<Props> {
   render() {
     this.children.chats = this.props.chatsList.map(
       // разобраться как сделать так чтобы объявлять childrens в конструкторе
-      (chat) =>
+      (item) =>
         new ChatListItem({
           currentChat: this.props.currentChat,
-          id: chat.id,
-          avatar: new Avatar({
-            avatarSrc: chat.avatar,
-            wrapperClassName: '"avatar avatar--message"',
-          }),
-          userName: chat.last_message?.user?.first_name,
-          messageTime: chat.last_message?.time,
-          message: chat.last_message?.content,
+          chat: item,
+          userName: item.last_message?.user?.first_name,
+          messageTime: item.last_message?.time,
+          message: item.last_message?.content,
           events: {
             click: {
-              event: (id: number) => {
-                this.props.onChatSelect(id);
+              event: (selected: ChatShortInfo) => {
+                this.props.onChatSelect(selected);
               },
             },
           },
