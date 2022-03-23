@@ -24,16 +24,6 @@ type Props = {
   };
   chats: ChatShortInfo[];
   currentChat: ChatShortInfo | null;
-  companion: {
-    id: number;
-    first_name: string;
-    second_name: string;
-    display_name: string;
-    login: string;
-    avatar: string;
-    email: string;
-    phone: string;
-  };
   messagesGroup: ChatMessage[];
 };
 
@@ -50,16 +40,6 @@ const pageProps: Props = {
   },
   chats: [],
   currentChat: null,
-  companion: {
-    id: 380551,
-    first_name: 'Иван',
-    second_name: '',
-    avatar: avatarSrc,
-    display_name: '',
-    login: 'iivan',
-    email: 'ivan@post.ip',
-    phone: '89123456789',
-  },
   messagesGroup: [],
 };
 
@@ -99,7 +79,7 @@ export class ChatPage extends Block<Props> {
     if (!oldProps.currentChat && !!newProps.currentChat) {
       this.children.chat = new Chat({
         messages: this.props.messagesGroup,
-        companionInfo: this.props.companion,
+        currentChat: this.props.currentChat,
         onSendMessage: (message) => {
           ChatPageController.sendMessage(message);
         },

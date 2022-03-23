@@ -1,6 +1,7 @@
 import {formSubmitHandler} from '../../utils';
 import {Avatar} from '../avatar';
 import Block from '../block/Block';
+import {ChatShortInfo} from '../chatList/ChatList';
 import {List} from '../list';
 import {Message} from '../message';
 // import {MessageGroup} from '../messageGroup';
@@ -8,20 +9,11 @@ import {NewMessage} from '../newMessage';
 import {UserInfo} from '../userInfo';
 import {UserShortInfo} from '../userShortInfo';
 import template from './chat.tmpl';
+import imagePlaceholder from '../../../static/images/image-placeholder.jpg';
 
 type ChatProps = {
-  // messages: any[];
   messages: ChatMessage[];
-  companionInfo: {
-    id: number;
-    first_name: string;
-    second_name: string;
-    display_name: string;
-    login: string;
-    avatar: string;
-    email: string;
-    phone: string;
-  };
+  currentChat: ChatShortInfo | null;
   onSendMessage: (message: string) => void;
 };
 
@@ -45,26 +37,6 @@ type ChatFile = {
   content_size: number;
   upload_date: string;
 };
-
-/*
-    структура сообщения
-    {
-      chat_id: "number",
-      time: "string",
-      type: "string",
-      user_id: "string",
-      content: "string",
-      file?: {
-          id: "number",
-          user_id: "number",
-          path: "string",
-          filename: "string",
-          content_type: "string",
-          content_size: "number",
-          upload_date: "string",
-      }
-  },
-    */
 
 export class Chat extends Block<ChatProps> {
   constructor(props: ChatProps) {
@@ -147,7 +119,7 @@ export class Chat extends Block<ChatProps> {
     this.children.companion = new UserInfo({
       className: '"user-short-info user-short-info--companion"',
       avatar: new Avatar({
-        avatarSrc: this.props.companionInfo.avatar,
+        avatarSrc: this.props.currentChat?.avatar ?? imagePlaceholder,
         wrapperClassName: '"avatar avatar--message"',
         imageClassName: '"avatar__image"',
       }),
@@ -155,8 +127,8 @@ export class Chat extends Block<ChatProps> {
         className: '"user-short-info__user-info"',
         userNameClass: '"user-short-info__user-name"',
         userPhoneClass: '"user-short-info__user-phone"',
-        userName: this.props.companionInfo.first_name,
-        userPhone: this.props.companionInfo.phone,
+        userName: this.props.currentChat?.title ?? '',
+        userPhone: '',
       }),
     });
 

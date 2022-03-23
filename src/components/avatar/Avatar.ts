@@ -1,5 +1,6 @@
 import Block from '../block/Block';
 import template from './avatar.tmpl';
+import imagePlaceholder from '../../../static/images/image-placeholder.jpg';
 
 type AvatarProps = {
   avatarSrc: string;
@@ -17,6 +18,7 @@ export default class Avatar extends Block<AvatarProps> {
 
     if (!this.props.avatarSrc) {
       this.setProps({
+        avatarSrc: imagePlaceholder,
         imageClassName: '"avatar__image avatar__image--no-avatar"',
       });
     }
