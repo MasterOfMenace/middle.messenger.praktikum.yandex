@@ -19,4 +19,18 @@ export class UserApi extends BaseApi {
         throw new Error(error);
       });
   }
+
+  changeAvatar(formData: FormData) {
+    if (!formData.has('avatar')) {
+      return undefined;
+    }
+    return userHttpTransport
+      .put('/user/profile/avatar', {
+        data: formData,
+      })
+      .then((response) => JSON.parse(response as string))
+      .catch((error) => {
+        throw new Error(error);
+      });
+  }
 }

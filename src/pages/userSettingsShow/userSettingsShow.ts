@@ -59,27 +59,38 @@ const linkBack = new LinkWithRouter({
 });
 
 const list = new UserProfile({
-  name: ' ',
-  login: ' ',
-  displayName: ' ',
-  email: ' ',
-  secondName: ' ',
-  phone: ' ',
+  name: '',
+  login: '',
+  displayName: '',
+  email: '',
+  secondName: '',
+  phone: '',
 });
 
 const userInfo = new UserInfo({
-  className: '"user-short-info"',
+  className: 'user-short-info user-short-info--settings-page',
   avatar: new Avatar({
     avatarSrc: '',
-    wrapperClassName: '"avatar"',
-    imageClassName: '"avatar__image"',
+    wrapperClassName: 'avatar',
+    imageClassName: 'avatar__image',
+    events: {
+      click: {
+        event: () => {
+          const fileInput = document.getElementById('avatar-upload') as HTMLInputElement;
+          fileInput.click();
+          fileInput.addEventListener('change', () =>
+            UserSettingsController.changeAvatar(fileInput.files),
+          );
+        },
+      },
+    },
   }),
   shortInfo: new UserShortInfo({
-    className: '"user-short-info__user-info"',
-    userNameClass: '"user-short-info__user-name"',
-    userPhoneClass: '"user-short-info__user-phone"',
-    userName: 'Snoop Dogg',
-    userPhone: '+7 (985) 123 - 45 - 44',
+    className: 'user-short-info__user-info',
+    userNameClass: 'user-short-info__user-name',
+    userPhoneClass: 'user-short-info__user-phone',
+    userName: '',
+    userPhone: '',
   }),
 });
 
@@ -110,7 +121,6 @@ export class UserSettingsShow extends Block<UserSettingsProps> {
     });
 
     store.subscribe(STORE_EVENTS.UPDATED, () => {
-      // вызываем обновление компонента, передав данные из хранилища
       this.updateProps();
     });
 
@@ -126,7 +136,7 @@ export class UserSettingsShow extends Block<UserSettingsProps> {
         userPhone: userData.phone,
       });
       this.props.userInfo.props.avatar.setProps({
-        avatarSrc: userData.avatar,
+        avatarSrc: `https://ya-praktikum.tech/api/v2/resources${userData.avatar}`,
       });
       this.props.userProfile.setProps({
         name: userData.name,

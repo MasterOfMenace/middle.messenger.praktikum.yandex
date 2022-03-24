@@ -1,5 +1,5 @@
 const template = `
-  <div class={{className}}>
+  <div class="{{className}}">
     {{avatar}}
     {{shortInfo}}
   </div>`;

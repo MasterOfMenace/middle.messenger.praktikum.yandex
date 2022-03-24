@@ -183,8 +183,8 @@ const userInfo = new UserInfo({
     className: '"user-short-info__user-info"',
     userNameClass: '"user-short-info__user-name"',
     userPhoneClass: '"user-short-info__user-phone"',
-    userName: 'Snoop Dogg',
-    userPhone: '+7 (985) 123 - 45 - 44',
+    userName: '',
+    userPhone: '',
   }),
 });
 
