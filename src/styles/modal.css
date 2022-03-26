@@ -23,6 +23,16 @@
   padding-top: 70px;
   padding-bottom: 70px;
   box-sizing: border-box;
+  display: grid;
+  gap: 25px;
+}
+
+.create-chat-modal__title {
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
 }
 
 .create-chat-modal__form {
