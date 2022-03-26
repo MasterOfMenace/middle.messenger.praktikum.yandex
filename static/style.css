@@ -49,10 +49,14 @@
   text-align: center;
 }
 
-.chat__user-info {
+.chat__info {
+  /* nedd move to chat.scss */
   box-sizing: border-box;
-  padding-bottom: 40px;
   border-bottom: 1px solid var(--chat-border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  padding-bottom: 5px;
 }
 
 .messages-by-date {
@@ -74,4 +78,16 @@
   gap: 10px;
   margin: 0;
   padding: 0;
+}
+
+.loader {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
