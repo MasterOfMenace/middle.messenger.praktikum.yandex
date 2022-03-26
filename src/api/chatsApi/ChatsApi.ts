@@ -42,6 +42,20 @@ export class ChatsApi extends BaseApi {
     });
   }
 
+  addUserToChat(userId: number, chatId: number) {
+    return chatHttpTransport
+      .put('/chats/users', {
+        data: {
+          users: [userId],
+          chatId,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => console.log('user added', response));
+  }
+
   create(title: string) {
     return chatHttpTransport.post('/chats', {
       data: {

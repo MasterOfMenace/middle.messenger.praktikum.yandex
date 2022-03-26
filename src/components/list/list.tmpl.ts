@@ -1,5 +1,5 @@
 const template = `
-  <ul class={{className}}>
+  <ul class="{{className}}">
     {{items}}
   </ul>
 `;

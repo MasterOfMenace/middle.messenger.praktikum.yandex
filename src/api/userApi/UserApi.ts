@@ -1,7 +1,7 @@
 import {BASE_URL} from '../../constants/constants';
 import HTTPTransport from '../../utils/httpTransport';
 import {userAdapter} from '../adapter/userAdapter/userAdapter';
-import {UserDataSignUp} from '../authApi/AuthApi';
+import {User, UserDataSignUp} from '../authApi/AuthApi';
 import {BaseApi} from '../baseApi/BaseApi';
 
 const userHttpTransport = new HTTPTransport(BASE_URL);
@@ -36,5 +36,18 @@ export class UserApi extends BaseApi {
       .catch((error) => {
         throw new Error(error);
       });
+  }
+
+  findUserByLogin(login: string): Promise<User[]> {
+    return userHttpTransport
+      .post('/user/search', {
+        data: {
+          login,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => JSON.parse(response as string));
   }
 }

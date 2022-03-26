@@ -61,6 +61,10 @@ export class ChatPageController {
     chatsApi.getChatUsers(chatId).then((response) => store.set('chat.users', response));
   }
 
+  public static addUserToChat(userId: number, chatId: number) {
+    chatsApi.addUserToChat(userId, chatId);
+  }
+
   public static async initMessageTransport(userId: number, chatId: number, token: string) {
     this.messageTransport = new MessagesTransport(userId, chatId, token);
     this.messageTransport?.subscribe(
