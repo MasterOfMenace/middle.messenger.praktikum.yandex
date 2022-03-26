@@ -35,12 +35,13 @@ const modal = new CreateChatModal({
   },
 });
 export class ChatPage extends Block<Props> {
+  // большое количество ререндеров, не могу разобраться как решить
   constructor() {
     const chat = new EmptyChat({
       message: 'Чтобы начать общение выберите чат или создайте новый',
     });
 
-    const chats = new ChatList({
+    const chatsList = new ChatList({
       chatsList: pageProps.chats,
       onChatSelect: (selectedChat) => {
         ChatPageController.changeChat(selectedChat);
@@ -69,7 +70,7 @@ export class ChatPage extends Block<Props> {
     super('div', {
       ...pageProps,
       chat,
-      chats,
+      chatsList,
       modal,
       addChatButton,
     });
@@ -79,9 +80,8 @@ export class ChatPage extends Block<Props> {
         chats: store.getState().chats ?? [],
         currentChat: store.getState().currentChat,
         currentUser: store.getState().user ?? {},
-        chatUsers: (store.getState().chat as {users: User[]})?.users ?? [],
-        messagesGroup:
-          (store.getState().chat as {messages: ChatMessage[]})?.messages?.reverse() ?? [],
+        chatUsers: store.getState().chat?.users ?? [],
+        messagesGroup: store.getState().chat?.messages?.reverse() ?? [],
       });
     });
     ChatPageController.initChatPage();
@@ -104,28 +104,14 @@ export class ChatPage extends Block<Props> {
       });
     }
 
-    if (!isEqual(oldProps.currentUser, newProps.currentUser)) {
-      this.setProps({
-        currentUser: newProps.currentUser,
-      });
-    }
-
-    if (!isEqual(oldProps.chats, newProps.chats)) {
-      this.setProps({
-        chats: newProps.chats,
-      });
-
-      (this.children.chats as Block).setProps({
+    if (newProps.chats) {
+      (this.children.chatsList as Block).setProps({
         chatsList: newProps.chats,
       });
     }
 
-    if (oldProps.currentChat !== newProps.currentChat) {
-      this.setProps({
-        currentChat: newProps.currentChat,
-      });
-
-      (this.children.chats as Block).setProps({
+    if (newProps.currentChat?.id) {
+      (this.children.chatsList as Block).setProps({
         currentChat: newProps.currentChat,
       });
     }
@@ -137,9 +123,6 @@ export class ChatPage extends Block<Props> {
     }
 
     if (!isEqual(oldProps.messagesGroup, newProps.messagesGroup)) {
-      this.setProps({
-        messagesGroup: newProps.messagesGroup,
-      });
       (this.children.chat as Block).setProps({
         messages: newProps.messagesGroup,
       });

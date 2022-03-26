@@ -6,7 +6,7 @@ const template = `
         {{addChatButton}}
       </div>
       <input type="text" class="input input--search" placeholder="Поиск" />
-      {{chats}}
+      {{chatsList}}
     </aside>
     {{chat}}
     {{modal}}

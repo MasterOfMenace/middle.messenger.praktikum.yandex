@@ -12,9 +12,12 @@ export default class List extends Block<Props> {
     super('ul', props);
   }
 
-  componentDidUpdate(_: Props, newProps: Props): boolean {
+  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
     if (newProps.items.length && newProps.items.every((item) => item instanceof Block)) {
-      this.children.items = newProps.items as Block[]; // кажется это костыль...
+      // кажется это костыль...
+      this.children.items = newProps.items as Block[];
+    } else {
+      this.children.items = [];
     }
     return true;
   }

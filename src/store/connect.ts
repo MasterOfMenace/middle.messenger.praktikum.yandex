@@ -41,13 +41,14 @@ export function connect<P extends Props>(
   return class extends Component {
     constructor(props: P) {
       const newProps = getMappedProps(props, mapStateToProps?.(store.getState()));
+
       super(newProps);
 
-      this.setProps({...mapStateToProps?.(store.getState())});
+      this.setProps(getMappedProps(props, mapStateToProps?.(store.getState())));
 
       store.subscribe(STORE_EVENTS.UPDATED, () => {
         // вызываем обновление компонента, передав данные из хранилища
-        this.setProps({...store.getState()});
+        this.setProps(getMappedProps(this.props, mapStateToProps?.(store.getState())));
       });
     }
   };

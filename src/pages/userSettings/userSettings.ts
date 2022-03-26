@@ -189,7 +189,7 @@ const userInfo = new UserInfo({
 });
 
 const getUserInfo = (state: any) => {
-  if ('user' in state) {
+  if (state.user) {
     return {
       name: state?.user?.first_name ?? '',
       secondName: state?.user?.second_name ?? '',

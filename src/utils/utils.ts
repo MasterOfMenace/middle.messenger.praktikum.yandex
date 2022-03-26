@@ -103,7 +103,7 @@ export type Indexed<T = unknown> = {
   [key in string]: T;
 };
 
-export function merge(lhs: Indexed, rhs: Indexed) {
+export function merge<T extends Indexed>(lhs: T, rhs: T) {
   if (!rhs) {
     return lhs;
   }
@@ -114,7 +114,7 @@ export function merge(lhs: Indexed, rhs: Indexed) {
         if (!lhs[key]) {
           Object.assign(lhs, {[key]: {}});
         }
-        merge(lhs[key] as Indexed, rhs[key] as Indexed);
+        merge(lhs[key] as T, rhs[key] as T);
       } else {
         Object.assign(lhs, {[key]: rhs[key]});
       }
@@ -124,7 +124,7 @@ export function merge(lhs: Indexed, rhs: Indexed) {
   return lhs;
 }
 
-export function set(object: Indexed, path: string, value: unknown): Indexed {
+export function set<T extends Indexed>(object: T, path: string, value: unknown): T {
   if (!isObject(object)) {
     return object;
   }
@@ -139,5 +139,5 @@ export function set(object: Indexed, path: string, value: unknown): Indexed {
       [curr]: prev,
     };
   }, value as any);
-  return merge(object, assignable);
+  return merge(object, assignable as T);
 }

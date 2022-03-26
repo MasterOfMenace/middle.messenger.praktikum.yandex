@@ -17,9 +17,10 @@ export class ChatPageController {
   public static initChatPage() {
     const storeData = store.getState();
 
-    if (!('user' in storeData)) {
+    if (!storeData.user?.id) {
       authApi.getUserData().then((response) => {
         store.set('user', response);
+
         this.userId = (store.getState()?.user as User)?.id;
       });
     } else {
@@ -62,6 +63,10 @@ export class ChatPageController {
 
   public static async initMessageTransport(userId: number, chatId: number, token: string) {
     this.messageTransport = new MessagesTransport(userId, chatId, token);
+    this.messageTransport?.subscribe(
+      this.messageTransport.EVENTS.MESSAGE,
+      this.getChats.bind(this),
+    );
   }
 
   public static getMessagesCount(chatId: number) {

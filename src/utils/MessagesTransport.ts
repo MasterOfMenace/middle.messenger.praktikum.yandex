@@ -1,4 +1,5 @@
 import {ChatMessage} from '../components/chat/Chat';
+import EventBus from '../components/eventBus/EventBus';
 import store from '../store/Store';
 import {isObject} from './utils';
 
@@ -12,7 +13,11 @@ function isMessageData(data: unknown): data is ChatMessage {
   return isObject(data) && (data.type === 'message' || data.type === 'file');
 }
 
-export class MessagesTransport {
+export class MessagesTransport extends EventBus {
+  EVENTS = {
+    MESSAGE: 'MESSAGE',
+  };
+
   URL = 'wss://ya-praktikum.tech/ws/chats';
 
   socket: WebSocket;
@@ -20,6 +25,7 @@ export class MessagesTransport {
   timerId: NodeJS.Timeout | null;
 
   constructor(userId: number, chatId: number, token: string) {
+    super();
     this.timerId = null;
 
     this.socket = new WebSocket(`${this.URL}/${userId}/${chatId}/${token}`);
@@ -39,6 +45,7 @@ export class MessagesTransport {
       if (isMessageData(data)) {
         this.getMessages();
       }
+      this.emit(this.EVENTS.MESSAGE);
     });
 
     this.socket.addEventListener('error', (event) => {
