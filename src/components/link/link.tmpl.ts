@@ -1,5 +1,5 @@
 const template = `
-<a href={{to}} class={{className}}>
+<a href={{to}} class="{{className}}">
   {{children}}
 </a>`;
 

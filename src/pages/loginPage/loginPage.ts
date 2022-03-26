@@ -40,7 +40,7 @@ const password = new Input({
 
 const submitBtn = new Button({
   type: 'submit',
-  className: '"button button--solid"',
+  className: 'button button--solid',
   text: 'Войти',
 });
 
@@ -75,7 +75,7 @@ const form = new Form({
 
 const link = new LinkWithRouter({
   to: '/signup',
-  className: '"button button--underline"',
+  className: 'button button--underline',
   children: 'У меня нет аккаунта',
 });
 

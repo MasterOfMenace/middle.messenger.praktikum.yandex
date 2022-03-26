@@ -19,7 +19,7 @@ const props: MainPageProps = {
   }),
   signUpLink: new LinkWithRouter({
     to: '/signup',
-    className: '"button button--underline"',
+    className: 'button button--underline',
     children: 'Зарегистрироваться',
   }),
 };

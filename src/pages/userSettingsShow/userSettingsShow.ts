@@ -20,19 +20,19 @@ type UserSettingsProps = {
 
 const linkToEditPage = new LinkWithRouter({
   to: '/user-settings/edit',
-  className: '"user-settings-page__change-password button button--underline"',
+  className: 'user-settings-page__change-password button button--underline',
   children: 'Редактировать',
 });
 
 const linkToPasswordChange = new LinkWithRouter({
   to: '/change-password',
-  className: '"user-settings-page__change-password button button--underline"',
+  className: 'user-settings-page__change-password button button--underline',
   children: 'Изменить пароль',
 });
 
 const logoutButton = new Button({
   type: 'button',
-  className: '"user-settings-page__change-password button button--underline"',
+  className: 'user-settings-page__change-password button button--underline',
   text: 'Выйти',
   events: {
     click: {
@@ -45,7 +45,7 @@ const logoutButton = new Button({
 
 const linkBack = new LinkWithRouter({
   to: '/chat',
-  className: '"button button--round"',
+  className: 'button button--round',
   children: `<svg
   width="24"
   height="24"

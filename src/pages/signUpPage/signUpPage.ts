@@ -111,13 +111,13 @@ const repeatPasswordInput = new Input({
 
 const submitBtn = new Button({
   type: 'submit',
-  className: '"signup-page__submit button button--solid"',
+  className: 'signup-page__submit button button--solid',
   text: 'Войти',
 });
 
 const linkBack = new LinkWithRouter({
   to: -1,
-  className: '"signup-page__go-back button button--transparent"',
+  className: 'signup-page__go-back button button--transparent',
   children: `<svg
   width="24"
   height="24"

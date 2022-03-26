@@ -21,7 +21,7 @@ type UserSettingsProps = {
 const loginInput = new Input({
   value: '',
   name: 'login',
-  className: '"input input--oneline"',
+  className: 'input input--oneline',
   id: 'login',
   label: {
     text: 'Логин',
@@ -37,7 +37,7 @@ const loginInput = new Input({
 const displayNameInput = new Input({
   value: '',
   name: 'display_name',
-  className: '"input input--oneline"',
+  className: 'input input--oneline',
   id: 'display-name',
   label: {
     text: 'Имя в чате',
@@ -54,7 +54,7 @@ const emailInput = new Input({
   value: '',
   name: 'email',
   id: 'email',
-  className: '"input input--oneline"',
+  className: 'input input--oneline',
   type: 'email',
   label: {
     text: 'Почта',
@@ -71,7 +71,7 @@ const firstNameInput = new Input({
   value: '',
   name: 'first_name',
   id: 'first_name',
-  className: '"input input--oneline"',
+  className: 'input input--oneline',
   label: {
     text: 'Имя',
     className: 'input__label',
@@ -85,7 +85,7 @@ const secondNameInput = new Input({
   value: '',
   name: 'second_name',
   id: 'second_name',
-  className: '"input input--oneline"',
+  className: 'input input--oneline',
   label: {
     text: 'Фамилия',
     className: 'input__label',
@@ -99,7 +99,7 @@ const phoneInput = new Input({
   value: '',
   name: 'phone',
   id: 'phone',
-  className: '"input input--oneline"',
+  className: 'input input--oneline',
   type: 'phone',
   label: {
     text: 'Телефон',
@@ -114,19 +114,19 @@ const phoneInput = new Input({
 
 const submitBtn = new Button({
   type: 'submit',
-  className: '"button"',
+  className: 'button',
   text: 'Сохранить',
 });
 
 const linkToPasswordChange = new LinkWithRouter({
   to: '/change-password',
-  className: '"user-settings-page__change-password button button--underline"',
+  className: 'user-settings-page__change-password button button--underline',
   children: 'Изменить пароль',
 });
 
 const linkBack = new LinkWithRouter({
   to: -1,
-  className: '"button button--round"',
+  className: 'button button--round',
   children: `<svg
   width="24"
   height="24"
