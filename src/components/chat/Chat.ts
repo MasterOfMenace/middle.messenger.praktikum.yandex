@@ -10,20 +10,13 @@ import {UserInfo} from '../userInfo';
 import {UserShortInfo} from '../userShortInfo';
 import template from './chat.tmpl';
 import imagePlaceholder from '../../../static/images/image-placeholder.jpg';
+import {User} from '../../api/authApi/AuthApi';
 
 type ChatProps = {
   messages: ChatMessage[];
   currentChat: ChatShortInfo | null;
-  chatUsers: {
-    id: number;
-    first_name: string;
-    second_name: string;
-    display_name: string;
-    login: string;
-    avatar: string;
-    email: string;
-    phone: string;
-  }[];
+  chatUsers: User[];
+  currentUser: User;
   onSendMessage: (message: string) => void;
 };
 
@@ -84,7 +77,7 @@ export class Chat extends Block<ChatProps> {
             text: item.content,
             time: item.time,
           },
-          // className: item.className,
+          className: item.user_id === this.props.currentUser.id ? 'message--current-user' : '',
         });
       }),
     });
@@ -104,11 +97,11 @@ export class Chat extends Block<ChatProps> {
             avatarSrc: this.props.chatUsers.find((user) => user.id === item.user_id)?.avatar ?? '',
             wrapperClassName: 'avatar avatar--message',
           }),
+          className: item.user_id === this.props.currentUser.id ? 'message--current-user' : '',
           message: {
             text: item.content,
             time: item.time,
           },
-          // className: item.className,
         });
       }),
     });
@@ -128,16 +121,16 @@ export class Chat extends Block<ChatProps> {
 
   render() {
     this.children.companion = new UserInfo({
-      className: '"user-short-info user-short-info--companion"',
+      className: 'user-short-info user-short-info--companion',
       avatar: new Avatar({
         avatarSrc: this.props.currentChat?.avatar ?? imagePlaceholder,
-        wrapperClassName: '"avatar avatar--message"',
-        imageClassName: '"avatar__image"',
+        wrapperClassName: 'avatar avatar--message',
+        imageClassName: 'avatar__image',
       }),
       shortInfo: new UserShortInfo({
-        className: '"user-short-info__user-info"',
-        userNameClass: '"user-short-info__user-name"',
-        userPhoneClass: '"user-short-info__user-phone"',
+        className: 'user-short-info__user-info',
+        userNameClass: 'user-short-info__user-name',
+        userPhoneClass: 'user-short-info__user-phone',
         userName: this.props.currentChat?.title ?? '',
         userPhone: '',
       }),

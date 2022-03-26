@@ -1,14 +1,24 @@
 import {BASE_URL} from '../../constants/constants';
 import HTTPTransport from '../../utils/httpTransport';
+import {userAdapter} from '../adapter/userAdapter/userAdapter';
 import {BaseApi} from '../baseApi/BaseApi';
 
-export type UserDataSignUp = {
+export type User = {
+  id: number;
   first_name: string;
   second_name: string;
+  display_name: string;
   login: string;
   email: string;
-  password: string;
   phone: string;
+  avatar: string | null;
+};
+
+export type UserDataSignUp = Pick<
+  User,
+  'first_name' | 'second_name' | 'login' | 'email' | 'phone'
+> & {
+  password: string;
 };
 
 const authHttpTransport = new HTTPTransport(BASE_URL);
@@ -45,6 +55,8 @@ export class AuthApi extends BaseApi {
   }
 
   getUserData() {
-    return authHttpTransport.get('/auth/user').then((response) => JSON.parse(response as string));
+    return authHttpTransport
+      .get('/auth/user')
+      .then((response) => userAdapter(JSON.parse(response as string)));
   }
 }

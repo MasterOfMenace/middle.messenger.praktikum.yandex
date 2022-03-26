@@ -1,5 +1,7 @@
 import {BASE_URL} from '../../constants/constants';
 import HTTPTransport from '../../utils/httpTransport';
+import {userAdapter} from '../adapter/userAdapter/userAdapter';
+import {User} from '../authApi/AuthApi';
 import {BaseApi} from '../baseApi/BaseApi';
 
 const chatHttpTransport = new HTTPTransport(BASE_URL);
@@ -36,7 +38,7 @@ export class ChatsApi extends BaseApi {
   getChatUsers(chatId: number) {
     return chatHttpTransport.get(`/chats/${chatId}/users`).then((response) => {
       console.log('chat users received', response);
-      return JSON.parse(response as string);
+      return JSON.parse(response as string).map((user: User) => userAdapter(user));
     });
   }
 }

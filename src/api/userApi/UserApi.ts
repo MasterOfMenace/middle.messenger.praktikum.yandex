@@ -1,5 +1,6 @@
 import {BASE_URL} from '../../constants/constants';
 import HTTPTransport from '../../utils/httpTransport';
+import {userAdapter} from '../adapter/userAdapter/userAdapter';
 import {UserDataSignUp} from '../authApi/AuthApi';
 import {BaseApi} from '../baseApi/BaseApi';
 
@@ -14,7 +15,7 @@ export class UserApi extends BaseApi {
           'Content-Type': 'application/json',
         },
       })
-      .then((response) => JSON.parse(response as string))
+      .then((response) => userAdapter(JSON.parse(response as string)))
       .catch((error) => {
         throw new Error(error);
       });
@@ -28,7 +29,10 @@ export class UserApi extends BaseApi {
       .put('/user/profile/avatar', {
         data: formData,
       })
-      .then((response) => JSON.parse(response as string))
+      .then((response) => {
+        const userData = JSON.parse(response as string);
+        return userAdapter(userData);
+      })
       .catch((error) => {
         throw new Error(error);
       });

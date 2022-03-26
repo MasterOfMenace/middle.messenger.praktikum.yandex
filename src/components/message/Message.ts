@@ -3,7 +3,7 @@ import Block from '../block/Block';
 import template from './message.tmpl';
 
 type Props = {
-  // className?: string;
+  className?: string;
   avatar?: Avatar;
   message: {
     text: string;

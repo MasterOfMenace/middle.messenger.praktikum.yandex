@@ -4,50 +4,23 @@ import {UserInfo} from '../../components/userInfo';
 import {Avatar} from '../../components/avatar';
 import {isEqual} from '../../utils';
 import template from './chatPage.tmpl';
-import avatarSrc from '../../../static/images/avatar.jpg';
 import {ChatPageController} from './chatPage.controller';
 import store, {STORE_EVENTS} from '../../store/Store';
 import {ChatShortInfo, ChatList} from '../../components/chatList/ChatList';
 import {Chat, ChatMessage} from '../../components/chat/Chat';
 import {EmptyChat} from '../../components/emptyChat/EmptyChat';
+import {User} from '../../api/authApi/AuthApi';
 
 type Props = {
-  currentUser: {
-    id: number;
-    first_name: string;
-    second_name: string;
-    display_name: string;
-    login: string;
-    avatar: string;
-    email: string;
-    phone: string;
-  };
+  currentUser: User;
   chats: ChatShortInfo[];
   currentChat: ChatShortInfo | null;
   messagesGroup: ChatMessage[];
-  chatUsers: {
-    id: number;
-    first_name: string;
-    second_name: string;
-    display_name: string;
-    login: string;
-    avatar: string;
-    email: string;
-    phone: string;
-  }[];
+  chatUsers: User[];
 };
 
 const pageProps: Props = {
-  currentUser: {
-    id: 380551,
-    first_name: 'Иван',
-    second_name: '',
-    avatar: avatarSrc,
-    display_name: '',
-    login: 'iivan',
-    email: 'ivan@post.ip',
-    phone: '89123456789',
-  },
+  currentUser: {} as User,
   chats: [],
   currentChat: null,
   messagesGroup: [],
@@ -79,21 +52,7 @@ export class ChatPage extends Block<Props> {
         chats: store.getState().chats ?? [],
         currentChat: store.getState().currentChat,
         currentUser: store.getState().user ?? {},
-        chatUsers:
-          (
-            store.getState().chat as {
-              chatUsers: {
-                id: number;
-                first_name: string;
-                second_name: string;
-                display_name: string;
-                login: string;
-                avatar: string;
-                email: string;
-                phone: string;
-              }[];
-            }
-          )?.chatUsers ?? [],
+        chatUsers: (store.getState().chat as {users: User[]})?.users ?? [],
         messagesGroup:
           (store.getState().chat as {messages: ChatMessage[]})?.messages?.reverse() ?? [],
       });
@@ -104,6 +63,7 @@ export class ChatPage extends Block<Props> {
   componentDidUpdate(oldProps: Props, newProps: Props): boolean {
     if (!oldProps.currentChat && !!newProps.currentChat) {
       this.children.chat = new Chat({
+        currentUser: this.props.currentUser,
         messages: this.props.messagesGroup,
         currentChat: this.props.currentChat,
         chatUsers: this.props.chatUsers,
@@ -139,6 +99,12 @@ export class ChatPage extends Block<Props> {
       });
     }
 
+    if (!isEqual(oldProps.chatUsers, newProps.chatUsers)) {
+      (this.children.chat as Block).setProps({
+        chatUsers: newProps.chatUsers,
+      });
+    }
+
     if (!isEqual(oldProps.messagesGroup, newProps.messagesGroup)) {
       this.setProps({
         messagesGroup: newProps.messagesGroup,
@@ -152,16 +118,16 @@ export class ChatPage extends Block<Props> {
 
   render() {
     this.children.currentUser = new UserInfo({
-      className: '"user-short-info"',
+      className: 'user-short-info',
       avatar: new Avatar({
-        avatarSrc: this.props.currentUser.avatar,
-        wrapperClassName: '"avatar"',
-        imageClassName: '"avatar__image"',
+        avatarSrc: this.props.currentUser.avatar ?? '',
+        wrapperClassName: 'avatar',
+        imageClassName: 'avatar__image',
       }),
       shortInfo: new UserShortInfo({
-        className: '"user-short-info__user-info"',
-        userNameClass: '"user-short-info__user-name"',
-        userPhoneClass: '"user-short-info__user-phone"',
+        className: 'user-short-info__user-info',
+        userNameClass: 'user-short-info__user-name',
+        userPhoneClass: 'user-short-info__user-phone',
         userName: this.props.currentUser.first_name,
         userPhone: this.props.currentUser.phone,
       }),

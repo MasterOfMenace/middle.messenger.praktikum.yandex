@@ -3,7 +3,7 @@ const template = `
     <!-- upload files/images -->
     <!-- <input type="file" name="upload" id="upload" class="upload-file" /> -->
     <div class="new-message-input">
-      <textarea name="message" class="new-message-input__control">Смотри сам, что я скинул</textarea>
+      <textarea name="message" class="new-message-input__control"></textarea>
       <button class="new-message-input__send-button" type="submit">
         <svg width="29" height="29" viewBox="0 0 29 29" xmlns="http://www.w3.org/2000/svg">
           <path
