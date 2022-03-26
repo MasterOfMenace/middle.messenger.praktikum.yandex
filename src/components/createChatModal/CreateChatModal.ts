@@ -7,7 +7,6 @@ import template from './crateChat.modal.tmpl';
 
 type Props = {
   onSubmit?: (chatName: string) => void;
-  isVisible?: boolean;
 };
 
 const button = new Button({
@@ -44,26 +43,28 @@ export class CreateChatModal extends Block<Props> {
     super('div', {
       ...props,
       form,
+      events: {
+        click: {
+          event: ({target}: MouseEvent) => {
+            const inner = this._element?.querySelector('.modal__inner');
+            if ((target as Node).contains(inner as Node) && target !== inner) {
+              this.hide();
+            }
+          },
+        },
+      },
     });
   }
 
-  // componentDidMount(): void {
-  //   console.log('modal did mount');
-
-  //   if (!this.props.isVisible) {
-  //     this.hide();
-  //   }
-  // }
-
   show() {
-    console.log('show');
+    const element = this.getContent();
 
-    this._element.style.display = 'flex';
+    if (element) {
+      element.style.display = 'flex';
+    }
   }
 
   render() {
-    console.log(this.props);
-
     return this.compile(template, this.props);
   }
 }

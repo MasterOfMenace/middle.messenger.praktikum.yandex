@@ -1,4 +1,4 @@
-import {AuthApi} from '../../api/authApi/AuthApi';
+import {AuthApi, User} from '../../api/authApi/AuthApi';
 import {ChatsApi} from '../../api/chatsApi/ChatsApi';
 import {ChatShortInfo} from '../../components/chatList/ChatList';
 import store from '../../store/Store';
@@ -20,39 +20,20 @@ export class ChatPageController {
     if (!('user' in storeData)) {
       authApi.getUserData().then((response) => {
         store.set('user', response);
-        this.userId = (
-          store.getState()?.user as {
-            // вынести тип
-            id: number;
-            first_name: string;
-            second_name: string;
-            display_name: string;
-            login: string;
-            avatar: string;
-            email: string;
-            phone: string;
-          }
-        )?.id;
+        this.userId = (store.getState()?.user as User)?.id;
       });
     } else {
-      this.userId = (
-        storeData?.user as {
-          id: number;
-          first_name: string;
-          second_name: string;
-          display_name: string;
-          login: string;
-          avatar: string;
-          email: string;
-          phone: string;
-        }
-      )?.id;
+      this.userId = (storeData?.user as User)?.id;
     }
     this.getChats();
   }
 
   public static getChats(data?: {offset?: number; limit?: number; title?: string}) {
     chatsApi.getChats(data).then((response) => store.set('chats', response));
+  }
+
+  public static createChat(title: string) {
+    chatsApi.create(title).then(() => this.getChats());
   }
 
   public static async changeChat(selectedChat: ChatShortInfo) {

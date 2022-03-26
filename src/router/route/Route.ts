@@ -1,5 +1,5 @@
 import Block from '../../components/block/Block';
-import {isEqual, renderDOM} from '../../utils';
+import {renderDOM} from '../../utils';
 
 export default class Route<T extends Block = Block> {
   _pathname: string;
@@ -30,7 +30,7 @@ export default class Route<T extends Block = Block> {
   }
 
   match(pathname: string) {
-    return isEqual(pathname, this._pathname);
+    return pathname === this._pathname;
   }
 
   render() {

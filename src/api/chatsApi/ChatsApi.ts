@@ -41,4 +41,15 @@ export class ChatsApi extends BaseApi {
       return JSON.parse(response as string).map((user: User) => userAdapter(user));
     });
   }
+
+  create(title: string) {
+    return chatHttpTransport.post('/chats', {
+      data: {
+        title,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
 }

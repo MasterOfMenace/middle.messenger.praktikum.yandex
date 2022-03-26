@@ -30,17 +30,10 @@ const pageProps: Props = {
 };
 
 const modal = new CreateChatModal({
-  onSubmit: (name: string) => console.log(name),
-  isVisible: false,
+  onSubmit: (name: string) => {
+    ChatPageController.createChat(name);
+  },
 });
-
-window.modalChat = modal;
-
-// setTimeout(() => {
-//   modal.hide();
-// }, 2000);
-
-// modal.hide();
 export class ChatPage extends Block<Props> {
   constructor() {
     const chat = new EmptyChat({
@@ -62,9 +55,7 @@ export class ChatPage extends Block<Props> {
       events: {
         click: {
           event: () => {
-            console.log('clicked');
-            console.log(this.children);
-            this.children.modal.show();
+            (this.children.modal as Block).show();
           },
         },
       },
@@ -152,8 +143,6 @@ export class ChatPage extends Block<Props> {
   }
 
   render() {
-    console.log(this.props);
-
     this.children.currentUser = new UserInfo({
       className: 'user-short-info',
       avatar: new Avatar({
