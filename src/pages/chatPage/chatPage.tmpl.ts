@@ -3,12 +3,13 @@ const template = `
     <aside class="left-menu">
       <div class="left-menu__current-user-info">
         {{currentUser}}
+        <button>AddChat</button>
       </div>
-      <!-- add-user-icon -->
       <input type="text" class="input input--search" placeholder="Поиск" />
       {{chats}}
     </aside>
     {{chat}}
+    {{modal}}
   </div>`;
 
 export default template;

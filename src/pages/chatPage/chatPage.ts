@@ -10,6 +10,7 @@ import {ChatShortInfo, ChatList} from '../../components/chatList/ChatList';
 import {Chat, ChatMessage} from '../../components/chat/Chat';
 import {EmptyChat} from '../../components/emptyChat/EmptyChat';
 import {User} from '../../api/authApi/AuthApi';
+import {CreateChatModal} from '../../components/createChatModal/CreateChatModal';
 
 type Props = {
   currentUser: User;
@@ -27,6 +28,9 @@ const pageProps: Props = {
   chatUsers: [],
 };
 
+const modal = new CreateChatModal({
+  onSubmit: (name: string) => console.log(name),
+});
 export class ChatPage extends Block<Props> {
   constructor() {
     const chat = new EmptyChat({
@@ -45,6 +49,7 @@ export class ChatPage extends Block<Props> {
       ...pageProps,
       chat,
       chats,
+      modal,
     });
 
     store.subscribe(STORE_EVENTS.UPDATED, () => {

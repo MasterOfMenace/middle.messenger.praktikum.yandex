@@ -16,6 +16,7 @@
 @import url('/src/styles/new-message.css');
 @import url('/src/styles/user-profile.css');
 @import url('/src/styles/chat-page.css');
+@import url('/src/styles/modal.css');
 
 .main-page {
   width: 100%;

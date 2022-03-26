@@ -16,6 +16,10 @@
 }
 
 .left-menu__current-user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
   border-bottom: 1px solid var(--chat-border-color);
   padding-bottom: 5px;
 }

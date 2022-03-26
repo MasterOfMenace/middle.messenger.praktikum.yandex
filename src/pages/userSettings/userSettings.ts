@@ -173,16 +173,16 @@ const form = new Form({
 });
 
 const userInfo = new UserInfo({
-  className: '"user-short-info"',
+  className: 'user-short-info',
   avatar: new Avatar({
     avatarSrc: '',
-    wrapperClassName: '"avatar"',
-    imageClassName: '"avatar__image"',
+    wrapperClassName: 'avatar',
+    imageClassName: 'avatar__image',
   }),
   shortInfo: new UserShortInfo({
-    className: '"user-short-info__user-info"',
-    userNameClass: '"user-short-info__user-name"',
-    userPhoneClass: '"user-short-info__user-phone"',
+    className: 'user-short-info__user-info',
+    userNameClass: 'user-short-info__user-name',
+    userPhoneClass: 'user-short-info__user-phone',
     userName: '',
     userPhone: '',
   }),

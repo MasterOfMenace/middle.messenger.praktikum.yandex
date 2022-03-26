@@ -8,9 +8,6 @@ export type InputProps = {
   name?: string;
   id?: string;
   controlClassName?: string;
-  dataSet?: {
-    name?: string;
-  };
   label?: {
     text?: string;
     className?: string;

@@ -16,9 +16,6 @@ type SignupPageProps = {
 const firstNameInput = new Input({
   name: 'first_name',
   id: 'first_name',
-  dataSet: {
-    name: 'first-name',
-  },
   label: {
     text: 'Имя',
     className: 'input__label',

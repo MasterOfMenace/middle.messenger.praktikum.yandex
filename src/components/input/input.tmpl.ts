@@ -1,13 +1,12 @@
 const template = `
-  <label class={{className}}>
-    <p class={{label.className}}>{{label.text}}</p>
+  <label class="{{className}}">
+    <p class="{{label.className}}">{{label.text}}</p>
     <input
       value="{{value}}"
-      class={{controlClassName}}
+      class="{{controlClassName}}"
       type={{type}}
       name={{name}}
       id={{id}}
-      data-name={{dataSet.name}}
       minLength={{validationProps.minLength}}
       maxLength={{validationProps.maxLength}}
       required={{validationProps.required}}

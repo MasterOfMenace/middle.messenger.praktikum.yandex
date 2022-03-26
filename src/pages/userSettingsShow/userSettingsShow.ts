@@ -136,7 +136,7 @@ export class UserSettingsShow extends Block<UserSettingsProps> {
         userPhone: userData.phone,
       });
       this.props.userInfo.props.avatar.setProps({
-        avatarSrc: `https://ya-praktikum.tech/api/v2/resources${userData.avatar}`,
+        avatarSrc: userData.avatar,
       });
       this.props.userProfile.setProps({
         name: userData.name,
