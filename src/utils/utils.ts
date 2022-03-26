@@ -67,32 +67,43 @@ function isFunction(value: unknown): value is Function {
   return typeof value === 'function';
 }
 
-export function isEqual(a: Record<string, any>, b: Record<string, any>): boolean {
-  // Код здесь
-  const aKeys = Object.keys(a);
-  const bKeys = Object.keys(b);
+// function isObject
 
-  if (aKeys.length !== bKeys.length) {
-    return false;
+export function isEqual<T>(a: T, b: T): boolean {
+  // Код здесь
+  if (
+    (typeof a === 'string' && typeof b === 'string') ||
+    (typeof a === 'number' && typeof b === 'number')
+  ) {
+    return a === b;
   }
 
-  for (const key of aKeys) {
-    const aVal = a[key];
-    const bVal = b[key];
+  if (isObject(a) && isObject(b)) {
+    const aKeys = Object.keys(a);
+    const bKeys = Object.keys(b);
 
-    const isBothValuesObjects = isObject(aVal) && isObject(bVal);
-    const isBothFunctions = isFunction(aVal) && isFunction(bVal);
-
-    if (isBothValuesObjects && !isEqual(aVal, bVal)) {
+    if (aKeys.length !== bKeys.length) {
       return false;
     }
 
-    if (!isBothValuesObjects && !isBothFunctions && aVal !== bVal) {
-      return false;
-    }
+    for (const key of aKeys) {
+      const aVal = a[key];
+      const bVal = b[key];
 
-    if (isBothFunctions && aVal.toString() !== bVal.toString()) {
-      return false;
+      const isBothValuesObjects = isObject(aVal) && isObject(bVal);
+      const isBothFunctions = isFunction(aVal) && isFunction(bVal);
+
+      if (isBothValuesObjects && !isEqual(aVal, bVal)) {
+        return false;
+      }
+
+      if (!isBothValuesObjects && !isBothFunctions && aVal !== bVal) {
+        return false;
+      }
+
+      if (isBothFunctions && aVal.toString() !== bVal.toString()) {
+        return false;
+      }
     }
   }
   return true;

@@ -25,7 +25,7 @@ export default class Route<T extends Block = Block> {
 
   leave() {
     if (this._block) {
-      this._block.hide();
+      this._block.removeElement();
     }
   }
 

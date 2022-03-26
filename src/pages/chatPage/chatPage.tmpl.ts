@@ -3,7 +3,7 @@ const template = `
     <aside class="left-menu">
       <div class="left-menu__current-user-info">
         {{currentUser}}
-        <button>AddChat</button>
+        {{addChatButton}}
       </div>
       <input type="text" class="input input--search" placeholder="Поиск" />
       {{chats}}

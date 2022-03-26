@@ -112,33 +112,26 @@ class Block<T extends Props = Props> {
 
   init() {
     this._createResources();
-    // this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
-    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
   _componentDidMount() {
+    // большое количество перерисовок, не могу понять почему
     this.componentDidMount();
 
     if (this.children) {
       Object.values(this.children).forEach((child) => {
         if (Array.isArray(child)) {
-          child.forEach((item) => item.dispatchComponentDidMount());
+          child.forEach((item) => item.componentDidMount());
         } else {
-          child.dispatchComponentDidMount();
+          child.componentDidMount();
         }
       });
     }
-    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
   // Может переопределять пользователь, необязательно трогать
   componentDidMount() {}
-
-  dispatchComponentDidMount() {
-    // console.log('dispatch component did mont');
-
-    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
-  }
 
   _componentDidUpdate(oldProps: T, newProps: T) {
     const response = this.componentDidUpdate(oldProps, newProps);
@@ -182,6 +175,7 @@ class Block<T extends Props = Props> {
 
     this._element = newElement;
     this._addEvents();
+    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
     // Этот небезопасный метод для упрощения логики
     // Используйте шаблонизатор из npm или напишите свой безопасный
     // Нужно не в строку компилировать (или делать это правильно),
@@ -263,10 +257,17 @@ class Block<T extends Props = Props> {
     }
   }
 
-  hide() {
+  removeElement() {
     const content = this.getContent();
     if (content) {
       content.remove();
+    }
+  }
+
+  hide() {
+    const content = this.getContent();
+    if (content) {
+      content.style.display = 'none';
     }
   }
 
