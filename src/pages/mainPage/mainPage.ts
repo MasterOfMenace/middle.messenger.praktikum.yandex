@@ -1,5 +1,6 @@
 import Block from '../../components/block/Block';
 import {LinkWithRouter} from '../../components/link';
+import {MainPageController} from './mainPage.controller';
 import mainPageTemplate from './mainPage.tmpl';
 
 type MainPageProps = {
@@ -27,6 +28,8 @@ const props: MainPageProps = {
 export class MainPage extends Block<MainPageProps> {
   constructor() {
     super('div', props);
+
+    MainPageController.checkAuth();
   }
 
   render() {

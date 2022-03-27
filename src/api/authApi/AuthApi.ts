@@ -2,6 +2,9 @@ import {BASE_URL} from '../../constants/constants';
 import HTTPTransport from '../../utils/httpTransport';
 import {userAdapter} from '../adapter/userAdapter/userAdapter';
 import {BaseApi} from '../baseApi/BaseApi';
+import {Router} from '../../router';
+
+const router = Router.getInstance('#root');
 
 export type User = {
   id: number;
@@ -57,6 +60,10 @@ export class AuthApi extends BaseApi {
   getUserData() {
     return authHttpTransport
       .get('/auth/user')
-      .then((response) => userAdapter(JSON.parse(response as string)));
+      .then((response) => userAdapter(JSON.parse(response as string)))
+      .catch((err) => {
+        router.go('/');
+        throw new Error(err);
+      });
   }
 }

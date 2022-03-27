@@ -22,11 +22,12 @@ export class ChatPageController {
         store.set('user', response);
 
         this.userId = (store.getState()?.user as User)?.id;
+        this.getChats();
       });
     } else {
-      this.userId = (storeData?.user as User)?.id;
+      this.userId = storeData.user.id;
+      this.getChats();
     }
-    this.getChats();
   }
 
   public static getChats(data?: {offset?: number; limit?: number; title?: string}) {
