@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "---",
   "devDependencies": {
+    "@babel/core": "7.17.8",
     "@babel/preset-env": "7.16.11",
     "@babel/preset-typescript": "7.16.7",
     "@types/chai": "4.3.0",
