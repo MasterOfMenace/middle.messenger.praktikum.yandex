@@ -12,6 +12,9 @@ import {EmptyChat} from '../../components/emptyChat/EmptyChat';
 import {User} from '../../api/authApi/AuthApi';
 import {CreateChatModal} from '../../components/createChatModal/CreateChatModal';
 import {Button} from '../../components/button';
+import {Router} from '../../router';
+
+const router = Router.getInstance('#root');
 
 type Props = {
   currentUser: User;
@@ -67,12 +70,36 @@ export class ChatPage extends Block<Props> {
       },
     });
 
+    const currentUserElem = new UserInfo({
+      className: 'user-short-info',
+      avatar: new Avatar({
+        avatarSrc: pageProps.currentUser.avatar ?? '',
+        wrapperClassName: 'avatar',
+        imageClassName: 'avatar__image',
+        events: {
+          click: {
+            event: () => {
+              router.go('/user-settings');
+            },
+          },
+        },
+      }),
+      shortInfo: new UserShortInfo({
+        className: 'user-short-info__user-info',
+        userNameClass: 'user-short-info__user-name',
+        userPhoneClass: 'user-short-info__user-phone',
+        userName: pageProps.currentUser.first_name,
+        userPhone: pageProps.currentUser.phone,
+      }),
+    });
+
     super('div', {
       ...pageProps,
       chat,
       chatsList,
       modal,
       addChatButton,
+      currentUserElem,
     });
 
     store.subscribe(STORE_EVENTS.UPDATED, () => {
@@ -92,7 +119,7 @@ export class ChatPage extends Block<Props> {
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props): boolean {
-    if (!oldProps.currentChat && !!newProps.currentChat) {
+    if (!oldProps.currentChat?.id && !!newProps.currentChat) {
       this.children.chat = new Chat({
         currentUser: this.props.currentUser,
         messages: this.props.messagesGroup,
@@ -101,6 +128,19 @@ export class ChatPage extends Block<Props> {
         onSendMessage: (message) => {
           ChatPageController.sendMessage(message);
         },
+      });
+    }
+
+    if (newProps.currentUser.id !== oldProps.currentUser.id) {
+      const user = this.children.currentUserElem as Block;
+
+      (user.children?.shortInfo as Block)?.setProps({
+        userName: newProps.currentUser.first_name,
+        userPhone: newProps.currentUser.phone,
+      });
+
+      (user.children?.avatar as Block).setProps({
+        avatarSrc: newProps.currentUser.avatar ?? '',
       });
     }
 
@@ -131,22 +171,6 @@ export class ChatPage extends Block<Props> {
   }
 
   render() {
-    this.children.currentUser = new UserInfo({
-      className: 'user-short-info',
-      avatar: new Avatar({
-        avatarSrc: this.props.currentUser.avatar ?? '',
-        wrapperClassName: 'avatar',
-        imageClassName: 'avatar__image',
-      }),
-      shortInfo: new UserShortInfo({
-        className: 'user-short-info__user-info',
-        userNameClass: 'user-short-info__user-name',
-        userPhoneClass: 'user-short-info__user-phone',
-        userName: this.props.currentUser.first_name,
-        userPhone: this.props.currentUser.phone,
-      }),
-    });
-
     return this.compile(template, this.props);
   }
 }
