@@ -5,7 +5,7 @@
   display: grid;
   align-items: center;
   justify-items: center;
-  background-image: url("/static/images/background-image.jpg");
+  background-image: url('/static/images/background-image.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top left;
