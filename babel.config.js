@@ -4,5 +4,11 @@ module.exports = (api) => {
 
   const presets = ['@babel/preset-typescript', '@babel/preset-env'];
 
-  return {presets};
+  return {
+    env: {
+      test: {
+        presets,
+      },
+    },
+  };
 };
