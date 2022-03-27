@@ -141,3 +141,10 @@ export function set<T extends Indexed>(object: T, path: string, value: unknown):
   }, value as any);
   return merge(object, assignable as T);
 }
+
+export function getTimeFromDate(value: number | string): string {
+  const date = new Date(value);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  return `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
+}

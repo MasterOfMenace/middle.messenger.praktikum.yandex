@@ -23,37 +23,32 @@ export class ChatsApi extends BaseApi {
 
   getChatToken(chatId: number) {
     return chatHttpTransport.post(`/chats/token/${chatId}`).then((response) => {
-      console.log('chat token received response', response);
       return JSON.parse(response as string).token;
     });
   }
 
   getMessagesCount(chatId: number) {
     return chatHttpTransport.get(`/chats/new/${chatId}`).then((response) => {
-      console.log('messages count received response', response);
       return JSON.parse(response as string);
     });
   }
 
   getChatUsers(chatId: number) {
     return chatHttpTransport.get(`/chats/${chatId}/users`).then((response) => {
-      console.log('chat users received', response);
       return JSON.parse(response as string).map((user: User) => userAdapter(user));
     });
   }
 
   addUserToChat(userId: number, chatId: number) {
-    return chatHttpTransport
-      .put('/chats/users', {
-        data: {
-          users: [userId],
-          chatId,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then((response) => console.log('user added', response));
+    return chatHttpTransport.put('/chats/users', {
+      data: {
+        users: [userId],
+        chatId,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 
   create(title: string) {

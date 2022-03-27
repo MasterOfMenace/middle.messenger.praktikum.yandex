@@ -21,8 +21,6 @@ class Store<T extends Indexed> extends EventBus {
   }
 
   public set(path: string, value: unknown) {
-    console.log('store.set');
-
     this.state = set(this.state, path, value);
     this.emit(STORE_EVENTS.UPDATED);
   }
@@ -49,7 +47,5 @@ const initialState: InitialState = {
 };
 
 const store = new Store<InitialState>(initialState);
-
-window.store = store;
 
 export default store;

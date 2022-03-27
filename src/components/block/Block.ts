@@ -87,8 +87,6 @@ class Block<T extends Props = Props> {
       if (v instanceof Block) {
         children[k] = v;
       } else if (Array.isArray(v) && v.length && v.every((item) => item instanceof Block)) {
-        // console.log(k);
-
         children[k] = v as Block[];
       } else {
         props[k] = v;

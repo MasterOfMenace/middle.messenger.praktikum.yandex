@@ -1,4 +1,5 @@
 import {UserDataSignUp} from '../../api/authApi/AuthApi';
+import {getTimeFromDate} from '../../utils';
 import Block from '../block/Block';
 import {ChatListItem} from '../chatListItem';
 import template from './chatlist.tmpl';
@@ -57,7 +58,7 @@ export class ChatList extends Block<Props> {
           currentChat: this.props.currentChat,
           chat: item,
           userName: item.last_message?.user?.first_name,
-          messageTime: item.last_message?.time,
+          messageTime: getTimeFromDate(item.last_message?.time),
           message: item.last_message?.content,
           events: {
             click: {

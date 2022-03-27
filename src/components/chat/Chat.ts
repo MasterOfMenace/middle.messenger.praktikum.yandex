@@ -1,4 +1,4 @@
-import {formSubmitHandler} from '../../utils';
+import {formSubmitHandler, getTimeFromDate} from '../../utils';
 import {Avatar} from '../avatar';
 import Block from '../block/Block';
 import {ChatShortInfo} from '../chatList/ChatList';
@@ -67,7 +67,7 @@ export class Chat extends Block<ChatProps> {
           }),
           message: {
             text: item.content,
-            time: item.time,
+            time: getTimeFromDate(item.time),
           },
           className: item.user_id === this.props.currentUser.id ? 'message--current-user' : '',
         });
@@ -96,7 +96,6 @@ export class Chat extends Block<ChatProps> {
 
     const modal = new AddUserModal({
       onSelectUser: (id: number) => {
-        console.log('userId', id, this.props.currentChat?.id);
         if (id && this.props.currentChat?.id) {
           ChatPageController.addUserToChat(id, this.props.currentChat.id);
         }
@@ -127,7 +126,7 @@ export class Chat extends Block<ChatProps> {
           className: item.user_id === this.props.currentUser.id ? 'message--current-user' : '',
           message: {
             text: item.content,
-            time: item.time,
+            time: getTimeFromDate(item.time),
           },
         });
       }),
