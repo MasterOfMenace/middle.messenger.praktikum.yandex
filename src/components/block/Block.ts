@@ -1,6 +1,6 @@
 import {v4 as makeId} from 'uuid';
+import {Templator} from '../../Templator';
 import EventBus from '../eventBus/EventBus';
-import {Templator} from '../../utils';
 
 export type Children = {
   [key: string]: Block | Block[];
@@ -20,21 +20,6 @@ type Meta = {
   tagName: string;
   props: Props;
 };
-
-export interface IBlock<T extends Props = Props> {
-  new (): Block;
-  _element: HTMLElement | null;
-
-  _meta: Meta;
-
-  _id: string | null;
-
-  children: Children;
-
-  props: T;
-
-  eventBus: EventBus;
-}
 
 class Block<T extends Props = Props> {
   static EVENTS = {

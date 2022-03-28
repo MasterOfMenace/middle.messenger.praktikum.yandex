@@ -1,11 +1,9 @@
-import {AuthApi} from '../../api/authApi/AuthApi';
-import {UserApi} from '../../api/userApi/UserApi';
+import {authApi} from '../../api/authApi/AuthApi';
+import {userApi} from '../../api/userApi';
 import {Router} from '../../router';
 import store from '../../store/Store';
 
 const router = Router.getInstance('#root');
-const authApi = new AuthApi();
-const userApi = new UserApi();
 
 export class UserSettingsController {
   public static getUserData() {

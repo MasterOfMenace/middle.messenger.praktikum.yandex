@@ -50,6 +50,8 @@ export class Chat extends Block<ChatProps> {
         submit: {
           event: (evt) => {
             const {message} = formSubmitHandler(evt);
+            (evt.target as HTMLFormElement).reset();
+
             this.props.onSendMessage(message);
           },
         },

@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import HTTPTransport from './httpTransport';
+import HTTPTransport from './HTTPTransport';
 
 const httpTransport = new HTTPTransport('http://fakeurl.com');
 

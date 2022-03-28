@@ -18,82 +18,6 @@ type UserSettingsProps = {
   linkBack: Block;
 };
 
-const linkToEditPage = new LinkWithRouter({
-  to: '/user-settings/edit',
-  className: 'user-settings-page__change-password button button--underline',
-  children: 'Редактировать',
-});
-
-const linkToPasswordChange = new LinkWithRouter({
-  to: '/change-password',
-  className: 'user-settings-page__change-password button button--underline',
-  children: 'Изменить пароль',
-});
-
-const logoutButton = new Button({
-  type: 'button',
-  className: 'user-settings-page__change-password button button--underline',
-  text: 'Выйти',
-  events: {
-    click: {
-      event: () => {
-        UserSettingsController.logout();
-      },
-    },
-  },
-});
-
-const linkBack = new LinkWithRouter({
-  to: '/chat',
-  className: 'button button--round',
-  children: `<svg
-  width="24"
-  height="24"
-  viewBox="0 0 24 24"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <path
-    d="M17.77 3.77L16 2L6 12L16 22L17.77 20.23L9.54 12L17.77 3.77Z"
-  />
-</svg>`,
-});
-
-const list = new UserProfile({
-  name: '',
-  login: '',
-  displayName: '',
-  email: '',
-  secondName: '',
-  phone: '',
-});
-
-const userInfo = new UserInfo({
-  className: 'user-short-info user-short-info--settings-page',
-  avatar: new Avatar({
-    avatarSrc: '',
-    wrapperClassName: 'avatar',
-    imageClassName: 'avatar__image',
-    events: {
-      click: {
-        event: () => {
-          const fileInput = document.getElementById('avatar-upload') as HTMLInputElement;
-          fileInput.click();
-          fileInput.addEventListener('change', () =>
-            UserSettingsController.changeAvatar(fileInput.files),
-          );
-        },
-      },
-    },
-  }),
-  shortInfo: new UserShortInfo({
-    className: 'user-short-info__user-info',
-    userNameClass: 'user-short-info__user-name',
-    userPhoneClass: 'user-short-info__user-phone',
-    userName: '',
-    userPhone: '',
-  }),
-});
-
 const getUserInfo = (state: any) => {
   if (state.user) {
     return {
@@ -111,6 +35,82 @@ const getUserInfo = (state: any) => {
 
 export class UserSettingsShow extends Block<UserSettingsProps> {
   constructor() {
+    const linkToEditPage = new LinkWithRouter({
+      to: '/user-settings/edit',
+      className: 'user-settings-page__change-password button button--underline',
+      children: 'Редактировать',
+    });
+
+    const linkToPasswordChange = new LinkWithRouter({
+      to: '/change-password',
+      className: 'user-settings-page__change-password button button--underline',
+      children: 'Изменить пароль',
+    });
+
+    const logoutButton = new Button({
+      type: 'button',
+      className: 'user-settings-page__change-password button button--underline',
+      text: 'Выйти',
+      events: {
+        click: {
+          event: () => {
+            UserSettingsController.logout();
+          },
+        },
+      },
+    });
+
+    const linkBack = new LinkWithRouter({
+      to: '/chat',
+      className: 'button button--round',
+      children: `<svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M17.77 3.77L16 2L6 12L16 22L17.77 20.23L9.54 12L17.77 3.77Z"
+      />
+    </svg>`,
+    });
+
+    const list = new UserProfile({
+      name: '',
+      login: '',
+      displayName: '',
+      email: '',
+      secondName: '',
+      phone: '',
+    });
+
+    const userInfo = new UserInfo({
+      className: 'user-short-info user-short-info--settings-page',
+      avatar: new Avatar({
+        avatarSrc: '',
+        wrapperClassName: 'avatar',
+        imageClassName: 'avatar__image',
+        events: {
+          click: {
+            event: () => {
+              const fileInput = document.getElementById('avatar-upload') as HTMLInputElement;
+              fileInput.click();
+              fileInput.addEventListener('change', () =>
+                UserSettingsController.changeAvatar(fileInput.files),
+              );
+            },
+          },
+        },
+      }),
+      shortInfo: new UserShortInfo({
+        className: 'user-short-info__user-info',
+        userNameClass: 'user-short-info__user-name',
+        userPhoneClass: 'user-short-info__user-phone',
+        userName: '',
+        userPhone: '',
+      }),
+    });
+
     super('div', {
       userInfo,
       userProfile: list,

@@ -6,7 +6,7 @@ const template = `
     <div class="short-message">
       <div class="short-message__user">
         <span class="short-message__user-name">{{userName}}</span>
-        <span class="short-message__time">{{messageTime}}</span>
+        <time class="short-message__time">{{messageTime}}</time>
       </div>
       <div class="short-message__message">
         <span>{{message}}</span>

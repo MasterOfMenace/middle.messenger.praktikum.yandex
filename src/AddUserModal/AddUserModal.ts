@@ -1,4 +1,4 @@
-import {UserApi} from '../api/userApi/UserApi';
+import {userApi} from '../api/userApi';
 import Block from '../components/block/Block';
 import {Button} from '../components/button';
 import Form from '../components/form/Form';
@@ -11,8 +11,6 @@ import template from './addUserModal.tmpl';
 type Props = {
   onSelectUser?: (id: number) => void;
 };
-
-const userApi = new UserApi();
 
 export class AddUserModal extends Block<Props> {
   loader: HTMLElement | null;

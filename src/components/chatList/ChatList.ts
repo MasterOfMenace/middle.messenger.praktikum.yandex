@@ -3,40 +3,20 @@ import {getTimeFromDate} from '../../utils';
 import Block from '../block/Block';
 import {ChatListItem} from '../chatListItem';
 import template from './chatlist.tmpl';
-
-/*
-[
-  {
-    "id": 123,
-    "title": "my-chat",
-    "avatar": "/123/avatar1.jpg",
-    "unread_count": 15,
-    "last_message": {
-      "user": {
-        "first_name": "Petya",
-        "second_name": "Pupkin",
-        "avatar": "/path/to/avatar.jpg",
-        "email": "my@email.com",
-        "login": "userLogin",
-        "phone": "8(911)-222-33-22"
-      },
-      "time": "2020-01-02T14:22:22.000Z",
-      "content": "this is message content"
-    }
-  }
-]
-*/
+import {getLastMessageContent} from './chatList.utils';
 
 export type ChatShortInfo = {
   id: number;
   title: string;
-  avatar: string;
+  avatar: string | null;
   unread_count: number;
-  last_message: {
-    user: Omit<UserDataSignUp, 'password'>;
-    time: string;
-    content: string;
-  };
+  last_message: null | LastMessage;
+};
+
+export type LastMessage = {
+  user: Omit<UserDataSignUp, 'password'>;
+  time: string;
+  content: string;
 };
 
 type Props = {
@@ -57,9 +37,9 @@ export class ChatList extends Block<Props> {
         new ChatListItem({
           currentChat: this.props.currentChat,
           chat: item,
-          userName: item.last_message?.user?.first_name,
+          userName: item.title,
           messageTime: getTimeFromDate(item.last_message?.time),
-          message: item.last_message?.content,
+          message: getLastMessageContent(item.last_message),
           events: {
             click: {
               event: (selected: ChatShortInfo) => {

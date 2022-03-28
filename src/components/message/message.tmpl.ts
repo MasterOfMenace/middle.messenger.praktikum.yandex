@@ -5,7 +5,7 @@ const template = `
     <p class="message__text">
       {{message.text}}
     </p>
-    <p class="message__time">{{message.time}}</p>
+    <time class="message__time">{{message.time}}</time>
   </div>
 </li>`;
 

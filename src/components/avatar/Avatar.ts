@@ -11,18 +11,10 @@ type AvatarProps = {
 
 export default class Avatar extends Block<AvatarProps> {
   constructor(props: AvatarProps) {
-    const defaultProps: Partial<AvatarProps> = {
-      wrapperClassName: 'avatar',
-      imageClassName: '"avatar__image"',
-      avatarSrc: imagePlaceholder,
-    };
-
     super('div', {
-      avatarSrc: props.avatarSrc ? props.avatarSrc : defaultProps.avatarSrc,
-      wrapperClassName: props.wrapperClassName
-        ? props.wrapperClassName
-        : defaultProps.wrapperClassName,
-      imageClassName: props.imageClassName ? props.imageClassName : defaultProps.imageClassName,
+      avatarSrc: props.avatarSrc || imagePlaceholder,
+      wrapperClassName: props.wrapperClassName || 'avatar',
+      imageClassName: props.imageClassName || 'avatar__image',
       events: props.events ?? undefined,
     });
   }

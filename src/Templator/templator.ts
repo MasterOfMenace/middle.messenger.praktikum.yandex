@@ -1,4 +1,4 @@
-import {getValueByPath} from './utils';
+import {getValueByPath} from '../utils';
 
 class Templator {
   REGEXP = /\{\{(.*?)\}\}/gi;

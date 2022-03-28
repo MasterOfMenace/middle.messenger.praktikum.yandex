@@ -1,6 +1,4 @@
-import {AuthApi, UserDataSignUp} from '../../api/authApi/AuthApi';
-
-const authApi = new AuthApi();
+import {authApi, UserDataSignUp} from '../../api/authApi/AuthApi';
 
 export class SignupPageController {
   public static signUp(data: UserDataSignUp) {

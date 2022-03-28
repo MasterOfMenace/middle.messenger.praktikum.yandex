@@ -2,7 +2,7 @@ import {User} from '../api/authApi/AuthApi';
 import {ChatMessage} from '../components/chat/Chat';
 import {ChatShortInfo} from '../components/chatList/ChatList';
 import EventBus from '../components/eventBus/EventBus';
-import {Indexed, set} from '../utils';
+import {set} from '../utils';
 
 export const STORE_EVENTS = {
   UPDATED: 'updated',

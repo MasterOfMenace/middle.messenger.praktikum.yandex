@@ -1,17 +1,6 @@
-import {ChatMessage} from '../components/chat/Chat';
 import EventBus from '../components/eventBus/EventBus';
 import store from '../store/Store';
-import {isObject} from './utils';
-
-function isMessagesArrayData(data: unknown): data is ChatMessage[] {
-  return (
-    Array.isArray(data) && data.every((item) => item.type === 'message' || item.type === 'file')
-  );
-}
-
-function isMessageData(data: unknown): data is ChatMessage {
-  return isObject(data) && (data.type === 'message' || data.type === 'file');
-}
+import {isMessagesArrayData, isMessageData} from './messagesTransport.utils';
 
 export class MessagesTransport extends EventBus {
   EVENTS = {

@@ -1,14 +1,18 @@
 import {BASE_URL} from '../../constants/constants';
-import HTTPTransport from '../../utils/httpTransport';
+import HTTPTransport from '../../HTTPTransport/HTTPTransport';
 import {userAdapter} from '../adapter/userAdapter/userAdapter';
 import {User, UserDataSignUp} from '../authApi/AuthApi';
 
-const userHttpTransport = new HTTPTransport(BASE_URL);
+class UserApi {
+  httpTransport: HTTPTransport;
 
-export class UserApi {
+  constructor() {
+    this.httpTransport = new HTTPTransport(`${BASE_URL}/user`);
+  }
+
   update(userData: UserDataSignUp) {
-    return userHttpTransport
-      .put('/user/profile', {
+    return this.httpTransport
+      .put('/profile', {
         data: userData,
         headers: {
           'Content-Type': 'application/json',
@@ -24,8 +28,8 @@ export class UserApi {
     if (!formData.has('avatar')) {
       return undefined;
     }
-    return userHttpTransport
-      .put('/user/profile/avatar', {
+    return this.httpTransport
+      .put('/profile/avatar', {
         data: formData,
       })
       .then((response) => {
@@ -38,8 +42,8 @@ export class UserApi {
   }
 
   findUserByLogin(login: string): Promise<User[]> {
-    return userHttpTransport
-      .post('/user/search', {
+    return this.httpTransport
+      .post('/search', {
         data: {
           login,
         },
@@ -50,3 +54,5 @@ export class UserApi {
       .then((response) => JSON.parse(response as string));
   }
 }
+
+export const userApi = new UserApi();

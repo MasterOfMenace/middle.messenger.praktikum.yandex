@@ -1,5 +1,5 @@
 import {BASE_URL} from '../../constants/constants';
-import HTTPTransport from '../../utils/httpTransport';
+import HTTPTransport from '../../HTTPTransport/HTTPTransport';
 import {userAdapter} from '../adapter/userAdapter/userAdapter';
 import {Router} from '../../router';
 
@@ -23,12 +23,16 @@ export type UserDataSignUp = Pick<
   password: string;
 };
 
-const authHttpTransport = new HTTPTransport(BASE_URL);
+class AuthApi {
+  httpTransport: HTTPTransport;
 
-export class AuthApi {
+  constructor() {
+    this.httpTransport = new HTTPTransport(`${BASE_URL}/auth`);
+  }
+
   login(data: {login: string; password: string}) {
-    return authHttpTransport
-      .post('/auth/signin', {
+    return this.httpTransport
+      .post('/signin', {
         data,
         headers: {
           'Content-Type': 'application/json',
@@ -40,8 +44,8 @@ export class AuthApi {
   }
 
   signUp(data: UserDataSignUp) {
-    return authHttpTransport
-      .post('/auth/signup', {
+    return this.httpTransport
+      .post('/signup', {
         data,
         headers: {
           'Content-Type': 'application/json',
@@ -53,12 +57,12 @@ export class AuthApi {
   }
 
   logout() {
-    return authHttpTransport.post('/auth/logout');
+    return this.httpTransport.post('/logout');
   }
 
   getUserData() {
-    return authHttpTransport
-      .get('/auth/user')
+    return this.httpTransport
+      .get('/user')
       .then((response) => userAdapter(JSON.parse(response as string)))
       .catch((err) => {
         router.go('/');
@@ -66,3 +70,5 @@ export class AuthApi {
       });
   }
 }
+
+export const authApi = new AuthApi();

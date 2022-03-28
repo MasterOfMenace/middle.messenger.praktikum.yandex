@@ -1,13 +1,17 @@
 import {BASE_URL} from '../../constants/constants';
-import HTTPTransport from '../../utils/httpTransport';
+import HTTPTransport from '../../HTTPTransport/HTTPTransport';
 import {userAdapter} from '../adapter/userAdapter/userAdapter';
 import {User} from '../authApi/AuthApi';
 
-const chatHttpTransport = new HTTPTransport(BASE_URL);
+class ChatsApi {
+  httpTransport: HTTPTransport;
 
-export class ChatsApi {
+  constructor() {
+    this.httpTransport = new HTTPTransport(BASE_URL);
+  }
+
   getChats(data?: {offset?: number; limit?: number; title?: string}) {
-    return chatHttpTransport
+    return this.httpTransport
       .get('/chats', {
         data,
         headers: {
@@ -21,25 +25,25 @@ export class ChatsApi {
   }
 
   getChatToken(chatId: number) {
-    return chatHttpTransport.post(`/chats/token/${chatId}`).then((response) => {
+    return this.httpTransport.post(`/chats/token/${chatId}`).then((response) => {
       return JSON.parse(response as string).token;
     });
   }
 
   getMessagesCount(chatId: number) {
-    return chatHttpTransport.get(`/chats/new/${chatId}`).then((response) => {
+    return this.httpTransport.get(`/chats/new/${chatId}`).then((response) => {
       return JSON.parse(response as string);
     });
   }
 
   getChatUsers(chatId: number) {
-    return chatHttpTransport.get(`/chats/${chatId}/users`).then((response) => {
+    return this.httpTransport.get(`/chats/${chatId}/users`).then((response) => {
       return JSON.parse(response as string).map((user: User) => userAdapter(user));
     });
   }
 
   addUserToChat(userId: number, chatId: number) {
-    return chatHttpTransport.put('/chats/users', {
+    return this.httpTransport.put('/chats/users', {
       data: {
         users: [userId],
         chatId,
@@ -51,7 +55,7 @@ export class ChatsApi {
   }
 
   create(title: string) {
-    return chatHttpTransport.post('/chats', {
+    return this.httpTransport.post('/chats', {
       data: {
         title,
       },
@@ -61,3 +65,5 @@ export class ChatsApi {
     });
   }
 }
+
+export const chatsApi = new ChatsApi();

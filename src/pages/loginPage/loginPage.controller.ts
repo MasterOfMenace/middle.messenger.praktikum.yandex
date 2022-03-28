@@ -1,8 +1,7 @@
-import {AuthApi} from '../../api/authApi/AuthApi';
+import {authApi} from '../../api/authApi/AuthApi';
 import {Router} from '../../router';
 import store from '../../store/Store';
 
-const authApi = new AuthApi();
 const router = Router.getInstance('#root');
 
 export class LoginPageController {

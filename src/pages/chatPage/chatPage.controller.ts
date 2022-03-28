@@ -1,11 +1,8 @@
-import {AuthApi, User} from '../../api/authApi/AuthApi';
-import {ChatsApi} from '../../api/chatsApi/ChatsApi';
+import {authApi, User} from '../../api/authApi/AuthApi';
+import {chatsApi} from '../../api/chatsApi/ChatsApi';
 import {ChatShortInfo} from '../../components/chatList/ChatList';
+import {MessagesTransport} from '../../MessagesTransport/MessagesTransport';
 import store from '../../store/Store';
-import {MessagesTransport} from '../../utils/MessagesTransport';
-
-const chatsApi = new ChatsApi();
-const authApi = new AuthApi();
 
 export class ChatPageController {
   static messageTransport: MessagesTransport | null;
