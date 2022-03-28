@@ -1,7 +1,6 @@
 import {BASE_URL} from '../../constants/constants';
 import HTTPTransport from '../../utils/httpTransport';
 import {userAdapter} from '../adapter/userAdapter/userAdapter';
-import {BaseApi} from '../baseApi/BaseApi';
 import {Router} from '../../router';
 
 const router = Router.getInstance('#root');
@@ -26,7 +25,7 @@ export type UserDataSignUp = Pick<
 
 const authHttpTransport = new HTTPTransport(BASE_URL);
 
-export class AuthApi extends BaseApi {
+export class AuthApi {
   login(data: {login: string; password: string}) {
     return authHttpTransport
       .post('/auth/signin', {

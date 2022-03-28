@@ -2,11 +2,10 @@ import {BASE_URL} from '../../constants/constants';
 import HTTPTransport from '../../utils/httpTransport';
 import {userAdapter} from '../adapter/userAdapter/userAdapter';
 import {User, UserDataSignUp} from '../authApi/AuthApi';
-import {BaseApi} from '../baseApi/BaseApi';
 
 const userHttpTransport = new HTTPTransport(BASE_URL);
 
-export class UserApi extends BaseApi {
+export class UserApi {
   update(userData: UserDataSignUp) {
     return userHttpTransport
       .put('/user/profile', {

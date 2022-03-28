@@ -2,11 +2,10 @@ import {BASE_URL} from '../../constants/constants';
 import HTTPTransport from '../../utils/httpTransport';
 import {userAdapter} from '../adapter/userAdapter/userAdapter';
 import {User} from '../authApi/AuthApi';
-import {BaseApi} from '../baseApi/BaseApi';
 
 const chatHttpTransport = new HTTPTransport(BASE_URL);
 
-export class ChatsApi extends BaseApi {
+export class ChatsApi {
   getChats(data?: {offset?: number; limit?: number; title?: string}) {
     return chatHttpTransport
       .get('/chats', {
