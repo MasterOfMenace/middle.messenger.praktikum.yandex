@@ -3,15 +3,15 @@ import Block from '../block/Block';
 import template from './message.tmpl';
 
 type Props = {
-  className: string;
-  avatar: Avatar;
+  className?: string;
+  avatar?: Avatar;
   message: {
     text: string;
     time: string;
   };
 };
 
-export default class Message extends Block {
+export default class Message extends Block<Props> {
   constructor(props: Props) {
     super('div', props);
   }

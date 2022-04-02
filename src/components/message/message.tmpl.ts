@@ -1,13 +1,12 @@
 const template = `
-<li class={{className}}>
+<li class="messages-list__item message {{className}}">
   {{avatar}}
   <div class="message__message">
     <p class="message__text">
-    {{message.text}}
+      {{message.text}}
     </p>
-    <p class="message__time">{{message.time}}</p>
+    <time class="message__time">{{message.time}}</time>
   </div>
-</li>
-`;
+</li>`;
 
 export default template;

@@ -1,8 +1,12 @@
-[Ссылка на пулл-реквест 3 спринта](<https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex/pull/3>)
+[Сcылка на пулл-реквест 3 спринта](https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex/pull/3)
+
 ## Описание
 
-Учебный проект "Мессенджер" курса "Мидл-фронтенд разработчик" от Яндекс.Практикум
-В проекте используются Typescript, Stylelint, Eslint. Проект создан с использованием своего шаблонизатора. Сборка с помощью Parcel.
+Учебный проект "Мессенджер" курса "Мидл-фронтенд разработчик" от Яндекс.Практикум.
+В проекте используются Typescript, Stylelint, Eslint. Проект создан с использованием своего шаблонизатора и роутера. Сборка с помощью Parcel.
+Тесты - Mocha + Chai.
+
+[Сcылка на опубликованное приложение в Netlify](https://frosty-clarke-2ea78c.netlify.app/)
 
 ## Макет
 

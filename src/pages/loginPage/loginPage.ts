@@ -2,24 +2,15 @@ import Block from '../../components/block/Block';
 import {Button} from '../../components/button';
 import Form from '../../components/form/Form';
 import {Input} from '../../components/input';
-import {Link} from '../../components/link';
-import {formSubmitHandler, renderDOM} from '../../utils';
+import {LinkWithRouter} from '../../components/link';
+import {formSubmitHandler} from '../../utils';
 import loginPageTemplate from './loginPage.tmpl';
+import {LoginPageController} from './loginPage.controller';
 
 type LoginPageProps = {
-  link: Link;
+  link: Block;
   form: Form;
 };
-
-class LoginPage extends Block {
-  constructor(props: LoginPageProps) {
-    super('div', props);
-  }
-
-  render() {
-    return this.compile(loginPageTemplate, this.props);
-  }
-}
 
 const login = new Input({
   name: 'login',
@@ -49,7 +40,7 @@ const password = new Input({
 
 const submitBtn = new Button({
   type: 'submit',
-  className: '"button button--solid"',
+  className: 'button button--solid',
   text: 'Войти',
 });
 
@@ -58,7 +49,15 @@ const form = new Form({
   children: [login, password, submitBtn],
   events: {
     submit: {
-      event: (evt) => formSubmitHandler(evt),
+      event: (evt) => {
+        const formData = formSubmitHandler(evt);
+        if (formData) {
+          LoginPageController.login({
+            login: formData.login,
+            password: formData.password,
+          });
+        }
+      },
     },
     focus: {
       event: (evt) => {
@@ -74,10 +73,10 @@ const form = new Form({
   },
 });
 
-const link = new Link({
-  to: './signUpPage.html',
-  className: '"button button--underline"',
-  text: 'У меня нет аккаунта',
+const link = new LinkWithRouter({
+  to: '/signup',
+  className: 'button button--underline',
+  children: 'У меня нет аккаунта',
 });
 
 const userProps = {
@@ -85,8 +84,12 @@ const userProps = {
   link,
 };
 
-const page = new LoginPage(userProps);
+export class LoginPage extends Block<LoginPageProps> {
+  constructor() {
+    super('div', userProps);
+  }
 
-const rootDiv = document.getElementById('root');
-
-renderDOM(rootDiv, page);
+  render() {
+    return this.compile(loginPageTemplate, this.props);
+  }
+}

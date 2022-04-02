@@ -2,31 +2,26 @@ import Block from '../../components/block/Block';
 import Form from '../../components/form/Form';
 import {Input} from '../../components/input';
 import {Button} from '../../components/button';
-import {Link} from '../../components/link';
-import {formSubmitHandler, renderDOM} from '../../utils';
+import {LinkWithRouter} from '../../components/link';
+import {formSubmitHandler} from '../../utils';
 import userSettingsTemplate from './userSettings.tmpl';
-import avatarSrc from '../../../static/images/avatar.jpg';
 import {UserInfo} from '../../components/userInfo';
 import {Avatar} from '../../components/avatar';
 import {UserShortInfo} from '../../components/userShortInfo';
+import store, {STORE_EVENTS} from '../../store/Store';
+import {UserSettingsController} from './userSettings.controller';
+import {UserDataSignUp} from '../../api/authApi/AuthApi';
 
 type UserSettingsProps = {
+  linkBack: Block;
   userInfo: UserInfo;
   form: Form;
 };
-class UserSettings extends Block {
-  constructor(props: UserSettingsProps) {
-    super('div', props);
-  }
-
-  render() {
-    return this.compile(userSettingsTemplate, this.props);
-  }
-}
 
 const loginInput = new Input({
+  value: '',
   name: 'login',
-  className: '"input input--oneline"',
+  className: 'input input--oneline',
   id: 'login',
   label: {
     text: 'Логин',
@@ -40,11 +35,12 @@ const loginInput = new Input({
 });
 
 const displayNameInput = new Input({
-  name: 'display-name',
-  className: '"input input--oneline"',
+  value: '',
+  name: 'display_name',
+  className: 'input input--oneline',
   id: 'display-name',
   label: {
-    text: 'Логин',
+    text: 'Имя в чате',
     className: 'input__label',
   },
   validationProps: {
@@ -55,9 +51,10 @@ const displayNameInput = new Input({
 });
 
 const emailInput = new Input({
+  value: '',
   name: 'email',
   id: 'email',
-  className: '"input input--oneline"',
+  className: 'input input--oneline',
   type: 'email',
   label: {
     text: 'Почта',
@@ -71,9 +68,10 @@ const emailInput = new Input({
 });
 
 const firstNameInput = new Input({
+  value: '',
   name: 'first_name',
   id: 'first_name',
-  className: '"input input--oneline"',
+  className: 'input input--oneline',
   label: {
     text: 'Имя',
     className: 'input__label',
@@ -84,9 +82,10 @@ const firstNameInput = new Input({
 });
 
 const secondNameInput = new Input({
+  value: '',
   name: 'second_name',
   id: 'second_name',
-  className: '"input input--oneline"',
+  className: 'input input--oneline',
   label: {
     text: 'Фамилия',
     className: 'input__label',
@@ -97,9 +96,10 @@ const secondNameInput = new Input({
 });
 
 const phoneInput = new Input({
-  name: 'email',
-  id: 'email',
-  className: '"input input--oneline"',
+  value: '',
+  name: 'phone',
+  id: 'phone',
+  className: 'input input--oneline',
   type: 'phone',
   label: {
     text: 'Телефон',
@@ -114,14 +114,29 @@ const phoneInput = new Input({
 
 const submitBtn = new Button({
   type: 'submit',
-  className: '"user-settings-page__edit-settings-button button button--underline"',
-  text: 'Редактировать',
+  className: 'button',
+  text: 'Сохранить',
 });
 
-const linkToPasswordChange = new Link({
-  to: './changePassword.html',
-  className: '"user-settings-page__change-password button button--underline"',
-  text: 'Изменить пароль',
+const linkToPasswordChange = new LinkWithRouter({
+  to: '/change-password',
+  className: 'user-settings-page__change-password button button--underline',
+  children: 'Изменить пароль',
+});
+
+const linkBack = new LinkWithRouter({
+  to: -1,
+  className: 'button button--round',
+  children: `<svg
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M17.77 3.77L16 2L6 12L16 22L17.77 20.23L9.54 12L17.77 3.77Z"
+  />
+</svg>`,
 });
 
 const form = new Form({
@@ -133,12 +148,15 @@ const form = new Form({
     firstNameInput,
     secondNameInput,
     phoneInput,
-    submitBtn,
     linkToPasswordChange,
+    submitBtn,
   ],
   events: {
     submit: {
-      event: (evt) => formSubmitHandler(evt),
+      event: (evt) => {
+        const formData = formSubmitHandler(evt);
+        UserSettingsController.updateUser(formData as UserDataSignUp);
+      },
     },
     focus: {
       event: (evt) => {
@@ -155,26 +173,85 @@ const form = new Form({
 });
 
 const userInfo = new UserInfo({
-  className: '"user-short-info"',
+  className: 'user-short-info',
   avatar: new Avatar({
-    avatarSrc,
-    wrapperClassName: '"avatar"',
-    imageClassName: '"avatar__image"',
+    avatarSrc: '',
+    wrapperClassName: 'avatar',
+    imageClassName: 'avatar__image',
   }),
   shortInfo: new UserShortInfo({
-    className: '"user-short-info__user-info"',
-    userNameClass: '"user-short-info__user-name"',
-    userPhoneClass: '"user-short-info__user-phone"',
-    userName: 'Snoop Dogg',
-    userPhone: '+7 (985) 123 - 45 - 44',
+    className: 'user-short-info__user-info',
+    userNameClass: 'user-short-info__user-name',
+    userPhoneClass: 'user-short-info__user-phone',
+    userName: '',
+    userPhone: '',
   }),
 });
 
-const page = new UserSettings({
-  userInfo,
-  form,
-});
+const getUserInfo = (state: any) => {
+  if (state.user) {
+    return {
+      name: state?.user?.first_name ?? '',
+      secondName: state?.user?.second_name ?? '',
+      displayName: state?.user?.display_name ?? '',
+      avatar: state?.user?.avatar ?? '',
+      login: state?.user?.login ?? '',
+      phone: state?.user?.phone ?? '',
+      email: state?.user?.email ?? '',
+    };
+  }
+  return undefined;
+};
+export class UserSettings extends Block<UserSettingsProps> {
+  constructor() {
+    super('div', {
+      linkBack,
+      userInfo,
+      form,
+    });
 
-const rootDiv = document.getElementById('root');
+    store.subscribe(STORE_EVENTS.UPDATED, () => {
+      this.updateProps();
+    });
 
-renderDOM(rootDiv, page);
+    this.updateProps();
+  }
+
+  updateProps() {
+    const userData = getUserInfo(store.getState());
+
+    if (userData) {
+      this.props.userInfo.props.shortInfo.setProps({
+        userName: userData.name,
+        userPhone: userData.phone,
+      });
+      this.props.userInfo.props.avatar.setProps({
+        avatarSrc: userData.avatar,
+      });
+      loginInput.setProps({
+        value: userData.login,
+      });
+      displayNameInput.setProps({
+        value: userData.displayName,
+      });
+      emailInput.setProps({
+        value: userData.email,
+      });
+      firstNameInput.setProps({
+        value: userData.name,
+      });
+      secondNameInput.setProps({
+        value: userData.secondName,
+      });
+      phoneInput.setProps({
+        value: userData.phone,
+      });
+    } else {
+      UserSettingsController.getUserData();
+    }
+  }
+
+  render() {
+    return this.compile(userSettingsTemplate, this.props);
+  }
+}

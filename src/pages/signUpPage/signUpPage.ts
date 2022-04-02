@@ -2,23 +2,16 @@ import Block from '../../components/block/Block';
 import {Button} from '../../components/button';
 import Form from '../../components/form/Form';
 import {Input} from '../../components/input';
-import {formSubmitHandler, renderDOM} from '../../utils';
+import {LinkWithRouter} from '../../components/link';
+import {formSubmitHandler} from '../../utils';
+import {SignupPageController} from './signUpPage.controller';
 import signUpPageTmpl from './signUpPage.tmpl';
 
 type SignupPageProps = {
+  linkBack: Block;
   title: string;
   form: Form;
 };
-
-class SignupPage extends Block {
-  constructor(props: SignupPageProps) {
-    super('div', props);
-  }
-
-  render() {
-    return this.compile(signUpPageTmpl, this.props);
-  }
-}
 
 const firstNameInput = new Input({
   name: 'first_name',
@@ -74,8 +67,8 @@ const emailInput = new Input({
 });
 
 const phoneInput = new Input({
-  name: 'email',
-  id: 'email',
+  name: 'phone',
+  id: 'phone',
   type: 'phone',
   label: {
     text: 'Телефон',
@@ -118,8 +111,25 @@ const repeatPasswordInput = new Input({
 
 const submitBtn = new Button({
   type: 'submit',
-  className: '"signup-page__submit button button--solid"',
+  className: 'signup-page__submit button button--solid',
   text: 'Войти',
+});
+
+const linkBack = new LinkWithRouter({
+  to: -1,
+  className: 'signup-page__go-back button button--transparent',
+  children: `<svg
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M17.77 3.77L16 2L6 12L16 22L17.77 20.23L9.54 12L17.77 3.77Z"
+    fill="#0F484B"
+  />
+</svg>`,
 });
 
 const form = new Form({
@@ -136,7 +146,20 @@ const form = new Form({
   ],
   events: {
     submit: {
-      event: (evt) => formSubmitHandler(evt),
+      event: (evt) => {
+        const formData = formSubmitHandler(evt);
+
+        if (formData) {
+          SignupPageController.signUp({
+            first_name: formData.first_name,
+            second_name: formData.second_name,
+            login: formData.login,
+            password: formData.password,
+            email: formData.email,
+            phone: formData.phone,
+          });
+        }
+      },
     },
     focus: {
       event: (evt) => {
@@ -152,11 +175,16 @@ const form = new Form({
   },
 });
 
-const page = new SignupPage({
-  title: 'Регистрация',
-  form,
-});
+export class SignupPage extends Block<SignupPageProps> {
+  constructor() {
+    super('div', {
+      title: 'Регистрация',
+      form,
+      linkBack,
+    });
+  }
 
-const rootDiv = document.getElementById('root');
-
-renderDOM(rootDiv, page);
+  render() {
+    return this.compile(signUpPageTmpl, this.props);
+  }
+}

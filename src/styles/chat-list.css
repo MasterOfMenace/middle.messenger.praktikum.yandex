@@ -1,12 +1,5 @@
-.chat-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 10px;
-}
-
 .chat-list__item {
+  cursor: pointer;
   padding: 15px 10px;
   box-sizing: border-box;
   width: 100%;
@@ -16,4 +9,8 @@
   border-radius: 8px;
   align-items: center;
   gap: 5px;
+}
+
+.chat-list__item--active {
+  background-color: var(--light-gray-color);
 }

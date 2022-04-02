@@ -9,7 +9,7 @@ type Props = {
   shortInfo: UserShortInfo;
 };
 
-export default class UserInfo extends Block {
+export default class UserInfo extends Block<Props> {
   constructor(props: Props) {
     super('div', props);
   }

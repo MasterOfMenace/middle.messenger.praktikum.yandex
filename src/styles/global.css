@@ -1,8 +1,26 @@
-@import url("./fonts.css");
-@import url("./normalize.css");
+@import url('./fonts.css');
+@import url('./normalize.css');
 
-html {
-  font-family: "SF Pro Display", sans-serif;
+:root {
+  --black-color: #000000;
+  --white-color: #ffffff;
+  --gray-color: #858589;
+  --light-gray-color: #e2e9e9;
+  --background-secondary-color: #e0fffd;
+  --dark-green-color: #225457; /* имена взяты с https://chir.ag/projects/name-that-color */
+  --light-blue-green-color: #a8cdc1;
+  --label-color: #0f484b;
+  --chat-border-color: rgba(33, 144, 152, 0.5);
+}
+
+#root {
+  height: 100%;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: 'SF Pro Display', sans-serif;
   font-size: 16px;
   line-height: 20px;
   font-weight: 400;

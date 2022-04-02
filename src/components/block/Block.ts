@@ -1,6 +1,6 @@
 import {v4 as makeId} from 'uuid';
+import {Templator} from '../../Templator';
 import EventBus from '../eventBus/EventBus';
-import {getDeepCopy, Templator} from '../../utils';
 
 export type Children = {
   [key: string]: Block | Block[];
@@ -11,17 +11,17 @@ export type EventType = {
   useCapture?: boolean;
 };
 
-export type Props = {
+export interface Props {
   events?: Record<string, EventType>;
   [key: string]: unknown;
-};
+}
 
 type Meta = {
   tagName: string;
   props: Props;
 };
 
-class Block {
+class Block<T extends Props = Props> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -37,13 +37,11 @@ class Block {
 
   children: Children;
 
-  props: Props;
+  props: T;
 
-  eventBus: () => EventBus;
+  eventBus: EventBus;
 
-  constructor(tagName = 'div', propsWithChildren: Props = {}) {
-    const eventBus = new EventBus();
-
+  constructor(tagName = 'div', propsWithChildren = <any>{}) {
     const {props, children} = this._getPropsAndChildrens(propsWithChildren);
 
     this._meta = {
@@ -57,23 +55,23 @@ class Block {
 
     this.children = children;
 
-    this.eventBus = () => eventBus;
+    this.eventBus = new EventBus();
 
     this.props = this._makePropsProxy({...propsWithChildren, _id: this._id});
 
-    this._registerEvents(eventBus);
+    this._registerEvents(this.eventBus);
 
-    eventBus.emit(Block.EVENTS.INIT);
+    this.eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getPropsAndChildrens(propsWithChildren: Props) {
+  _getPropsAndChildrens(propsWithChildren: T) {
     const props = <Props>{};
     const children = <Children>{};
 
     Object.entries(propsWithChildren).forEach(([k, v]) => {
       if (v instanceof Block) {
         children[k] = v;
-      } else if (Array.isArray(v) && v.every((item) => item instanceof Block)) {
+      } else if (Array.isArray(v) && v.length && v.every((item) => item instanceof Block)) {
         children[k] = v as Block[];
       } else {
         props[k] = v;
@@ -97,18 +95,19 @@ class Block {
 
   init() {
     this._createResources();
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
   _componentDidMount() {
+    // большое количество перерисовок, не могу понять почему
     this.componentDidMount();
 
     if (this.children) {
       Object.values(this.children).forEach((child) => {
         if (Array.isArray(child)) {
-          child.forEach((item) => item.dispatchComponentDidMount());
+          child.forEach((item) => item.componentDidMount());
         } else {
-          child.dispatchComponentDidMount();
+          child.componentDidMount();
         }
       });
     }
@@ -117,17 +116,15 @@ class Block {
   // Может переопределять пользователь, необязательно трогать
   componentDidMount() {}
 
-  dispatchComponentDidMount() {}
-
-  _componentDidUpdate(oldProps: Props, newProps: Props) {
+  _componentDidUpdate(oldProps: T, newProps: T) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (response) {
-      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+      this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
     }
   }
 
   // Может переопределять пользователь, необязательно трогать
-  componentDidUpdate(oldProps: Props, newProps: Props) {
+  componentDidUpdate(oldProps: T, newProps: T) {
     // добавить сравнение пропсов
     if (oldProps && newProps) {
       return true;
@@ -139,11 +136,9 @@ class Block {
     if (!nextProps) {
       return;
     }
-
     this._removeEvents();
 
     Object.assign(this.props, nextProps);
-    this.eventBus().emit(Block.EVENTS.FLOW_CDU);
   };
 
   get element() {
@@ -151,6 +146,7 @@ class Block {
   }
 
   _render() {
+    this._removeEvents();
     const block = this.render();
 
     const newElement = block.firstElementChild as HTMLElement;
@@ -158,12 +154,11 @@ class Block {
     if (this._element && newElement) {
       this._element.innerHTML = '';
       this._element.replaceWith(newElement);
-
-      this._addEvents();
     }
 
     this._element = newElement;
     this._addEvents();
+    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
     // Этот небезопасный метод для упрощения логики
     // Используйте шаблонизатор из npm или напишите свой безопасный
     // Нужно не в строку компилировать (или делать это правильно),
@@ -179,16 +174,17 @@ class Block {
     return this._element;
   }
 
-  compile(template: string, props: Props) {
-    const propsWithStubs: Props = {...props};
+  compile(template: string, props: Record<string, any>) {
+    const propsWithStubs = {...props};
 
-    Object.entries(this.children).forEach(([key, child]) => {
+    Object.entries(this.children).forEach(([key, child]: [keyof T, Block | Block[]]) => {
       if (Array.isArray(child)) {
-        propsWithStubs[key] = child
+        propsWithStubs[key as keyof Record<string, any>] = child
           .map((childItem) => `<div data-id="${childItem._id}"></div>`)
-          .join(' ');
+          .join(' ') as T[keyof T];
       } else {
-        propsWithStubs[key] = `<div data-id="${child._id}"></div>`;
+        propsWithStubs[key as keyof Record<string, any>] =
+          `<div data-id="${child._id}"></div>` as T[keyof T];
       }
     });
 
@@ -211,20 +207,18 @@ class Block {
     return fragment.content;
   }
 
-  _makePropsProxy(props: Props) {
+  _makePropsProxy(props: T): T {
     // Можно и так передать this
     // Такой способ больше не применяется с приходом ES6+
     // const self = this;
 
-    const eventBus = this.eventBus.bind(this);
-
     return new Proxy(props, {
-      set(target, prop: string, value) {
+      set: (target, prop: string, value) => {
         // this здесь указывает на объект handler
-        const _target = getDeepCopy(props);
+        const _target = {...props};
         if (prop in target) {
-          target[prop] = value;
-          eventBus().emit(Block.EVENTS.FLOW_CDU, _target, props);
+          target[prop as keyof T] = value;
+          this.eventBus.emit(Block.EVENTS.FLOW_CDU, _target, props);
           return true;
         }
         return false;
@@ -241,8 +235,15 @@ class Block {
 
   show() {
     const content = this.getContent();
+    if (!content) {
+      this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    }
+  }
+
+  removeElement() {
+    const content = this.getContent();
     if (content) {
-      content.style.display = 'block';
+      content.remove();
     }
   }
 
@@ -268,10 +269,12 @@ class Block {
   }
 
   _removeEvents() {
-    const events = {...this.props.events};
-    Object.keys(events).forEach((event) => {
-      this._element?.removeEventListener(event, events[event].event);
-    });
+    const {events} = this.props;
+    if (events) {
+      Object.keys(events).forEach((event) => {
+        this._element?.removeEventListener(event, events[event].event);
+      });
+    }
   }
 }
 

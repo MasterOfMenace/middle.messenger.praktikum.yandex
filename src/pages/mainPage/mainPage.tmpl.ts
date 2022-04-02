@@ -1,10 +1,10 @@
 const template = `
 <main class={{mainClassName}}>
-    <section class={{sectionClassName}}>
+  <section class={{sectionClassName}}>
     {{signInLink}}
     <p class="main-page__text">или</p>
     {{signUpLink}}
-    </section>
+  </section>
 </main>
 `;
 

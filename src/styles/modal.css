@@ -1,0 +1,71 @@
+.modal {
+  bottom: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__inner {
+  width: 435px;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.create-chat-modal,
+.add-chat-user-modal {
+  width: 200px;
+  padding-top: 70px;
+  padding-bottom: 70px;
+  box-sizing: border-box;
+  display: grid;
+  gap: 25px;
+}
+
+.create-chat-modal__title,
+.add-chat-user-modal__title {
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+}
+
+.create-chat-modal__form,
+.add-chat-user-modal__form {
+  box-sizing: border-box;
+  display: grid;
+  gap: 20px;
+}
+
+.add-chat-user-modal {
+  width: 400px;
+  position: relative;
+}
+
+.add-chat-user-modal__form {
+  display: flex;
+}
+
+.add-chat-user-modal__form .button {
+  width: 90px;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.add-chat-user-modal__users-list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.add-chat-user-modal__users-list-item {
+  border: 1px solid;
+}

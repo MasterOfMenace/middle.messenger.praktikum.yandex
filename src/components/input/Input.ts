@@ -4,6 +4,7 @@ import inputTemplate from './input.tmpl';
 export type InputProps = {
   className?: string;
   type?: 'text' | 'password' | 'email' | 'phone';
+  value?: string;
   name?: string;
   id?: string;
   controlClassName?: string;
@@ -19,9 +20,10 @@ export type InputProps = {
   events?: Record<string, EventType>;
 };
 
-export default class Input extends Block {
+export default class Input extends Block<InputProps> {
   constructor(props: InputProps) {
     const defaultProps: Partial<InputProps> = {
+      value: '',
       className: 'input',
       label: {
         text: ' ',
@@ -31,7 +33,7 @@ export default class Input extends Block {
       type: 'text',
       validationProps: {},
     };
-    super('div', Object.assign(defaultProps, props));
+    super('div', {...defaultProps, ...props});
   }
 
   render() {

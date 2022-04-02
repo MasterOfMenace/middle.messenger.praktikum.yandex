@@ -1,4 +1,4 @@
-import {getValueByPath} from './utils';
+import {getValueByPath} from '../utils';
 
 class Templator {
   REGEXP = /\{\{(.*?)\}\}/gi;
@@ -24,11 +24,6 @@ class Templator {
 
           if (Array.isArray(data)) {
             template = template.replace(new RegExp(key[0], 'gi'), data.join(' '));
-          }
-
-          if (typeof data === 'function') {
-            window[templValue] = data;
-            template = template.replace(new RegExp(key[0], 'gi'), `window.${key[1].trim()}()`);
           }
 
           template = template.replace(new RegExp(key[0], 'gi'), data as string);

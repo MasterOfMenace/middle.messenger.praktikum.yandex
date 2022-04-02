@@ -1,4 +1,8 @@
 import avatarSrc from '../../../../static/images/avatar.jpg';
+import {Avatar} from '../../../components/avatar';
+import {ChatShortInfo} from '../../../components/chatList/ChatList';
+import {List} from '../../../components/list';
+import {Message} from '../../../components/message';
 
 export const mockChatData = {
   wrapperClassName: '"avatar avatar--message"',
@@ -32,5 +36,59 @@ export const mockMessageData = [
       text: 'Есть над чем задуматься: элементы политического процесса могут быть в равной степени предоставлены сами себе. Но сделанные на базе интернет-аналитики   выводы являются только методом.',
       time: '12:33',
     },
+  },
+];
+
+export const mockChatsListData: ChatShortInfo[] = new Array(20).fill(1).map((_, index) => ({
+  id: 123 + index,
+  title: 'my-chat',
+  avatar: avatarSrc,
+  unread_count: 15,
+  last_message: {
+    user: {
+      first_name: mockChatData.userName,
+      second_name: 'Pupkin',
+      avatar: '/path/to/avatar.jpg',
+      email: 'my@email.com',
+      login: 'userLogin',
+      phone: '8(911)-222-33-22',
+    },
+    time: mockChatData.messageTime,
+    content: mockChatData.message,
+  },
+}));
+
+export const mockMessagesGroupData = [
+  {
+    date: '04 января',
+    messages: new List({
+      className: 'messages-list',
+      items: mockMessageData.map(
+        (message) =>
+          new Message({
+            avatar: new Avatar({
+              ...message.avatar,
+            }),
+            message: message.message,
+            className: message.className,
+          }),
+      ),
+    }),
+  },
+  {
+    date: '05 января',
+    messages: new List({
+      className: 'messages-list',
+      items: mockMessageData.map(
+        (message) =>
+          new Message({
+            avatar: new Avatar({
+              ...message.avatar,
+            }),
+            message: message.message,
+            className: message.className,
+          }),
+      ),
+    }),
   },
 ];

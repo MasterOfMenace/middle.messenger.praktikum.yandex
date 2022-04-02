@@ -7,7 +7,7 @@ type Props = {
   messages: List;
 };
 
-export default class MessageGroup extends Block {
+export default class MessageGroup extends Block<Props> {
   constructor(props: Props) {
     super('div', props);
   }

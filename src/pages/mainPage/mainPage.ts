@@ -1,42 +1,38 @@
 import Block from '../../components/block/Block';
-import {Link} from '../../components/link';
-import {renderDOM} from '../../utils';
+import {LinkWithRouter} from '../../components/link';
+import {MainPageController} from './mainPage.controller';
 import mainPageTemplate from './mainPage.tmpl';
 
 type MainPageProps = {
   mainClassName: string;
   sectionClassName: string;
-  signInLink: Link;
-  signUpLink: Link;
+  signInLink: Block; // иначе ошибка типов
+  signUpLink: Block;
 };
 
-class MainPage extends Block {
-  constructor(props: MainPageProps) {
+const props: MainPageProps = {
+  mainClassName: '"main-page"',
+  sectionClassName: '"main-page__content"',
+  signInLink: new LinkWithRouter({
+    to: '/login',
+    className: 'button',
+    children: 'Войти',
+  }),
+  signUpLink: new LinkWithRouter({
+    to: '/signup',
+    className: 'button button--underline',
+    children: 'Зарегистрироваться',
+  }),
+};
+
+export class MainPage extends Block<MainPageProps> {
+  constructor() {
     super('div', props);
+
+    MainPageController.checkAuth();
   }
 
   render() {
     return this.compile(mainPageTemplate, this.props);
   }
 }
-
-const props = {
-  mainClassName: '"main-page"',
-  sectionClassName: '"main-page__content"',
-  signInLink: new Link({
-    to: './loginPage.html',
-    className: 'button',
-    text: 'Войти',
-  }),
-  signUpLink: new Link({
-    to: './signUpPage.html',
-    className: '"button button--underline"',
-    text: 'Зарегистрироваться',
-  }),
-};
-
-const page = new MainPage(props);
-
-const rootDiv = document.getElementById('root');
-
-renderDOM(rootDiv, page);

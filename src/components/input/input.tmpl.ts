@@ -1,15 +1,17 @@
 const template = `
-  <label for={{id}} class={{className}}>
-    <p class={{label.className}}>{{label.text}}</p>
+  <label class="{{className}}">
+    <p class="{{label.className}}">{{label.text}}</p>
     <input
-      class={{controlClassName}}
+      value="{{value}}"
+      class="{{controlClassName}}"
       type={{type}}
       name={{name}}
       id={{id}}
       minLength={{validationProps.minLength}}
       maxLength={{validationProps.maxLength}}
-      required={{validationProps.required}}/>
-  </label>
-`;
+      required={{validationProps.required}}
+      placeholder="Введите значение"
+    />
+  </label>`;
 
 export default template;

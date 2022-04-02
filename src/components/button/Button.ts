@@ -1,13 +1,14 @@
-import Block from '../block/Block';
+import Block, {EventType} from '../block/Block';
 import template from './button.tmpl';
 
 export type ButtonProps = {
   type: 'button' | 'submit';
   className: string;
   text: string;
+  events?: Record<string, EventType>;
 };
 
-export default class Button extends Block {
+export default class Button extends Block<ButtonProps> {
   constructor(props: ButtonProps) {
     super('button', props);
   }

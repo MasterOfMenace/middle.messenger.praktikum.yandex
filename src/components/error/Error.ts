@@ -1,8 +1,18 @@
-import Block, {PropsWithChildren} from '../block/Block';
+import Block from '../block/Block';
 import template from './error.tmpl';
 
-export default class Error extends Block {
-  constructor(props: PropsWithChildren) {
+type ErrorProps = {
+  sectionClassName: string;
+  buttonText: string;
+  error: {
+    code: string;
+    description: string;
+  };
+  children: Block;
+};
+
+export default class Error extends Block<ErrorProps> {
+  constructor(props: ErrorProps) {
     super('div', props);
   }
 
