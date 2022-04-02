@@ -1,4 +1,4 @@
-import {Templator} from '../../utils';
+import {Templator} from '../../Templator';
 import errorTemplate from '../../components/error/error.tmpl';
 
 const context = {

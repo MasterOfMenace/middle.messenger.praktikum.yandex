@@ -1,5 +1,4 @@
 import Block, {Props} from '../components/block/Block';
-import {Indexed} from '../utils';
 import store, {STORE_EVENTS} from './Store';
 
 const getMappedProps = (props: any, mapped?: any) => {
