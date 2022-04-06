@@ -65,7 +65,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "echo 'hook pre-commit'"
+      "pre-commit": "npm run test"
     }
   }
 }
