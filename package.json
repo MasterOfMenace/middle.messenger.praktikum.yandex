@@ -43,7 +43,8 @@
     "eslint": "eslint --ext .js --ext .ts src/",
     "eslint-fix": "eslint --ext .js --ext .ts src/ --fix",
     "stylelint": "stylelint **/*.css",
-    "test": "cross-env NODE_ENV=test mocha"
+    "test": "cross-env NODE_ENV=test mocha",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -62,10 +63,5 @@
     "express": "4.17.2",
     "jsdom": "19.0.0",
     "uuid": "8.3.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test"
-    }
   }
 }
