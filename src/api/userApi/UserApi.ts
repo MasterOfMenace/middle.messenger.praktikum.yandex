@@ -3,6 +3,11 @@ import HTTPTransport from '../../HTTPTransport/HTTPTransport';
 import {userAdapter} from '../adapter/userAdapter/userAdapter';
 import {User, UserDataSignUp} from '../authApi/AuthApi';
 
+type PasswordData = {
+  oldPassword: string;
+  newPassword: string;
+};
+
 class UserApi {
   httpTransport: HTTPTransport;
 
@@ -19,6 +24,19 @@ class UserApi {
         },
       })
       .then((response) => userAdapter(JSON.parse(response as string)))
+      .catch((error) => {
+        throw new Error(error);
+      });
+  }
+
+  changePassword(passData: PasswordData) {
+    return this.httpTransport
+      .put('/password', {
+        data: passData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       .catch((error) => {
         throw new Error(error);
       });

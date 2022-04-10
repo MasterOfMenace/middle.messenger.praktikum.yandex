@@ -3,7 +3,7 @@ import template from './avatar.tmpl';
 import imagePlaceholder from '../../../static/images/image-placeholder.jpg';
 
 type AvatarProps = {
-  avatarSrc: string;
+  avatarSrc?: string;
   wrapperClassName?: string;
   imageClassName?: string;
   events?: Record<string, EventType>;
