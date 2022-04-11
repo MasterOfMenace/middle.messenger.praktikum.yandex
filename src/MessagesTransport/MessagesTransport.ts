@@ -9,6 +9,8 @@ export class MessagesTransport extends EventBus {
 
   URL = 'wss://ya-praktikum.tech/ws/chats';
 
+  PING_TIMEOUT = 40000;
+
   socket: WebSocket;
 
   timerId: NodeJS.Timeout | null;
@@ -20,7 +22,12 @@ export class MessagesTransport extends EventBus {
     this.socket = new WebSocket(`${this.URL}/${userId}/${chatId}/${token}`);
 
     this.socket.addEventListener('open', () => {
-      console.log('Соединение установлено');
+      const tick = () => {
+        this.ping();
+        this.timerId = setTimeout(tick, this.PING_TIMEOUT);
+      };
+
+      this.timerId = setTimeout(tick, this.PING_TIMEOUT);
       this.getMessages();
     });
 
@@ -41,8 +48,11 @@ export class MessagesTransport extends EventBus {
       console.log('Error', event);
     });
 
-    this.socket.addEventListener('close', (event) => {
-      console.log('Connection closed', event.reason);
+    this.socket.addEventListener('close', () => {
+      if (this.timerId) {
+        clearTimeout(this.timerId);
+        this.timerId = null;
+      }
     });
   }
 
@@ -69,9 +79,6 @@ export class MessagesTransport extends EventBus {
   }
 
   ping() {
-    // разобраться с пингом
-    // this.timerId = setTimeout(() => this.ping(), 3000);
-
     this.socket.send(
       JSON.stringify({
         type: 'ping',

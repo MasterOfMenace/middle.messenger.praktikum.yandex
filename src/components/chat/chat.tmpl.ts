@@ -4,7 +4,9 @@ const template = `
     {{chatInfo}}
     {{addUserButton}}
   </div>
+  <div class="messages">
   {{messagesGroup}}
+  </div>
   {{newMessage}}
   {{modal}}
 </main>`;

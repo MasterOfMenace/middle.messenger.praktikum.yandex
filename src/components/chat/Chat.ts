@@ -61,7 +61,7 @@ export class Chat extends Block<ChatProps> {
     // пробую сделать сначала просто вывод сообщений, потом группировку по дате
 
     const messagesGroup = new List({
-      className: 'messages',
+      className: 'messages-list',
       items: props.messages.map((item) => {
         return new Message({
           avatar: new Avatar({

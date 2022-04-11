@@ -106,6 +106,7 @@ export class ChangePasswordPage extends Block<Props> {
     const userInfo = new UserInfo({
       className: 'user-short-info',
       avatar: new Avatar({
+        avatarSrc: userData?.avatar || '',
         wrapperClassName: 'avatar',
         imageClassName: 'avatar__image',
       }),
