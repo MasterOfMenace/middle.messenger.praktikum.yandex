@@ -20,6 +20,10 @@ class Store<T extends Indexed> extends EventBus {
     return this.state;
   }
 
+  public clearState() {
+    this.state = {} as T;
+  }
+
   public set(path: string, value: unknown) {
     this.state = set(this.state, path, value);
     this.emit(STORE_EVENTS.UPDATED);

@@ -1,3 +1,5 @@
+import {queryStringify} from '../utils';
+
 const METHODS = {
   GET: 'GET',
   POST: 'POST',
@@ -18,23 +20,6 @@ type RequestOptions = {
   headers?: object;
   data?: object;
 };
-
-/**
- * Функцию реализовывать здесь необязательно, но может помочь не плодить логику у GET-метода
- * На входе: объект. Пример: {a: 1, b: 2, c: {d: 123}, k: [1, 2, 3]}
- * На выходе: строка. Пример: ?a=1&b=2&c=[object Object]&k=1,2,3
- */
-function queryStringify(data: object) {
-  return Object.entries(data)
-    .map(([k, v], i) => {
-      if (i === 0) {
-        return `?${k}=${v.toString()}`;
-      }
-
-      return `&${k}=${v.toString()}`;
-    })
-    .join('');
-}
 
 export default class HTTPTransport {
   baseUrl: string;

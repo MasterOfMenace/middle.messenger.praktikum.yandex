@@ -39,6 +39,7 @@ export class ChatPageController {
     store.set('currentChat', selectedChat);
 
     if (this.messageTransport) {
+      this.messageTransport.closeConnection();
       this.messageTransport = null;
     }
 

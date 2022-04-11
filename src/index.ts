@@ -9,6 +9,8 @@ import {UserSettings} from './pages/userSettings/userSettings';
 import {UserSettingsShow} from './pages/userSettingsShow/userSettingsShow';
 import {Router} from './router';
 
+import './styles/style.css';
+
 const router = Router.getInstance('#root');
 
 router

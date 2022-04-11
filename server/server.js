@@ -1,10 +1,11 @@
-const express = require("express");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const express = require('express');
 
 const PORT = 3000;
 const app = express();
 
-process.env.PORT = PORT;
+const port = process.env.PORT || PORT;
 
-app.use(express.static("./dist"));
+app.use(express.static('./dist'));
 
-app.listen(PORT);
+app.listen(port);
