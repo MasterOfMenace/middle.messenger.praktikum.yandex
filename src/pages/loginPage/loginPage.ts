@@ -27,6 +27,7 @@ const login = new Input({
 
 const password = new Input({
   name: 'password',
+  type: 'password',
   label: {
     text: 'Пароль',
     className: 'input__label',
@@ -56,6 +57,7 @@ const form = new Form({
             login: formData.login,
             password: formData.password,
           });
+          (evt.target as HTMLFormElement).reset();
         }
       },
     },
