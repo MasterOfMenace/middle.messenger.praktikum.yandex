@@ -1,4 +1,4 @@
-[Сcылка на пулл-реквест 3 спринта](https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex/pull/3)
+[Сcылка на пулл-реквест 4 спринта](https://github.com/MasterOfMenace/middle.messenger.praktikum.yandex/pull/4)
 
 ## Описание
 
