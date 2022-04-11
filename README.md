@@ -10,6 +10,7 @@
 Контейнеризация - Docker, деплой на Heroku.
 
 [Сcылка на опубликованное приложение в Netlify](https://frosty-clarke-2ea78c.netlify.app/)
+[Сcылка на опубликованное приложение в Heroku](https://app-mymes.herokuapp.com/)
 
 ## Макет
 
