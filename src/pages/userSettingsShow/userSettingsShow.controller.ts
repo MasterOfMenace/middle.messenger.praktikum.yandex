@@ -32,6 +32,7 @@ export class UserSettingsController {
 
   public static logout() {
     authApi.logout().then(() => {
+      store.clearState();
       router.go('/login');
     });
   }
