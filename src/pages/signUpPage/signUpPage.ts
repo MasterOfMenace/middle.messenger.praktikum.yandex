@@ -60,8 +60,6 @@ const emailInput = new Input({
     className: 'input__label',
   },
   validationProps: {
-    // maxLength: 20,
-    // minLength: 3,
     required: true,
   },
 });
@@ -75,14 +73,13 @@ const phoneInput = new Input({
     className: 'input__label',
   },
   validationProps: {
-    // maxLength: 20,
-    // minLength: 3,
     required: true,
   },
 });
 
 const passwordInput = new Input({
   name: 'password',
+  type: 'password',
   id: 'password',
   label: {
     text: 'Пароль',
@@ -97,6 +94,7 @@ const passwordInput = new Input({
 
 const repeatPasswordInput = new Input({
   name: 'repeat_password',
+  type: 'password',
   id: 'repeat_password',
   label: {
     text: 'Повторите пароль',
@@ -158,6 +156,7 @@ const form = new Form({
             email: formData.email,
             phone: formData.phone,
           });
+          (evt.target as HTMLFormElement).reset();
         }
       },
     },
